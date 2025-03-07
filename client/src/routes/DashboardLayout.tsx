@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import DashboardHeader from "../layouts/DashboardHeader/DashboardHeader";
-import Footer from "../layouts/Footer/Footer";
+import Footer from "../layouts/Footer";
 
 const DashboardLayout = () => {
   return (

@@ -1,11 +1,11 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Loading from "../components/Loading/Loading.tsx";
+import Loading from "../components/Loading.tsx";
 import MainLayout from "./MainLayout.tsx";
 import DashboardLayout from "./DashboardLayout.tsx";
 
-const NotFound = lazy(() => import("../pages/NotFound/NotFound.tsx"));
+const NotFound = lazy(() => import("../pages/NotFound.tsx"));
 
 const AppRoutes = () => {
   return (

@@ -1,0 +1,17 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --accent-purple: #8f438c;
+  --accent-black: #31363a;
+  --accent-white: #ffffff;
+  --accent-grey: #757c8e;
+
+  --bg-yellow: #ffba0d;
+  --bg-blue: #0c61e0;
+  --bg-grey: #e4e4e4;
+}
