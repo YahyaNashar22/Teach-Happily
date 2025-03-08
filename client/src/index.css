@@ -219,9 +219,10 @@ button {
 }
 
 .section-title {
-  font-size: 6rem;
+  font-size: 3rem;
   font-weight: bold;
   color: var(--purple);
+  align-self: flex-start;
 }
 
 .section-sub-title {
@@ -308,6 +309,16 @@ button {
   border-color: var(--white);
 }
 
+.tutors-block {
+  width: 80%;
+  margin: auto;
+}
+
+#tutors-btn {
+  align-self: flex-end;
+  margin-bottom: 24px;
+}
+
 .not-found {
   background-color: var(--white);
   color: var(--accent-black);
@@ -371,5 +382,9 @@ button {
   #hero-discover {
     width: 100%;
     padding: 14px 28px;
+  }
+
+  .tutors-block {
+    flex-direction: column;
   }
 }
