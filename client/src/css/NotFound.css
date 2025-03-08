@@ -8,3 +8,13 @@
   text-align: center;
   height: 100dvh;
 }
+
+.not-found-btn {
+  padding: 12px 24px;
+  background-color: var(--purple);
+  color: var(--white);
+}
+
+.not-found-btn:hover {
+  background-color: var(--yellow);
+}

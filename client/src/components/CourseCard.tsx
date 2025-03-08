@@ -2,6 +2,7 @@ import "../css/CourseCard.css";
 
 import { FaClock } from "react-icons/fa";
 import ICourse from "../interfaces/ICourse";
+import { Link } from "react-router-dom";
 
 const CourseCard = ({ course }: { course: ICourse }) => {
   return (
@@ -17,6 +18,14 @@ const CourseCard = ({ course }: { course: ICourse }) => {
       <p className="course-duration">
         <FaClock /> {course.duration}
       </p>
+      <div className="teacher-info">
+        <div className="teacher-initials"></div>
+        <p className="teacher-category">
+          من {course.teacherName} موجود في {course.category.name}
+        </p>
+      </div>
+
+      <Link to="course/:slug" className="btn enroll-btn">سجل الآن</Link>
     </li>
   );
 };

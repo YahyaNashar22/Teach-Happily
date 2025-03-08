@@ -6,7 +6,7 @@ interface ICourse {
   title: string;
   level: string;
   duration: string;
-  teacherId: string;
+  teacherName: string;
   category: ICategory;
   price: number;
   enrolledStudents: string;

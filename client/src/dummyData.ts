@@ -17,7 +17,7 @@ export const courses: ICourse[] = [
     title: "string",
     level: "string",
     duration: "string",
-    teacherId: "string",
+    teacherName: "string",
     category: categories[0],
     price: 120,
     enrolledStudents: "string",

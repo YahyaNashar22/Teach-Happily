@@ -1,60 +1,73 @@
 .mobile-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color : #8f438c88 ;
-    color: var(--white);
-    position: fixed;
-    width: 100%;
-    z-index: 100;
-  }
-  
-  .menu-toggle {
-    background: none;
-    border: none;
-    color: var(--white);
-    cursor: pointer;
-  }
-  
-  .mobile-nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--purple);
-    display: none;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px 0;
-  }
-  
-  .mobile-nav.open {
-    display: flex;
-  }
-  
-  .mobile-nav .nav-link {
-    display: block;
-    padding: 15px;
-    color: var(--white);
-    text-decoration: none;
-    font-size: 1.2rem;
-  }
-  
-  .mobile-nav .nav-link:hover {
-    background-color: var(--accent-purple);
-  }
-  
-  .mobile-nav .btn-yellow {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: var(--button-yellow);
-    color: var(--white);
-    border-radius: 8px;
-  }
-  
-  .mobile-nav .btn-yellow:hover {
-    background-color: var(--accent-purple);
-    color: var(--white);
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #8f438c88;
+  color: var(--white);
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.mobile-nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--purple);
+  display: none;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.mobile-nav.open {
+  display: flex;
+}
+
+.mobile-nav .nav-link {
+  display: block;
+  padding: 15px;
+  color: var(--white);
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.mobile-nav .nav-link:hover {
+  background-color: var(--accent-purple);
+}
+
+.mobile-nav .btn-yellow {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: var(--button-yellow);
+  color: var(--white);
+  border-radius: 8px;
+}
+
+.mobile-nav .btn-yellow:hover {
+  background-color: var(--accent-purple);
+  color: var(--white);
+}
+
+.btn-yellow {
+  padding: 4px 24px;
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid var(--yellow);
+  transition: 0.3s ease-in-out;
+}
+
+.btn-yellow:hover {
+  background-color: var(--yellow);
+}

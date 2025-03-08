@@ -10,7 +10,7 @@ const NotFound = () => {
       <img src={logo} width={300} alt="logo" loading="lazy" />
       <h2 className="section-sub-title">الصفحة غير موجودة</h2>
       <p className="text-grey">عذرًا، الصفحة التي تبحث عنها غير متاحة.</p>
-      <Link to="/" className="btn">
+      <Link to="/" className="btn not-found-btn">
         العودة إلى الصفحة الرئيسية
       </Link>
     </main>
