@@ -8,21 +8,42 @@
 }
 
 :root {
+  --purple: #8f438c;
   --white: #ffffff;
+  --yellow: #ffba0d;
+  --blue: #0c61e0;
 
-  --accent-purple: #8f438c;
   --accent-black: #31363a;
   --accent-grey: #757c8e;
 
-  --button-yellow: #ffba0d;
-
-  --bg-blue: #0c61e0;
   --bg-grey: #e4e4e4;
 }
+
+/* native html style override */
 
 body {
   font-family: "Cairo", "sans-serif";
   background-color: var(--white);
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+button {
+  border: none;
 }
 
 /* main layout classes  */
@@ -34,12 +55,24 @@ body {
   justify-content: center;
 }
 
+.wrapper-horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  column-gap: 16px;
+}
+
+.header {
+  background-color: var(--purple);
+  padding: 12px 24px;
+}
+
 /* main components  */
 
 .section-title {
   font-size: 6rem;
   font-weight: bold;
-  color: var(--accent-purple);
+  color: var(--purple);
   margin: 0;
 }
 
@@ -54,9 +87,8 @@ body {
 }
 
 .btn {
-  margin-top: 20px;
   padding: 12px 24px;
-  background-color: var(--accent-purple);
+  background-color: var(--purple);
   color: var(--white);
   text-decoration: none;
   border-radius: 8px;
@@ -64,7 +96,30 @@ body {
 }
 
 .btn:hover {
-  background-color: var(--button-yellow);
+  background-color: var(--yellow);
+}
+
+.btn-yellow {
+  padding: 4px 24px;
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid var(--yellow);
+  transition: 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+.btn-yellow:hover {
+  background-color: var(--yellow);
+}
+
+.nav-link {
+  color: var(--white);
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: var(--yellow);
 }
 
 /* specific pages  */
@@ -88,7 +143,7 @@ body {
   width: 50px;
   height: 50px;
   border: 5px solid var(--accent-grey);
-  border-top: 5px solid var(--accent-purple);
+  border-top: 5px solid var(--purple);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

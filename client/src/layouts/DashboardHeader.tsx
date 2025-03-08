@@ -1,7 +1,7 @@
 
 const DashboardHeader = () => {
   return (
-    <div>DashboardHeader</div>
+    <header>DashboardHeader</header>
   )
 }
 
