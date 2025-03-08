@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 
 import logo from "../assets/Logo_white.png";
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   return (
     <footer className="footer-container">
@@ -10,7 +12,7 @@ const Footer = () => {
           <p className="footer-col-text">
             اشترك في الإشعارات للحصول على الأخبار
           </p>
-          <form className="horizontal-wrapper">
+          <form className="wrapper-horizontal">
             <button className="btn-yellow" id="news-letter-btn">
               تسجيل دخول
             </button>
@@ -21,14 +23,24 @@ const Footer = () => {
               placeholder="بريد إلكتروني"
             />
           </form>
+          <div className="wrapper-horizontal icons">
+            <FaYoutube className="social-icon" />
+            <FaFacebook className="social-icon" />
+            <FaXTwitter className="social-icon" />
+            <FaInstagram className="social-icon" />
+          </div>
         </div>
 
         <div className="footer-col">
           <h4 className="footer-col-title">تواصل معنا</h4>
           <ul>
             <li className="footer-col-text">قطر</li>
-            <li className="footer-col-text">(316) 555-0116</li>
-            <li className="footer-col-text">onlineschool@email.com</li>
+            <li className="footer-col-text" style={{ direction: "ltr" }}>
+              +97450003499
+            </li>
+            <li className="footer-col-text" style={{ direction: "ltr" }}>
+              teachhappily@outlook.com
+            </li>
           </ul>
         </div>
 

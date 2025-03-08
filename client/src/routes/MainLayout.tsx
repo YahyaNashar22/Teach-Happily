@@ -8,7 +8,7 @@ const Container = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const checkMobileView = () => {
-    setIsMobile(window.innerWidth <= 768);
+    setIsMobile(window.innerWidth <= 900);
   };
 
   useEffect(() => {
