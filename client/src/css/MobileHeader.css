@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #8f438c88;
+  background-color: var(--semi-transparent-purple);
   color: var(--white);
   position: fixed;
   width: 100%;

@@ -1,5 +1,5 @@
 .header {
-  background-color: #8f438c88;
+  background-color: var(--semi-transparent-purple);
   padding: 12px 36px;
   position: fixed;
   width: 100%;

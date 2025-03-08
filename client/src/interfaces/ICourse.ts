@@ -9,7 +9,7 @@ interface ICourse {
   teacherName: string;
   category: ICategory;
   price: number;
-  enrolledStudents: string;
+  enrolledStudents: string[];
   content: string[];
   whatWillYouLearn: string[];
   requirements: string[];

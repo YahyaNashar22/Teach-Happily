@@ -1,8 +1,187 @@
 .course-card {
   width: 261px;
-  height: 298.36px;
+  height: 450px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+  box-shadow: 0px 0px 12px var(--shadow);
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+}
+
+.course-card:hover {
+  transform: translateY(-3px);
+}
+
+.upper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 10px;
+}
+
+.card-footer {
+  width: 100%;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--shadow);
+}
+
+.not-purchased {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.enroll-btn {
+  color: var(--purple);
+  border: 1px solid var(--purple);
+  padding: 8px;
+  font-size: 1.1rem;
+}
+
+.enrolled {
+  width: 100%;
+  margin: auto;
+}
+
+.enroll-btn:hover {
+  color: var(--white);
+  background-color: var(--purple);
+}
+
+.price {
+  font-weight: bold;
+  direction: ltr;
+  color: var(--purple);
+  font-size: 1rem;
+}
+
+.hovered {
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+  cursor: default;
+}
+
+/* .hovered:hover {
+  color: var(--yellow);
+} */
+
+.course-title {
+  color: var(--purple);
+  line-height: 30px;
+}
+
+.course-duration {
+  color: var(--accent-grey);
+}
+
+/* Full-screen overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Box */
+.modal {
+  background: var(--semi-transparent-purple);
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Title */
+.modal-title {
+  font-size: 1.8rem;
+  color: var(--white);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Modal Text */
+.modal-text {
+  font-size: 1.2rem;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+/* Price Styling */
+.modal-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--yellow);
+}
+
+/* Buttons */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+/* Confirm Button */
+.btn-confirm {
+  color: var(--white);
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: 1px solid var(--yellow);
+}
+
+.btn-confirm:hover {
+  background-color: var(--yellow);
+}
+
+/* Cancel Button */
+.btn-cancel {
+  color: var(--white);
+  padding: 12px 24px;
+  font-size: 1rem;
+}
+
+.btn-cancel:hover {
+  background-color: var(--accent-black);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .modal {
+    width: 95%;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-text {
+    font-size: 1rem;
+  }
 }

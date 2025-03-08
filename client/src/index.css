@@ -17,6 +17,10 @@
   --accent-grey: #757c8e;
 
   --bg-grey: #e4e4e4;
+  --divider-card: #cdcfd5;
+  --shadow: #ccc;
+
+  --semi-transparent-purple: #8f438c88;
 }
 
 body {
@@ -57,4 +61,5 @@ button {
   text-decoration: none;
   border-radius: 8px;
   transition: 0.3s ease-in-out;
+  text-align: center;
 }
