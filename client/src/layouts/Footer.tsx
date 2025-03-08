@@ -55,8 +55,8 @@ const Footer = () => {
         <div className="footer-col">
           <img src={logo} alt="logo" width={120} loading="lazy" />
           <Link to="/about" className="footer-col-text">
-            هناك بعض المزايا التي تتمتع بها مدرستنا. اقرأ هذا النص وستكتشف لماذا
-            يجب عليك الانضمام إلينا.
+            هناك بعض المزايا التي تتمتع بها مدرستنا. <br />
+            اقرأ هذا النص وستكتشف لماذا يجب عليك الانضمام إلينا.
           </Link>
         </div>
       </div>
