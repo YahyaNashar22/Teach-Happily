@@ -219,7 +219,7 @@ button {
 }
 
 .section-title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
   color: var(--purple);
   align-self: flex-start;
@@ -310,13 +310,14 @@ button {
 }
 
 .tutors-block {
-  width: 80%;
   margin: auto;
+  padding: 150px;
 }
 
 #tutors-btn {
   align-self: flex-end;
   margin-bottom: 24px;
+  margin-top: 24px;
 }
 
 .not-found {
@@ -360,7 +361,8 @@ button {
 }
 
 @media (max-width: 768px) {
-  .home-hero {
+  .home-hero,
+  .tutors-block {
     padding: 100px 15px;
     height: auto;
   }
