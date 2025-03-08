@@ -58,13 +58,13 @@ button {
 .wrapper-horizontal {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  column-gap: 16px;
+  justify-content: space-between;
+  column-gap: 24px;
 }
 
 .header {
   background-color: var(--purple);
-  padding: 12px 24px;
+  padding: 12px 36px;
 }
 
 /* main components  */
