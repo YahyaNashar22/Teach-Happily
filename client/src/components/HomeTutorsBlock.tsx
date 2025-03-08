@@ -1,9 +1,11 @@
+import "../css/HomeTutorsBlock.css";
+
 import { Link } from "react-router-dom";
 
 const HomeTutorsBlock = () => {
   return (
-    <section className="wrapper-horizontal tutors-block">
-      <div className="wrapper">
+    <section className="tutors-block">
+      <div className="tutors-right">
         <h1 className="section-title">
           نحن هنا لدعم المعلّمات في رحلتهم التعليمية
         </h1>

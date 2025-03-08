@@ -1,3 +1,5 @@
+import "../css/Footer.css";
+
 import { Link } from "react-router-dom";
 
 import logo from "../assets/Logo_white.png";
@@ -12,7 +14,7 @@ const Footer = () => {
           <p className="footer-col-text">
             اشترك في الإشعارات للحصول على الأخبار
           </p>
-          <form className="wrapper-horizontal">
+          <form className="form-container">
             <button className="btn-yellow" id="news-letter-btn">
               تسجيل دخول
             </button>
@@ -23,7 +25,7 @@ const Footer = () => {
               placeholder="بريد إلكتروني"
             />
           </form>
-          <div className="wrapper-horizontal icons">
+          <div className="icons">
             <FaYoutube className="social-icon" />
             <FaFacebook className="social-icon" />
             <FaXTwitter className="social-icon" />

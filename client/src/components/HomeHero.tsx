@@ -1,9 +1,11 @@
+import "../css/HomeHero.css";
+
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const HomeHero = () => {
   return (
-    <section className="wrapper home-hero">
+    <section className="home-hero">
       <h1 className="hero-title">علّم بسعادة: معنى أن يستأنس المعلم بمهنته.</h1>
       <p className="slogan">
         لأن التعليم ليس مجرد مهنة، بل رحلة تزهو بالاستئناس والاستمتاع، نقدم لك
@@ -11,7 +13,7 @@ const HomeHero = () => {
         الفعالة، والموارد الجاهزة، والتدريب المستمر، والاستشارات الخاصة، وخبرات
         عمليّة تعليمية تفوق العشر سنوات، لتجعل من التدريس متعة لك ولطلابك!"
       </p>
-      <div className="wrapper-horizontal hero-btns">
+      <div className="hero-btns">
         <Link to="/courses" id="hero-start-learn">
           ابدأ التعلم <FaArrowLeft />
         </Link>

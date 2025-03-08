@@ -1,12 +1,21 @@
-import { Link } from "react-router-dom";
+import "../css/Header.css";
+
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/Logo_white.png";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
-    <header className="wrapper-horizontal header">
-      <img src={logo} alt="logo" width={120} loading="lazy" />
+    <header className="header">
+      <img
+        src={logo}
+        alt="logo"
+        width={120}
+        loading="lazy"
+        onClick={() => navigate("/")}
+      />
       <nav>
-        <ul className="wrapper-horizontal">
+        <ul className="nav-links">
           <Link to="/" className="nav-link">
             الشاشة الرئيسية
           </Link>
