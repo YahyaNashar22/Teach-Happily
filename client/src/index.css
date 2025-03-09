@@ -7,9 +7,15 @@
   scroll-behavior: smooth;
 }
 
+::selection {
+  color: var(--white);
+  background-color: var(--black);
+}
+
 :root {
   --purple: #8f438c;
   --white: #ffffff;
+  --black: #000000;
   --yellow: #ffba0d;
   --blue: #0c61e0;
 
@@ -26,6 +32,19 @@
     135deg,
     rgba(6, 147, 227, 0.6) 0%,
     rgb(155, 81, 224, 0.6) 100%
+  );
+
+  --luminous-pulse: linear-gradient(
+    135deg,
+    rgb(255, 203, 112) 0%,
+    rgb(199, 81, 192) 50%,
+    rgb(65, 88, 208) 100%
+  );
+
+  --pink-purple: linear-gradient(
+    135deg,
+    rgb(255, 206, 236) 0%,
+    rgb(152, 150, 240) 100%
   );
 }
 
