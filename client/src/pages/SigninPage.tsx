@@ -12,6 +12,8 @@ const SigninPage = () => {
     password: "",
   });
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -22,7 +24,7 @@ const SigninPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    setLoading(true);
     try {
       const response = await axios.post(`${backend}/user/login`, formData, {
         headers: {
@@ -44,6 +46,8 @@ const SigninPage = () => {
     } catch (error) {
       console.error(error);
       setError("Invalid email or password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,7 +82,7 @@ const SigninPage = () => {
           <Link to="/" className="back">
             العودة
           </Link>
-          <button type="submit" className="sign-submit">
+          <button type="submit" disabled={loading} className="sign-submit">
             الدخول
           </button>
         </div>

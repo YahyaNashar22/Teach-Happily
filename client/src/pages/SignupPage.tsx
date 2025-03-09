@@ -16,6 +16,7 @@ const SignupPage = () => {
     password: "",
     confirmPassword: "",
   });
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,7 +25,7 @@ const SignupPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    setLoading(true);
 
     // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
@@ -60,6 +61,8 @@ const SignupPage = () => {
       } else {
         setError("حدث خطأ أثناء التسجيل");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -115,7 +118,7 @@ const SignupPage = () => {
           <Link to="/" className="back">
             العودة
           </Link>
-          <button type="submit" className="sign-submit">
+          <button type="submit" disabled={loading} className="sign-submit">
             سجل الآن
           </button>
         </div>
