@@ -1,0 +1,67 @@
+/* General Form Styles */
+.category-form-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--purple);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dash-cat-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--accent-black);
+}
+
+.dash-cat-inp {
+  padding: 10px;
+  font-size: 1.3rem;
+  border: 1px solid var(--divider-card);
+  border-radius: 8px;
+  background-color: var(--bg-grey);
+  color: var(--accent-black);
+}
+
+.dash-cat-inp:focus {
+  border-color: var(--purple);
+  outline: none;
+}
+
+button.submit-btn {
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--white);
+  background-color: var(--purple);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button.submit-btn:hover {
+  background-color: var(--yellow);
+}
+
+.message {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--accent-grey);
+  text-align: center;
+  margin-top: 20px;
+}

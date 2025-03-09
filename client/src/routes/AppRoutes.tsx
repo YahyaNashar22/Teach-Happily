@@ -19,6 +19,7 @@ const SignupPage = lazy(() => import("../pages/SignupPage.tsx"));
 const TutorsPage = lazy(() => import("../pages/TutorsPage.tsx"));
 const CoursePage = lazy(() => import("../pages/CoursePage.tsx"));
 const ProfilePage = lazy(() => import("../pages/ProfilePage.tsx"));
+const Dashboard = lazy(() => import("../pages/Dashboard.tsx"));
 
 const AppRoutes = () => {
   return (
@@ -41,7 +42,9 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* protected routes */}
-        <Route path="/dashboard" element={<DashboardLayout />}></Route>
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
 
         {/* Not Found Route */}
         <Route path="*" element={<NotFound />} />
