@@ -4,14 +4,20 @@
   justify-content: space-around;
   padding: 150px;
   position: relative;
+  margin-bottom: 120px;
+  text-align: right;
+  gap: 10px;
 }
 
+/* Right Section (Text) */
 .education-level-right {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 768px;
+  max-width: 768px;
+  width: 100%;
+  padding: 20px;
 }
 
 .education-prefix {
@@ -23,6 +29,7 @@
   font-size: 4rem;
   color: var(--purple);
   line-height: 70px;
+  text-align: right;
 }
 
 .education-list {
@@ -36,11 +43,17 @@
   font-size: 1.8rem;
 }
 
+/* Left Section (Images) */
 .education-level-left {
   position: relative;
-  width: 450px;
+  width: 100%;
+  max-width: 450px;
   height: 400px;
   transition: transform 0.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
 }
 
 .img-1,
@@ -49,19 +62,19 @@
 }
 
 .education-level-left:hover .img-1 {
-  transform: translate(-10px, -10px);
+  transform: translate(-10px, -20px);
 }
 
 .education-level-left:hover .img-2 {
-  transform: translate(10px, 10px);
+  transform: translate(10px, 20px);
 }
 
 .img-1 {
   position: absolute;
   z-index: 2;
   width: 300px;
-  bottom: -120px;
-  right: -120px;
+  bottom: -160px;
+  right: -110px;
 }
 
 .img-2 {
@@ -72,6 +85,7 @@
   left: 0px;
 }
 
+/* Dots Grid */
 .education-dots {
   position: absolute;
   display: grid;
@@ -88,4 +102,140 @@
   height: 20px;
   background-color: var(--accent-grey);
   border-radius: 50%;
+}
+
+@media (max-width: 1140px) {
+  .education-level-section {
+    flex-direction: column;
+    row-gap: 120px;
+  }
+
+  .education-title {
+    font-size: 3.5rem;
+    line-height: 60px;
+    text-align: right;
+  }
+
+  .education-list {
+    text-align: right;
+  }
+
+  .education-list-item {
+    font-size: 1.6rem;
+  }
+
+  .education-level-left {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .img-1 {
+    width: 250px;
+    bottom: -120px;
+    right: -80px;
+  }
+
+  .img-2 {
+    width: 380px;
+    top: -90px;
+  }
+
+  .education-dots {
+    gap: 15px;
+    bottom: -60px;
+  }
+
+  .dot {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Medium Screens (Tablets) */
+@media (max-width: 900px) {
+  .education-level-section {
+    padding: 80px 20px;
+    row-gap: 60px;
+  }
+
+  .education-title {
+    font-size: 3rem;
+    line-height: 50px;
+  }
+
+  .education-list-item {
+    font-size: 1.4rem;
+  }
+
+  .education-level-left {
+    max-width: 350px;
+  }
+
+  .img-1 {
+    width: 220px;
+    bottom: -100px;
+    right: -50px;
+  }
+
+  .img-2 {
+    width: 320px;
+    top: -30px;
+  }
+
+  .education-dots {
+    gap: 12px;
+    bottom: -50px;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Small Screens (Phones) */
+@media (max-width: 600px) {
+  .education-level-section {
+    padding: 50px 20px;
+    row-gap: 0px;
+  }
+
+  .education-title {
+    font-size: 2.2rem;
+    line-height: 40px;
+    text-align: right;
+  }
+
+  .education-list {
+    text-align: right;
+  }
+
+  .education-list-item {
+    font-size: 1.2rem;
+  }
+
+  .education-level-left {
+    max-width: 300px;
+  }
+
+  .img-1 {
+    width: 180px;
+    bottom: -40px;
+    right: -40px;
+  }
+
+  .img-2 {
+    width: 270px;
+    top: 0px;
+  }
+
+  .education-dots {
+    gap: 10px;
+    bottom: -10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
 }

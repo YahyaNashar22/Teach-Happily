@@ -26,14 +26,12 @@ const EducationLevel = () => {
           alt="education illustration"
           loading="lazy"
           className="img-1"
-          width={300}
         />
         <img
           src={img2}
           alt="education illustration"
           loading="lazy"
           className="img-2"
-          width={450}
         />
       </div>
     </section>
