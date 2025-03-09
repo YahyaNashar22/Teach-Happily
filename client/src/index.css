@@ -21,6 +21,12 @@
   --shadow: #ccc;
 
   --semi-transparent-purple: #8f438c88;
+
+  --gradient-overlay: linear-gradient(
+    135deg,
+    rgba(6, 147, 227, 0.6) 0%,
+    rgb(155, 81, 224, 0.6) 100%
+  );
 }
 
 body {

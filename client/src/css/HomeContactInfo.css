@@ -1,15 +1,16 @@
 .contact-info-section {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
   padding: 100px 20px;
-  gap: 100px;
+  row-gap: 100px;
+  column-gap: 200px;
 }
 
 .contact-info-container {
   text-align: right;
-  width: 50%;
+  width: 500px;
 }
 
 .contact-info-header {

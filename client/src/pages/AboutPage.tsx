@@ -1,8 +1,11 @@
+import AboutUsHero from "../components/AboutUsHero";
+import EducationLevel from "../components/EducationLevel";
 
 const AboutPage = () => {
-  return (
-    <main>AboutPage</main>
-  )
-}
+  return <main>
+    <AboutUsHero />
+    <EducationLevel />
+  </main>;
+};
 
-export default AboutPage
+export default AboutPage;

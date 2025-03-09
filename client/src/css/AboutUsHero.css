@@ -1,0 +1,75 @@
+.about-us-hero {
+  height: 70dvh;
+  background-image: var(--gradient-overlay), url("../assets/about-us.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* Center text */
+  color: var(--white);
+  padding: 20px; /* Add padding to prevent text from touching edges */
+}
+
+.about-us-hero-title {
+  font-size: 6rem;
+  font-weight: bold;
+}
+
+.about-us-hero-slogan {
+  font-size: 1.2rem;
+  max-width: 80%; /* Prevent text from stretching too wide */
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .about-us-hero {
+    height: 60dvh;
+    padding: 15px;
+  }
+
+  .about-us-hero-title {
+    font-size: 4rem; /* Reduce title size */
+  }
+
+  .about-us-hero-slogan {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .about-us-hero {
+    height: 50dvh;
+    padding: 10px;
+  }
+
+  .about-us-hero-title {
+    font-size: 2.5rem; /* Further reduce title size */
+  }
+
+  .about-us-hero-slogan {
+    font-size: 0.9rem;
+    max-width: 95%;
+  }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  .about-us-hero {
+    height: 45dvh;
+    padding: 8px;
+  }
+
+  .about-us-hero-title {
+    font-size: 2rem; /* Make the title smaller for small phones */
+  }
+
+  .about-us-hero-slogan {
+    font-size: 0.8rem;
+    max-width: 100%;
+  }
+}
