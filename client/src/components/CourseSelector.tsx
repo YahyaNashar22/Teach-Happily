@@ -1,4 +1,4 @@
-import "../css/LatestCourses.css";
+import "../css/CourseSelector.css";
 
 import { courses } from "../dummyData";
 import CourseCard from "./CourseCard";
@@ -7,7 +7,7 @@ const course1 = courses[1];
 
 // TODO: FETCH COURSES FROM THE BACKEND
 
-const LatestCourses = () => {
+const CourseSelector = () => {
   return (
     <ul className="course-list">
       <CourseCard course={course} />
@@ -22,4 +22,4 @@ const LatestCourses = () => {
   );
 };
 
-export default LatestCourses;
+export default CourseSelector;

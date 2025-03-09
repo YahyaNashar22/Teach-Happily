@@ -58,13 +58,17 @@ const CourseCard = ({ course }: { course: ICourse }) => {
             <FaClock /> {course.duration}
           </p>
           <div className="teacher-info">
-            <div className="teacher-initials"></div>
-            <p className="teacher-category">
-              من
-              <span className="hovered"> {course.teacherName} </span>
-              موجود في
-              <span className="hovered"> {course.category.name}</span>
-            </p>
+            <div className="teacher-initials">
+              {course.teacherName?.split(" ")[0][0]}
+            </div>
+            <div className="teacher-divider">
+              <p className="teacher-category">
+                من
+                <span className="hovered"> {course.teacherName} </span>
+                موجود في
+                <span className="hovered"> {course.category.name}</span>
+              </p>
+            </div>
           </div>
         </div>
 

@@ -68,9 +68,28 @@
   cursor: default;
 }
 
-/* .hovered:hover {
-  color: var(--yellow);
-} */
+.teacher-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.teacher-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  min-height: 45px;
+  background: var(--purple);
+  color: var(--white);
+  font-weight: bold;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  margin: 0 8px;
+  text-transform: uppercase;
+}
 
 .course-title {
   color: var(--purple);
