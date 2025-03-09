@@ -20,9 +20,10 @@
 }
 
 .number {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: bold;
   color: var(--purple);
+  direction: rtl;
 }
 
 .label {

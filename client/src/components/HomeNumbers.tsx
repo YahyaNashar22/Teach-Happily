@@ -4,7 +4,7 @@ import "../css/HomeNumbers.css";
 const numbersData = [
   { value: 120, suffix: "+", label: "الجامعات" },
   { value: 400, suffix: "+", label: "ساعات الدراسة" },
-  { value: 10_000, suffix: "+", label: "الخريجين" },
+  { value: 10, suffix: "K+", label: "الخريجين" },
   { value: 30, suffix: "+", label: "معلمين مؤهلين" },
 ];
 
@@ -51,8 +51,8 @@ const HomeNumbers = () => {
       {numbersData.map((item, index) => (
         <div key={index} className="number-box">
           <h2 className="number">
-            {item.suffix}
             {counts[index]}
+            {item.suffix}
           </h2>
           <p className="label">{item.label}</p>
         </div>

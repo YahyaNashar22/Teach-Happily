@@ -1,0 +1,162 @@
+.testimonials-section-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: url("../assets/hand_mouse.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 150px;
+  width: 100%;
+  flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+  gap: 100px;
+}
+
+.testimonials-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 500px; /* Limit width on larger screens */
+  width: 100%;
+}
+
+.soft-text {
+  color: var(--accent-grey);
+  font-size: 1.3rem;
+}
+
+.bold-text {
+  color: var(--white);
+  font-size: 3rem;
+}
+
+.testimonials-signin {
+  background-color: var(--purple);
+  padding: 8px 12px;
+  margin-top: 12px;
+}
+
+.testimonials-signin:hover {
+  background-color: var(--yellow);
+}
+
+.testimonials-left {
+  position: relative;
+  width: 100%;
+  max-width: 500px; /* Limit width on larger screens */
+  margin: auto;
+  padding: 20px;
+  background-color: var(--bg-grey);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 230px;
+  box-sizing: border-box;
+}
+
+.testimonial-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.student-name {
+  font-size: 1rem;
+  color: var(--purple);
+  font-weight: bold;
+  font-style: italic;
+  float: inline-end;
+}
+
+.testimonial-text {
+  font-size: 1rem;
+  color: var(--accent-grey);
+  font-weight: bold;
+}
+
+.dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: var(--accent-grey);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dot.active {
+  background-color: var(--yellow);
+}
+
+.dot:hover {
+  background-color: var(--purple);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .testimonials-section-container {
+    padding: 50px 20px; /* Adjust padding for smaller screens */
+  }
+
+  .testimonials-right {
+    align-items: center; /* Center content on mobile */
+    max-width: 100%;
+  }
+
+  .testimonials-left {
+    max-width: 100%;
+    height: auto; /* Allow height to adjust for smaller screens */
+    padding: 15px;
+  }
+
+  .testimonial-content {
+    padding: 10px;
+  }
+
+  .student-name {
+    font-size: 0.9rem;
+  }
+
+  .testimonial-text {
+    font-size: 0.9rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .testimonials-section-container {
+    padding: 100px 40px; /* Adjust padding for tablet screens */
+  }
+
+  .testimonials-left {
+    max-width: 90%;
+  }
+
+  .testimonial-content {
+    padding: 15px;
+  }
+
+  .student-name {
+    font-size: 1rem;
+  }
+
+  .testimonial-text {
+    font-size: 1rem;
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
+  }
+}
