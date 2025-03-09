@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "../css/HomeCategories.css";
-// import { categories } from "../dummyData";
 import ICategory from "../interfaces/ICategory";
 import axios from "axios";
 import Loading from "./Loading";

@@ -66,3 +66,7 @@
 .category-item-input:checked::after {
   display: block;
 }
+
+.no-categories-message {
+  font-size: 1.2rem;
+}
