@@ -2,8 +2,10 @@ import "../css/HomeHero.css";
 
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useUserStore } from "../store";
 
 const HomeHero = () => {
+  const { user } = useUserStore();
   return (
     <section className="home-hero">
       <h1 className="hero-title">علّم بسعادة: معنى أن يستأنس المعلم بمهنته.</h1>
@@ -17,9 +19,11 @@ const HomeHero = () => {
         <Link to="/courses" id="hero-start-learn">
           ابدأ التعلم <FaArrowLeft />
         </Link>
-        <Link to="/sign-in" id="hero-discover">
-          تسجيل الدخول
-        </Link>
+        {!user && (
+          <Link to="/sign-in" id="hero-discover">
+            تسجيل الدخول
+          </Link>
+        )}
       </div>
     </section>
   );
