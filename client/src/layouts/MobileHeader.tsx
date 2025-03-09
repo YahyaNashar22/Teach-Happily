@@ -4,8 +4,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Logo_white.png";
 import { FiMenu, FiX } from "react-icons/fi";
+import { useUserStore } from "../store";
 
 const MobileHeader = () => {
+  const { user } = useUserStore();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -48,13 +50,19 @@ const MobileHeader = () => {
           >
             تواصل معنا
           </Link>
-          <Link
-            to="/sign-up"
-            className="btn-yellow"
-            onClick={() => setMenuOpen(false)}
-          >
-            انضم الآن
-          </Link>
+          {user ? (
+            <Link to="/profile" className="profile">
+              {user.fullName.split(" ")[0][0]}
+            </Link>
+          ) : (
+            <Link
+              to="/sign-up"
+              className="btn-yellow"
+              onClick={() => setMenuOpen(false)}
+            >
+              انضم الآن
+            </Link>
+          )}
         </ul>
       </nav>
     </header>

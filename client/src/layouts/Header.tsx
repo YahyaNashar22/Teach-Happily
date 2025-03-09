@@ -2,8 +2,10 @@ import "../css/Header.css";
 
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/Logo_white.png";
+import { useUserStore } from "../store";
 
 const Header = () => {
+  const { user } = useUserStore();
   const navigate = useNavigate();
   return (
     <header className="header">
@@ -33,9 +35,15 @@ const Header = () => {
           </Link>
         </ul>
       </nav>
-      <Link to="/sign-up" className="btn-yellow">
-        انضم الآن
-      </Link>
+      {user ? (
+        <Link to="/profile" className="profile">
+          {user.fullName.split(" ")[0][0]}
+        </Link>
+      ) : (
+        <Link to="/sign-up" className="btn-yellow">
+          انضم الآن
+        </Link>
+      )}
     </header>
   );
 };

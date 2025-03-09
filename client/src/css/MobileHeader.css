@@ -71,3 +71,19 @@
 .btn-yellow:hover {
   background-color: var(--yellow);
 }
+
+.profile {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--yellow);
+  color: var(--white);
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  text-align: center;
+  line-height: 40px;
+}

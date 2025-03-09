@@ -18,7 +18,7 @@ const SigninPage = lazy(() => import("../pages/SigninPage.tsx"));
 const SignupPage = lazy(() => import("../pages/SignupPage.tsx"));
 const TutorsPage = lazy(() => import("../pages/TutorsPage.tsx"));
 const CoursePage = lazy(() => import("../pages/CoursePage.tsx"));
-
+const ProfilePage = lazy(() => import("../pages/ProfilePage.tsx"));
 
 const AppRoutes = () => {
   return (
@@ -32,6 +32,7 @@ const AppRoutes = () => {
           <Route path="/tutors" element={<TutorsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/course/:slug" element={<CoursePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
 
         {/* Sign in/up routes */}

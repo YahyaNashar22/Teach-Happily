@@ -1,11 +1,17 @@
 import { useState } from "react";
 import "../css/Signup.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+import { useUserStore } from "../store";
 
 const SignupPage = () => {
+  const backend = import.meta.env.VITE_BACKEND;
+  const navigate = useNavigate();
+  const { setUser } = useUserStore();
+  const [error, setError] = useState<string>("");
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -13,12 +19,48 @@ const SignupPage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
-    // Add form submission logic here
+
+    // Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError("كلمة المرور غير متطابقة");
+      return; // Stop form submission if passwords don't match
+    }
+    try {
+      const response = await axios.post(
+        `${backend}/user/create-student`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const token = response.data.payload;
+      localStorage.setItem("token", token);
+
+      const userResponse = await axios.get(`${backend}/user/get-user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUser(userResponse.data.payload);
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        setError(error.response?.data.message);
+      } else {
+        setError("حدث خطأ أثناء التسجيل");
+      }
+    }
   };
 
   return (
@@ -29,26 +71,13 @@ const SignupPage = () => {
           الاسم
           <input
             type="text"
-            name="firstName"
-            value={formData.firstName}
+            name="fullName"
+            value={formData.fullName}
             onChange={handleChange}
             required
             placeholder="الاسم"
           />
         </label>
-
-        <label className="sign-label">
-          العائلة
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-            placeholder="العائلة"
-          />
-        </label>
-
         <label className="sign-label">
           البريد الالكتروني
           <input
@@ -60,7 +89,6 @@ const SignupPage = () => {
             placeholder="البريد الالكتروني"
           />
         </label>
-
         <label className="sign-label">
           كلمة المرور
           <input
@@ -71,7 +99,6 @@ const SignupPage = () => {
             required
           />
         </label>
-
         <label className="sign-label">
           تأكيد كلمة المرور
           <input
@@ -82,12 +109,19 @@ const SignupPage = () => {
             required
           />
         </label>
-
+        {/* Display error message */}
+        {error && <div className="error-message">{error}</div>}{" "}
         <div className="btn-container">
-          <Link to="/" className="back">العودة</Link>
-          <button type="submit" className="sign-submit">سجل الآن</button>
+          <Link to="/" className="back">
+            العودة
+          </Link>
+          <button type="submit" className="sign-submit">
+            سجل الآن
+          </button>
         </div>
-        <Link to="/sign-in" className="sign-in">لدي حساب بالفعل</Link>
+        <Link to="/sign-in" className="sign-in">
+          لدي حساب بالفعل
+        </Link>
       </form>
     </main>
   );
