@@ -1,0 +1,102 @@
+.tutors-meet-section {
+  color: var(--white);
+  padding: 150px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Tutors Meet Card */
+.tutors-meet-card {
+  background: url("../assets/tutors-1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 1200px;
+  height: 600px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.tutors-meet-content {
+  position: relative;
+  z-index: 2;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+}
+
+.tutors-meet-title {
+  font-size: 3rem;
+}
+
+.tutors-meet-text {
+  font-size: 2rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 1140px) {
+  .tutors-meet-card {
+    width: 90%; /* Adjust width for smaller screens */
+    height: 500px; /* Adjust height for better scaling */
+  }
+
+  .tutors-meet-title {
+    font-size: 2.5rem; /* Slightly smaller text on smaller screens */
+  }
+
+  .tutors-meet-text {
+    font-size: 1.8rem; /* Slightly smaller text on smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .tutors-meet-section {
+    padding: 100px 20px; /* Adjust padding for smaller screens */
+  }
+
+  .tutors-meet-card {
+    width: 100%; /* Full width on smaller screens */
+    height: 400px; /* Adjust height for mobile */
+  }
+
+  .tutors-meet-title {
+    font-size: 2rem; /* Smaller title font size on mobile */
+  }
+
+  .tutors-meet-text {
+    font-size: 1.5rem; /* Smaller text on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .tutors-meet-card {
+    height: 350px; /* Adjust height further for very small screens */
+  }
+
+  .tutors-meet-title {
+    font-size: 1.8rem; /* Further adjust title size */
+  }
+
+  .tutors-meet-text {
+    font-size: 1.3rem; /* Further adjust text size */
+  }
+}

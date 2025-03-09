@@ -1,8 +1,15 @@
+import SocialMedia from "../components/SocialMedia";
+import TutorsHero from "../components/TutorsHero";
+import TutorsMeet from "../components/TutorsMeet";
 
 const TutorsPage = () => {
   return (
-    <main>TutorsPage</main>
-  )
-}
+    <main>
+      <TutorsHero />
+      <TutorsMeet />
+      <SocialMedia />
+    </main>
+  );
+};
 
-export default TutorsPage
+export default TutorsPage;
