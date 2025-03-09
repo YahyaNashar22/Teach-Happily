@@ -1,5 +1,11 @@
+import CoursesHero from "../components/CoursesHero";
+
 const CoursesPage = () => {
-  return <main>CoursesPage</main>;
+  return (
+    <main>
+      <CoursesHero />
+    </main>
+  );
 };
 
 export default CoursesPage;
