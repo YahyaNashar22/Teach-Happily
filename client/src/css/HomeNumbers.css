@@ -1,0 +1,51 @@
+.numbers-section {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px 20px;
+  flex-wrap: wrap;
+}
+
+.number-box {
+  text-align: center;
+  background: var(--white);
+  padding: 20px;
+  width: 200px;
+  border-radius: 12px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.number-box:hover {
+  transform: scale(1.05);
+}
+
+.number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--purple);
+}
+
+.label {
+  font-size: 1.2rem;
+  color: var(--accent-black);
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .numbers-section {
+    gap: 20px;
+  }
+
+  .number-box {
+    width: 150px;
+  }
+
+  .number {
+    font-size: 2rem;
+  }
+
+  .label {
+    font-size: 1rem;
+  }
+}
