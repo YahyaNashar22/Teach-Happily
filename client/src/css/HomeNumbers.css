@@ -24,12 +24,15 @@
   font-weight: bold;
   color: var(--purple);
   direction: rtl;
+  line-height: 50px;
 }
 
 .label {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: var(--accent-black);
   margin-top: 10px;
+  direction: rtl;
+  text-align: right;
 }
 
 /* Responsive Design */

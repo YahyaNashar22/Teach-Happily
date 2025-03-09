@@ -1,0 +1,119 @@
+/* Base Styles */
+.social-media-section {
+  background: var(--gradient-overlay), url("../assets/about-us-3.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 50px;
+  padding: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  text-align: right;
+}
+
+/* Left Section */
+.social-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--white);
+  text-align: right;
+  max-width: 600px;
+}
+
+.social-title {
+  font-size: 4rem;
+  line-height: 1.2;
+}
+
+.social-text {
+  font-size: 2rem;
+  margin-top: 10px;
+}
+
+/* Right Section */
+.social-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Social Icons */
+.icon {
+  font-size: 2.5rem;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+/* Hover Effects */
+.icon:hover {
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .social-media-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 100px 50px;
+  }
+
+  .social-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .social-title {
+    font-size: 3rem;
+  }
+
+  .social-text {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .social-media-section {
+    padding: 80px 30px;
+  }
+
+  .social-title {
+    font-size: 2.5rem;
+  }
+
+  .social-text {
+    font-size: 1.4rem;
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-media-section {
+    padding: 60px 20px;
+  }
+
+  .social-title {
+    font-size: 2rem;
+  }
+
+  .social-text {
+    font-size: 1.2rem;
+  }
+
+  .social-right {
+    gap: 15px;
+  }
+
+  .icon {
+    font-size: 1.8rem;
+  }
+}
