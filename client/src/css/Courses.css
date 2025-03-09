@@ -1,0 +1,6 @@
+.courses-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 150px;
+}

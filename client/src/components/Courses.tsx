@@ -5,8 +5,8 @@ import CourseSelector from "./CourseSelector";
 const Courses = () => {
   return (
     <section className="courses-section">
-      <CourseSelector />
       <CategorySelector />
+      <CourseSelector />
     </section>
   );
 };
