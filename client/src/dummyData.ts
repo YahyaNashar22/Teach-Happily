@@ -1,8 +1,10 @@
 import ICategory from "./interfaces/ICategory";
 import ICourse from "./interfaces/ICourse";
+import ITestimonial from "./interfaces/ITestimonial";
+import ITeacher from "./interfaces/ITeacher";
 
 import pic from "./assets/dummy_data.jpg";
-import ITestimonial from "./interfaces/ITestimonial";
+import tutor from "./assets/Tutor1.jpg";
 
 export const categories: ICategory[] = [
   {
@@ -88,5 +90,50 @@ export const testimonials: ITestimonial[] = [
     studentName: "محمد",
     content:
       "أحببت طريقة تقديم الدروس والاختبارات التفاعلية التي تساعد على تثبيت المعلومات. Teach Happily جعلت عملية التعلّم أكثر متعة وسهولة",
+  },
+];
+
+export const tutors: ITeacher[] = [
+  {
+    _id: "1",
+    fullname: "منيرة المنيخر",
+    image: tutor,
+    profession: "مصمم الويب والتطبيقات",
+  },
+  {
+    _id: "2",
+    fullname: "ناديا غادر",
+    image: tutor,
+    profession: "الرياضيات والهندسة",
+  },
+  {
+    _id: "3",
+    fullname: "فاطمة محمد الشروقي",
+    image: tutor,
+    profession: "اللغات",
+  },
+  {
+    _id: "4",
+    fullname: "أميرة اليافعي",
+    image: tutor,
+    profession: "مصمم الويب والتطبيقات",
+  },
+  {
+    _id: "5",
+    fullname: "ميثا الرمزاني",
+    image: tutor,
+    profession: "الرياضيات والهندسة",
+  },
+  {
+    _id: "6",
+    fullname: "عائشة سعود التميمي",
+    image: tutor,
+    profession: "اللغات",
+  },
+  {
+    _id: "7",
+    fullname: "آسيا البوعينين",
+    image: tutor,
+    profession: "اللغات",
   },
 ];
