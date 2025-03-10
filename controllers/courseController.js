@@ -159,3 +159,21 @@ export const getLatest = async (req, res) => {
         res.status(500).json({ error: error });
     }
 }
+
+export const getCourseBySlug = async (req, res) => {
+    try {
+        const { slug } = req.params;
+
+        const course = await Course.find({ slug })
+            .populate('teacher', 'fullname')
+            .populate('category', 'name');
+
+        res.status(200).json({
+            payload: course,
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}

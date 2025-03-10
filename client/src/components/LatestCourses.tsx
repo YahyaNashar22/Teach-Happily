@@ -6,8 +6,6 @@ import ICourse from "../interfaces/ICourse";
 import axios from "axios";
 import Loading from "./Loading";
 
-// TODO: FETCH COURSES FROM THE BACKEND
-
 const LatestCourses = () => {
   const backend = import.meta.env.VITE_BACKEND;
   const [courses, setCourses] = useState<ICourse[]>([]);
