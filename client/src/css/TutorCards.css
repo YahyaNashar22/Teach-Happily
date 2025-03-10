@@ -2,12 +2,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px; /* Add padding to ensure the content doesn't stick to the edges */
+  padding: 20px;
 }
 
 .tutor-card-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Default 3 items per row */
+  grid-template-columns: repeat(3, 360px);
   gap: 20px;
   padding: 0;
   margin: 0;
@@ -56,6 +56,10 @@
 .teacher-profession {
   font-size: 1.2rem;
   z-index: 2;
+}
+
+.no-tutors-message {
+  font-size: 1.2rem;
 }
 
 /* Responsive Styles */

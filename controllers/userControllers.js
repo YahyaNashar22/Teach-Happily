@@ -37,7 +37,7 @@ export const createStudent = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -69,7 +69,7 @@ export const login = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -80,7 +80,7 @@ export const logout = async (req, res) => {
         res.status(200).json({ message: "Logout successful" });
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 

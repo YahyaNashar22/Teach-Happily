@@ -9,7 +9,7 @@ export const createTeacher = async (req, res) => {
 
 
         const teacher = new Teacher({
-            name,
+            fullname: name,
             profession,
             image,
         });
@@ -22,7 +22,7 @@ export const createTeacher = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -35,7 +35,7 @@ export const getAllTeachers = async (req, res) => {
         res.status(200).json({ payload: teachers });
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -50,7 +50,7 @@ export const getTeacherById = async (req, res) => {
         res.status(200).json({ payload: teacher });
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -67,7 +67,7 @@ export const deleteTeacher = async (req, res) => {
         await Teacher.findByIdAndDelete(id);
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -86,7 +86,7 @@ export const updateTeacher = async (req, res) => {
 
         const updatedTeacher = await Teacher.findByIdAndUpdate(id, {
             $set: {
-                name: name ? name : teacher.name,
+                fullname: name ? name : teacher.fullname,
                 profession: profession ? profession : teacher.profession,
                 image: image ? image : teacher.image
             }
@@ -100,6 +100,6 @@ export const updateTeacher = async (req, res) => {
         res.status(200).json({ payload: updatedTeacher })
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }

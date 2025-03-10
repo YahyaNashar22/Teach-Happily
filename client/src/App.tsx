@@ -21,7 +21,6 @@ function App() {
         }
       }
     };
-    console.log(token);
 
     checkUserValidity();
   }, [token, clearUser]);

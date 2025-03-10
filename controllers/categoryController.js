@@ -25,7 +25,7 @@ export const createCategory = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -38,7 +38,7 @@ export const getAllCategories = async (req, res) => {
         res.status(200).json({ payload: categories });
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -53,7 +53,7 @@ export const getCategoryById = async (req, res) => {
         res.status(200).json({ payload: category });
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -70,7 +70,7 @@ export const deleteCategory = async (req, res) => {
         await Category.findByIdAndDelete(id);
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -102,6 +102,6 @@ export const updateCategory = async (req, res) => {
         res.status(200).json({ payload: updatedCategory })
     } catch (error) {
         console.log(error);
-        res.status.json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
