@@ -164,7 +164,7 @@ export const getCourseBySlug = async (req, res) => {
     try {
         const { slug } = req.params;
 
-        const course = await Course.find({ slug })
+        const course = await Course.findOne({ slug })
             .populate('teacher', 'fullname')
             .populate('category', 'name');
 

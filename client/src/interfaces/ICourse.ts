@@ -11,10 +11,17 @@ interface ICourse {
   category: ICategory;
   price: number;
   enrolledStudents: string[];
-  content: string[];
-  whatWillYouLearn: string[];
-  requirements: string[];
-  audience: string[];
+  content: [
+    {
+      title: string;
+      url: string;
+    }
+  ];
+  whatWillYouLearn: string;
+  requirements: string;
+  audience: string;
+  createdAt: string;
+  slug: string;
 }
 
 export default ICourse;
