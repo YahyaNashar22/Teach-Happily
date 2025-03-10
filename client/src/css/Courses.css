@@ -2,5 +2,27 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
-  padding: 150px;
+  padding: 100px;
+  gap: 20px; /* Add spacing between elements */
+}
+
+/* 🔹 RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .courses-section {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align on smaller screens */
+    padding: 80px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .courses-section {
+    padding: 60px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .courses-section {
+    padding: 40px 10px;
+  }
 }

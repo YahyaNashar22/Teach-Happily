@@ -38,8 +38,7 @@ const CourseSelector: FC<ICourseSelector> = ({
         );
 
         setCourses(res.data.payload);
-        // setTotalPages(res.data.payload.totalPages);
-        setTotalPages(3);
+        setTotalPages(res.data.pagination.totalPages);
       } catch (error) {
         console.log(error);
       } finally {
