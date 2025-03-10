@@ -110,6 +110,7 @@ export const getAllCourses = async (req, res) => {
     }
 }
 
+
 export const enroll = async (req, res) => {
     try {
         const { userId, courseId } = req.body;
@@ -133,6 +134,25 @@ export const enroll = async (req, res) => {
             enrolledStudents: course.enrolledStudents,
         });
 
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}
+
+
+export const getLatest = async (req, res) => {
+    try {
+        const courses = await Course.find()
+            .sort({ createdAt: -1 })
+            .limit(8)
+            .populate('teacher', 'fullname')
+            .populate('category', 'name');
+
+        res.status(200).json({
+            payload: courses,
+        });
 
     } catch (error) {
         console.log(error);

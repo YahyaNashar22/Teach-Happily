@@ -1,6 +1,6 @@
 import express from "express";
 import { upload } from "../middlewares/multer.js";
-import { createCourse, enroll, getAllCourses } from "../controllers/courseController.js";
+import { createCourse, enroll, getAllCourses, getLatest } from "../controllers/courseController.js";
 
 const courseRouter = express.Router();
 
@@ -11,6 +11,9 @@ courseRouter.post("/create-course", upload.fields([
 ]), createCourse);
 
 courseRouter.post("/get-all", getAllCourses);
+
+courseRouter.get("/get-latest", getLatest);
+
 
 courseRouter.post("/enroll", enroll);
 

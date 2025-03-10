@@ -104,7 +104,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
 
         <div className="card-footer">
           {isUserEnrolled ? (
-            <Link to="/course/:id" className="btn enroll-btn enrolled">
+            <Link to="/course/:slug" className="btn enroll-btn enrolled">
               الالتحاق
             </Link>
           ) : (
