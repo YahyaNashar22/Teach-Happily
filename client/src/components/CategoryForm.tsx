@@ -4,6 +4,7 @@ import "../css/CategoryForm.css";
 
 const CategoryForm = () => {
   const backend = import.meta.env.VITE_BACKEND;
+  const [loading, setLoading] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [message, setMessage] = useState("");
@@ -16,6 +17,7 @@ const CategoryForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("name", name);
@@ -36,6 +38,8 @@ const CategoryForm = () => {
       setMessage(response.data.message);
     } catch (error) {
       if (error instanceof AxiosError) setMessage(error.response?.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,7 +72,7 @@ const CategoryForm = () => {
           className="dash-cat-inp"
         />
 
-        <button type="submit" className="submit-btn">
+        <button type="submit" disabled={loading} className="submit-btn">
           إضافة الفئة
         </button>
       </form>

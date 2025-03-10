@@ -4,6 +4,7 @@ import "../css/TeacherForm.css";
 
 const TeacherForm = () => {
   const backend = import.meta.env.VITE_BACKEND;
+  const [loading, setLoading] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [profession, setProfession] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -17,6 +18,8 @@ const TeacherForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("name", name);
@@ -39,6 +42,8 @@ const TeacherForm = () => {
       setMessage(response.data.message);
     } catch (error) {
       if (error instanceof AxiosError) setMessage(error.response?.data.message);
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -59,7 +64,7 @@ const TeacherForm = () => {
           className="dash-cat-inp"
         />
 
-<label htmlFor="profession" className="dash-cat-label">
+        <label htmlFor="profession" className="dash-cat-label">
           اختصاص المدربة
         </label>
         <input
@@ -84,7 +89,7 @@ const TeacherForm = () => {
           className="dash-cat-inp"
         />
 
-        <button type="submit" className="submit-btn">
+        <button type="submit" disabled={loading} className="submit-btn">
           إضافة المدربة
         </button>
       </form>
