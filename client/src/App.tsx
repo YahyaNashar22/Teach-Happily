@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import "./App.css";
 import AppRoutes from "./routes/AppRoutes";
 import { checkUserFromCookie, useUserStore } from "./store";
+import ScrollToTop from "./routes/ScrollToTop";
 
 function App() {
   const { token, clearUser } = useUserStore();
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       <AppRoutes />
     </>
   );

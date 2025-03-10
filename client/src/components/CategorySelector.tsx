@@ -69,7 +69,7 @@ const CategorySelector = ({
         <ul className="category-list">
           {categories.map((category) => {
             return (
-              <li key={category._id} className="category-item">
+              <li key={category._id} className="category-item-selector">
                 <label className="category-item-label">
                   <input
                     type="checkbox"

@@ -34,7 +34,7 @@ const HomeCategories = () => {
             return (
               <li
                 key={category._id}
-                className="category-item"
+                className="home-category-item"
                 style={{ background: `url(${backend}/${category.image})` }}
               >
                 {category.name}
