@@ -8,6 +8,7 @@ import databaseConnection from "./db/databaseConnection.js";
 import userRouter from './routes/userRoutes.js';
 import categoryRouter from './routes/categoryRoutes.js';
 import teacherRouter from './routes/teacherRoutes.js';
+import courseRouter from './routes/courseRoutes.js';
 
 
 // Declaration
@@ -32,6 +33,8 @@ app.use(express.static("uploads"));
 app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/teacher', teacherRouter);
+app.use('/course', courseRouter);
+
 
 
 

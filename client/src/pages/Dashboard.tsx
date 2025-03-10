@@ -1,4 +1,5 @@
 import CategoryForm from "../components/CategoryForm";
+import CourseForm from "../components/CourseForm";
 import TeacherForm from "../components/TeacherForm";
 
 const Dashboard = () => {
@@ -6,6 +7,7 @@ const Dashboard = () => {
     <main>
       <CategoryForm />
       <TeacherForm />
+      <CourseForm />
     </main>
   );
 };

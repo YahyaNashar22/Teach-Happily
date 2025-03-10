@@ -41,7 +41,7 @@ const courseSchema = new Schema(
         enrolledStudents: [{
             type: Schema.Types.ObjectId,
             ref: "User",
-            required: true,
+            required: false,
         }],
         whatWillYouLearn: [{
             type: String,

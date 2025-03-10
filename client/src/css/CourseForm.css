@@ -1,0 +1,112 @@
+/* General Form Styles */
+.course-form {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--purple);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.course-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.course-form label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--accent-black);
+}
+
+.course-form input,
+.course-form select,
+.course-form textarea {
+  padding: 12px;
+  font-size: 1.3rem;
+  border-radius: 8px;
+  background-color: var(--bg-grey);
+  color: var(--accent-black);
+}
+
+.course-form input:focus,
+.course-form select:focus,
+.course-form textarea:focus {
+  border-color: var(--purple);
+  outline: none;
+}
+
+.course-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.course-form label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--accent-black);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background: var(--bg-grey);
+  font-weight: bold;
+}
+
+.course-form input[type="file"] {
+  padding: 10px;
+  border: none;
+  background: var(--bg-grey);
+  cursor: pointer;
+}
+
+.course-form button {
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--white);
+  background-color: var(--purple);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.course-form button:hover {
+  background-color: var(--yellow);
+}
+
+.course-form button:disabled {
+  background-color: var(--accent-black);
+  cursor: not-allowed;
+}
+
+.message {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--accent-black);
+  text-align: center;
+  margin-top: 20px;
+}
+
+.course-form-error,
+.course-form-success {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .course-form {
+    max-width: 90%;
+  }
+}

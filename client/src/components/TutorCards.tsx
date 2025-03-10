@@ -10,7 +10,7 @@ const TutorCards = () => {
   const [teachers, setTeachers] = useState<ITeacher[]>([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchTeachers = async () => {
       try {
         const res = await axios.get(`${backend}/teacher`);
         setTeachers(res.data.payload || []);
@@ -20,7 +20,7 @@ const TutorCards = () => {
         setLoading(false);
       }
     };
-    fetchCategories();
+    fetchTeachers();
   }, [backend]);
   return (
     <section className="tutor-cards-section">
