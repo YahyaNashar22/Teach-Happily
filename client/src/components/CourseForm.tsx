@@ -139,73 +139,110 @@ const CourseUploadForm = () => {
   };
 
   return (
+    <div className="category-form-container">
+
     <form onSubmit={handleSubmit} className="course-form">
-      <input
-        type="text"
-        name="title"
-        placeholder="عنوان الدورة"
-        onChange={handleChange}
-        required
-      />
-      <select name="level" onChange={handleChange}>
-        <option value="مبتدئ">مبتدئ</option>
-        <option value="متوسط">متوسط</option>
-        <option value="متقدم">متقدم</option>
-      </select>
-      <input
-        type="text"
-        name="duration"
-        placeholder="المدة"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="price"
-        placeholder="السعر"
-        onChange={handleChange}
-        required
-        min="0"
-      />
+      <h1 className="form-title">إضافة دورة جديدة</h1>
 
-      <select name="teacher" onChange={handleChange}>
-        {teachers.map((teacher) => {
-          return (
-            <option key={teacher._id} value={teacher._id}>
-              {teacher.fullname}
-            </option>
-          );
-        })}
-      </select>
+      <label>
+        عنوان الدورة
+        <input
+          type="text"
+          name="title"
+          placeholder="عنوان الدورة"
+          onChange={handleChange}
+          required
+        />
+      </label>
 
-      <select name="category" onChange={handleChange}>
-        {categories.map((category) => {
-          return (
-            <option key={category._id} value={category._id}>
-              {category.name}
-            </option>
-          );
-        })}
-      </select>
+      <label>
+        المرحلة
+        <select name="level" onChange={handleChange}>
+          <option value="مبتدئ">مبتدئ</option>
+          <option value="متوسط">متوسط</option>
+          <option value="متقدم">متقدم</option>
+        </select>
+      </label>
 
-      <textarea
-        name="whatWillYouLearn"
-        placeholder="ماذا ستتعلم؟"
-        onChange={handleChange}
-        required
-      ></textarea>
-      <textarea
-        name="requirements"
-        placeholder="المتطلبات"
-        onChange={handleChange}
-        required
-      ></textarea>
-      <textarea
-        name="audience"
-        placeholder="الجمهور المستهدف"
-        onChange={handleChange}
-        required
-      ></textarea>
+      <label>
+        المدة
+        <input
+          type="text"
+          name="duration"
+          placeholder="المدة"
+          onChange={handleChange}
+          required
+        />
+      </label>
+
+      <label>
+        السعر
+        <input
+          type="number"
+          name="price"
+          placeholder="السعر"
+          onChange={handleChange}
+          required
+          min="0"
+        />
+      </label>
+
+      <label>
+        المدربة
+        <select name="teacher" onChange={handleChange}>
+          {teachers.map((teacher) => {
+            return (
+              <option key={teacher._id} value={teacher._id}>
+                {teacher.fullname}
+              </option>
+            );
+          })}
+        </select>
+      </label>
+
+      <label>
+        الخانة
+        <select name="category" onChange={handleChange}>
+          {categories.map((category) => {
+            return (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            );
+          })}
+        </select>
+      </label>
+
+      <label>
+        ماذا ستتعلم ؟
+        <textarea
+          name="whatWillYouLearn"
+          placeholder="ماذا ستتعلم؟"
+          onChange={handleChange}
+          required
+        ></textarea>
+      </label>
+
+      <label>
+        المتطلبات
+        <textarea
+          name="requirements"
+          placeholder="المتطلبات"
+          onChange={handleChange}
+          required
+        ></textarea>
+      </label>
+
+      <label>
+        الجمهور المستهدف
+        <textarea
+          name="audience"
+          placeholder="الجمهور المستهدف"
+          onChange={handleChange}
+          required
+        ></textarea>
+      </label>
+
       <label>
         صورة الدورة
         <input
@@ -232,6 +269,7 @@ const CourseUploadForm = () => {
       {error && <p className="course-form-error">{error}</p>}
       {success && <p className="course-form-success">{success}</p>}
     </form>
+    </div>
   );
 };
 

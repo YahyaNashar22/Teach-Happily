@@ -1,11 +1,10 @@
-/* General Form Styles */
-.course-form {
+.category-form-container {
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
   background-color: var(--white);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--shadow);
 }
 
 .form-title {
@@ -26,13 +25,18 @@
   font-size: 1rem;
   font-weight: bold;
   color: var(--accent-black);
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  width: 100%;
 }
 
 .course-form input,
 .course-form select,
 .course-form textarea {
-  padding: 12px;
+  padding: 10px;
   font-size: 1.3rem;
+  border: 1px solid var(--divider-card);
   border-radius: 8px;
   background-color: var(--bg-grey);
   color: var(--accent-black);
@@ -50,63 +54,66 @@
   min-height: 100px;
 }
 
-.course-form label {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: var(--accent-black);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  background: var(--bg-grey);
-  font-weight: bold;
-}
-
 .course-form input[type="file"] {
-  padding: 10px;
   border: none;
-  background: var(--bg-grey);
-  cursor: pointer;
 }
 
 .course-form button {
-  padding: 12px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: var(--white);
+  width: 100%;
   background-color: var(--purple);
+  color: var(--white);
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 12px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: 0.3s ease-in-out;
 }
 
 .course-form button:hover {
-  background-color: var(--yellow);
+  background-color: var(--purple-dark);
 }
 
 .course-form button:disabled {
-  background-color: var(--accent-black);
+  background-color: var(--shadow);
   cursor: not-allowed;
 }
 
-.message {
+.course-form-error {
+  color: var(--accent-grey);
   font-size: 1rem;
   font-weight: bold;
-  color: var(--accent-black);
   text-align: center;
   margin-top: 20px;
 }
 
-.course-form-error,
 .course-form-success {
-  font-size: 1.2rem;
+  color: var(--purple);
+  font-size: 1rem;
   font-weight: bold;
-  margin: auto;
+  text-align: center;
+  margin-top: 20px;
 }
 
+/* 📌 Responsive Design */
 @media (max-width: 768px) {
   .course-form {
-    max-width: 90%;
+    width: 90%;
+    padding: 20px;
+  }
+
+  .course-form label {
+    font-size: 1rem;
+  }
+
+  .course-form input,
+  .course-form select,
+  .course-form textarea {
+    font-size: 0.9rem;
+  }
+
+  .course-form button {
+    font-size: 1rem;
   }
 }

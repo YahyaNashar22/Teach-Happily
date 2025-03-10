@@ -51,9 +51,15 @@ const MobileHeader = () => {
             تواصل معنا
           </Link>
           {user ? (
-            <Link to="/profile" className="mob-profile">
-              {user.fullName.split(" ")[0][0]}
-            </Link>
+            user.role === "admin" ? (
+              <Link to="/dashboard" className="mob-profile">
+                {user.fullName.split(" ")[0][0]}
+              </Link>
+            ) : (
+              <Link to="/profile" className="mob-profile">
+                {user.fullName.split(" ")[0][0]}
+              </Link>
+            )
           ) : (
             <Link
               to="/sign-up"

@@ -84,6 +84,7 @@ export const getAllCourses = async (req, res) => {
         const limitNumber = parseInt(limit, 8);
 
         const courses = await Course.find(filter)
+            .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limitNumber)
             .populate('teacher', 'fullname')
@@ -92,7 +93,7 @@ export const getAllCourses = async (req, res) => {
 
         const totalCourses = await Course.countDocuments(filter);
 
-        const totalPages =Math.max(1, Math.ceil(totalCourses / limitNumber));
+        const totalPages = Math.max(1, Math.ceil(totalCourses / limitNumber));
 
         res.status(200).json({
             payload: courses, pagination: {

@@ -36,9 +36,15 @@ const Header = () => {
         </ul>
       </nav>
       {user ? (
-        <Link to="/profile" className="profile">
-          {user.fullName.split(" ")[0][0]}
-        </Link>
+        user.role === "admin" ? (
+          <Link to="/dashboard" className="profile">
+            {user.fullName.split(" ")[0][0]}
+          </Link>
+        ) : (
+          <Link to="/profile" className="profile">
+            {user.fullName.split(" ")[0][0]}
+          </Link>
+        )
       ) : (
         <Link to="/sign-up" className="btn-yellow">
           انضم الآن
