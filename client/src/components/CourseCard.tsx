@@ -46,7 +46,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
         <img
           // TODO: REMOVE THIS WHEN CREATING THE BACKEND
           onClick={() => setIsPurchaseModal(true)}
-          src={course.image}
+          src={`${backend}/${course.image}`}
           width={261}
           height={146.81}
           alt={course.title}
@@ -59,12 +59,12 @@ const CourseCard = ({ course }: { course: ICourse }) => {
           </p>
           <div className="teacher-info">
             <div className="teacher-initials">
-              {course.teacherName?.split(" ")[0][0]}
+              {course.teacher.fullname?.split(" ")[0][0]}
             </div>
             <div className="teacher-divider">
               <p className="teacher-category">
                 من
-                <span className="hovered"> {course.teacherName} </span>
+                <span className="hovered"> {course.teacher.fullname} </span>
                 موجود في
                 <span className="hovered"> {course.category.name}</span>
               </p>

@@ -1,4 +1,5 @@
 import ICategory from "./ICategory";
+import ITeacher from "./ITeacher";
 
 interface ICourse {
   _id: string;
@@ -6,7 +7,7 @@ interface ICourse {
   title: string;
   level: string;
   duration: string;
-  teacherName: string;
+  teacher: ITeacher;
   category: ICategory;
   price: number;
   enrolledStudents: string[];
