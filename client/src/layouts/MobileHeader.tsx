@@ -34,7 +34,7 @@ const MobileHeader = () => {
             className="nav-link"
             onClick={() => setMenuOpen(false)}
           >
-            لائحة الدروس
+           الدورات
           </Link>
           <Link
             to="/tutors"

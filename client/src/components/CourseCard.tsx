@@ -5,6 +5,7 @@ import ICourse from "../interfaces/ICourse";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const CourseCard = ({ course }: { course: ICourse }) => {
   const backend = import.meta.env.VITE_BACKEND;
@@ -14,6 +15,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
 
   const [isUserEnrolled, setIsUserEnrolled] = useState<boolean>(false);
   const [isPurchaseModal, setIsPurchaseModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleCourseNavigation = () => {
     if (!user) {
@@ -24,9 +26,39 @@ const CourseCard = ({ course }: { course: ICourse }) => {
   };
 
   const confirmPurchase = () => {
-    console.log(`Purchasing course: ${course.title}`);
-    setIsPurchaseModal(false);
     // TODO: Handle actual purchase logic (API request, payment, etc.)
+
+    // TODO: MOVE THIS FUNCTION TO AFTER SUCCESS PAYMENT
+    enroll();
+
+    setIsPurchaseModal(false);
+  };
+
+  // TODO: MOVE THIS FUNCTION TO AFTER SUCCESS PAYMENT
+  const enroll = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${backend}/course/enroll`,
+        {
+          userId: user?._id,
+          courseId: course._id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setIsUserEnrolled(true);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -44,8 +76,6 @@ const CourseCard = ({ course }: { course: ICourse }) => {
     <>
       <li className="course-card">
         <img
-          // TODO: REMOVE THIS WHEN CREATING THE BACKEND
-          onClick={() => setIsPurchaseModal(true)}
           src={`${backend}/${course.image}`}
           width={261}
           height={146.81}
@@ -103,11 +133,16 @@ const CourseCard = ({ course }: { course: ICourse }) => {
               <span className="modal-price">$ {course.price.toFixed(2)}</span>؟
             </p>
             <div className="modal-actions">
-              <button className="btn btn-confirm" onClick={confirmPurchase}>
+              <button
+                className="btn btn-confirm"
+                disabled={loading}
+                onClick={confirmPurchase}
+              >
                 تأكيد
               </button>
               <button
                 className="btn btn-cancel"
+                disabled={loading}
                 onClick={() => setIsPurchaseModal(false)}
               >
                 إلغاء

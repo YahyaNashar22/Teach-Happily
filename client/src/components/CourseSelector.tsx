@@ -7,8 +7,6 @@ import axios from "axios";
 import Loading from "./Loading";
 import ICourseSelector from "../interfaces/ICourseSelector";
 
-// TODO: FETCH COURSES FROM THE BACKEND
-
 const CourseSelector: FC<ICourseSelector> = ({
   category,
   priceType,

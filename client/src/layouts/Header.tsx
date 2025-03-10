@@ -25,7 +25,7 @@ const Header = () => {
             معلومات عنا
           </Link>
           <Link to="/courses" className="nav-link">
-            لائحة الدروس
+           الدورات
           </Link>
           <Link to="/tutors" className="nav-link">
             مدرباتنا

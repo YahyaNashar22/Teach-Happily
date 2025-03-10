@@ -41,13 +41,14 @@
 .enroll-btn {
   color: var(--purple);
   border: 1px solid var(--purple);
-  padding: 8px;
   font-size: 1.1rem;
+  padding: 8px;
 }
 
 .enrolled {
   width: 100%;
   margin: auto;
+  padding: 0px;
 }
 
 .enroll-btn:hover {
