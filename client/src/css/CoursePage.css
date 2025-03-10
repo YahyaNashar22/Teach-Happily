@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
+  gap: 12px;
 }
 
 .course-viewer-title-section {

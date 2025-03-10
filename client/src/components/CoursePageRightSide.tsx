@@ -9,7 +9,7 @@ const CoursePageRightSide = ({ course }: { course: ICourse | null }) => {
   return (
     <div className="course-viewer-right-side">
       {/* videos playlist */}
-      <div className="course-viewer-playlist">
+      <div className="course-viewer-playlist-container">
         <h2 className="course-viewer-playlist-title">المحتوى</h2>
         <ul className="course-viewer-playlist">
           {course?.content?.map((video, index) => {
@@ -26,23 +26,27 @@ const CoursePageRightSide = ({ course }: { course: ICourse | null }) => {
       <div className="course-viewer-meta-information">
         <ul className="course-viewer-meta-list">
           <li className="course-viewer-meta-list-item">
-            <GiNetworkBars />
+            <GiNetworkBars style={{ color: "var(--purple)" }} />
             {course?.level}
           </li>
 
           <li className="course-viewer-meta-list-item">
-            <GiGraduateCap />
-            {course?.enrolledStudents?.length}
+            <GiGraduateCap style={{ color: "var(--purple)" }} />
+            {course?.enrolledStudents?.length} مجموع الملتحقون
           </li>
 
           <li className="course-viewer-meta-list-item">
-            <FaClock />
+            <FaClock style={{ color: "var(--purple)" }} />
             {course?.duration}
           </li>
 
           <li className="course-viewer-meta-list-item">
-            <FaSync />
-            {course?.createdAt}
+            <FaSync style={{ color: "var(--purple)" }} />
+            {course && new Date(course.createdAt).toLocaleDateString("ar-EG", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
           </li>
         </ul>
       </div>
