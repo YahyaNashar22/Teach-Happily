@@ -16,7 +16,6 @@ courseRouter.get("/get-latest", getLatest);
 
 courseRouter.get("/get/:slug", getCourseBySlug);
 
-courseRouter.post("/enroll", enroll);
 
 
 

@@ -39,7 +39,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `${backend}/course/enroll`,
+        `${backend}/user/enroll-course`,
         {
           userId: user?._id,
           courseId: course._id,

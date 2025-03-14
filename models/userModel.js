@@ -23,6 +23,22 @@ const userSchema = new Schema(
             default: "student",
             required: true
         },
+
+        unlockedVideos: [
+            {
+                courseId: {
+                    type: Schema.Types.ObjectId,
+                    ref: "Course", // Reference to the Course model
+                    required: true
+                },
+                videos: [
+                    {
+                        type: Number, // The index of the unlocked video
+                        required: true
+                    }
+                ]
+            }
+        ],
     },
     {
         timestamps: true

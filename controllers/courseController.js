@@ -110,38 +110,6 @@ export const getAllCourses = async (req, res) => {
     }
 }
 
-
-export const enroll = async (req, res) => {
-    try {
-        const { userId, courseId } = req.body;
-
-        if (!userId || !courseId) {
-            return res.status(400).json({ error: "يجب توفير معرف المستخدم ومعرف الدورة." });
-        }
-
-        const course = await Course.findByIdAndUpdate(
-            courseId,
-            { $addToSet: { enrolledStudents: userId } },
-            { new: true }
-        );
-
-        if (!course) {
-            return res.status(404).json({ error: "الدورة غير موجودة." });
-        }
-
-        res.status(200).json({
-            message: "تم تسجيل المستخدم بنجاح.",
-            enrolledStudents: course.enrolledStudents,
-        });
-
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: error });
-    }
-}
-
-
 export const getLatest = async (req, res) => {
     try {
         const courses = await Course.find()
