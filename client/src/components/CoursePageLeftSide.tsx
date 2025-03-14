@@ -96,6 +96,27 @@ const CoursePageLeftSide = ({
           Your browser does not support the video tag.
         </video>
       </div>
+
+      <div className="course-viewer-course-description">
+        <h2 className="course-viewer-description-tile">نبذة عن الدورة</h2>
+        <p className="course-viewer-description-content">
+          {course?.description}
+          سشيشبشي بسبشسي شبش لشل شب سيشس بشي بشيبلصق لقصاقا صق لص صقل صثل شيب ش
+          لث لثص لص ثلصث يش ي ب
+        </p>
+      </div>
+
+      <div className="course-viewer-course-what-will-learn">
+        <h2 className="course-viewer-what-will-learn-tile">ماذا ستتعلمي</h2>
+
+        <ul className="course-viewer-what-will-learn-list">
+          {course?.whatWillYouLearn[0]?.split("\n").map((learn, index) => (
+            <li key={index} className="course-viewer-what-will-learn-list-item">
+              {learn}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

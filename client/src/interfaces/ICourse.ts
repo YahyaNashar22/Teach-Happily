@@ -5,6 +5,7 @@ interface ICourse {
   _id: string;
   image: string;
   title: string;
+  description: string;
   level: string;
   duration: string;
   teacher: ITeacher;

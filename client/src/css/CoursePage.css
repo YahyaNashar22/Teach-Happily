@@ -32,6 +32,15 @@
   font-weight: bold;
 }
 
+.course-viewer-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .course-viewer {
@@ -50,6 +59,10 @@
 
   .course-viewer-title {
     font-size: 3rem;
+  }
+
+  .course-viewer-content {
+    flex-direction: column;
   }
 
   .course-viewer-black,

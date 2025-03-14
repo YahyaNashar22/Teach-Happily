@@ -1,0 +1,65 @@
+.course-viewer-left-side-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.course-video-container {
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  margin: 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  background: black;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.course-viewer-course-description,
+.course-viewer-course-what-will-learn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  color: var(--accent-black);
+  font-weight: bold;
+  padding: 20px;
+}
+
+.course-viewer-description-tile,
+.course-viewer-what-will-learn-tile {
+  color: var(--purple);
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.course-viewer-what-will-learn-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  gap: 20px;
+  list-style: disc;
+  color: var(--purple);
+  font-weight: bold;
+  padding: 20px;
+}
+
+.course-viewer-what-will-learn-list-item::marker {
+  color: var(--accent-grey);
+}
