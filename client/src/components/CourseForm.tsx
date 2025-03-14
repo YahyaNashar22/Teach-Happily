@@ -19,6 +19,7 @@ const CourseUploadForm = () => {
 
   const [formData, setFormData] = useState({
     title: "",
+    description: "",
     level: "مبتدئ",
     duration: "",
     price: "",
@@ -119,6 +120,7 @@ const CourseUploadForm = () => {
       setSuccess(res.data.message);
       setFormData({
         title: "",
+        description: "",
         level: "مبتدئ",
         duration: "",
         price: "",
@@ -140,135 +142,144 @@ const CourseUploadForm = () => {
 
   return (
     <div className="category-form-container">
+      <form onSubmit={handleSubmit} className="course-form">
+        <h1 className="form-title">إضافة دورة جديدة</h1>
 
-    <form onSubmit={handleSubmit} className="course-form">
-      <h1 className="form-title">إضافة دورة جديدة</h1>
+        <label>
+          عنوان الدورة
+          <input
+            type="text"
+            name="title"
+            placeholder="عنوان الدورة"
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-      <label>
-        عنوان الدورة
-        <input
-          type="text"
-          name="title"
-          placeholder="عنوان الدورة"
-          onChange={handleChange}
-          required
-        />
-      </label>
+        <label>
+          نبذة عن الدورة
+          <textarea
+            name="description"
+            placeholder="نبذة عن الدورة"
+            onChange={handleChange}
+            required
+          ></textarea>
+        </label>
 
-      <label>
-        المرحلة
-        <select name="level" onChange={handleChange}>
-          <option value="مبتدئ">مبتدئ</option>
-          <option value="متوسط">متوسط</option>
-          <option value="متقدم">متقدم</option>
-        </select>
-      </label>
+        <label>
+          المرحلة
+          <select name="level" onChange={handleChange}>
+            <option value="مبتدئ">مبتدئ</option>
+            <option value="متوسط">متوسط</option>
+            <option value="متقدم">متقدم</option>
+          </select>
+        </label>
 
-      <label>
-        المدة
-        <input
-          type="text"
-          name="duration"
-          placeholder="المدة"
-          onChange={handleChange}
-          required
-        />
-      </label>
+        <label>
+          المدة
+          <input
+            type="text"
+            name="duration"
+            placeholder="المدة"
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-      <label>
-        السعر
-        <input
-          type="number"
-          name="price"
-          placeholder="السعر"
-          onChange={handleChange}
-          required
-          min="0"
-        />
-      </label>
+        <label>
+          السعر
+          <input
+            type="number"
+            name="price"
+            placeholder="السعر"
+            onChange={handleChange}
+            required
+            min="0"
+          />
+        </label>
 
-      <label>
-        المدربة
-        <select name="teacher" onChange={handleChange}>
-          {teachers.map((teacher) => {
-            return (
-              <option key={teacher._id} value={teacher._id}>
-                {teacher.fullname}
-              </option>
-            );
-          })}
-        </select>
-      </label>
+        <label>
+          المدربة
+          <select name="teacher" onChange={handleChange}>
+            {teachers.map((teacher) => {
+              return (
+                <option key={teacher._id} value={teacher._id}>
+                  {teacher.fullname}
+                </option>
+              );
+            })}
+          </select>
+        </label>
 
-      <label>
-        الخانة
-        <select name="category" onChange={handleChange}>
-          {categories.map((category) => {
-            return (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            );
-          })}
-        </select>
-      </label>
+        <label>
+          الخانة
+          <select name="category" onChange={handleChange}>
+            {categories.map((category) => {
+              return (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              );
+            })}
+          </select>
+        </label>
 
-      <label>
-        ماذا ستتعلم ؟
-        <textarea
-          name="whatWillYouLearn"
-          placeholder="ماذا ستتعلم؟"
-          onChange={handleChange}
-          required
-        ></textarea>
-      </label>
+        <label>
+          ماذا ستتعلم ؟
+          <textarea
+            name="whatWillYouLearn"
+            placeholder="ماذا ستتعلم؟"
+            onChange={handleChange}
+            required
+          ></textarea>
+        </label>
 
-      <label>
-        المتطلبات
-        <textarea
-          name="requirements"
-          placeholder="المتطلبات"
-          onChange={handleChange}
-          required
-        ></textarea>
-      </label>
+        <label>
+          المتطلبات
+          <textarea
+            name="requirements"
+            placeholder="المتطلبات"
+            onChange={handleChange}
+            required
+          ></textarea>
+        </label>
 
-      <label>
-        الجمهور المستهدف
-        <textarea
-          name="audience"
-          placeholder="الجمهور المستهدف"
-          onChange={handleChange}
-          required
-        ></textarea>
-      </label>
+        <label>
+          الجمهور المستهدف
+          <textarea
+            name="audience"
+            placeholder="الجمهور المستهدف"
+            onChange={handleChange}
+            required
+          ></textarea>
+        </label>
 
-      <label>
-        صورة الدورة
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          required
-        />
-      </label>
+        <label>
+          صورة الدورة
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            required
+          />
+        </label>
 
-      <label>
-        فيديوهات الدورة{" "}
-        <input
-          type="file"
-          accept="video/*"
-          multiple
-          onChange={handleVideosChange}
-        />
-      </label>
+        <label>
+          فيديوهات الدورة{" "}
+          <input
+            type="file"
+            accept="video/*"
+            multiple
+            onChange={handleVideosChange}
+          />
+        </label>
 
-      <button type="submit" disabled={loading}>
-        {loading ? "جارٍ الرفع..." : "رفع الدورة"}
-      </button>
-      {error && <p className="course-form-error">{error}</p>}
-      {success && <p className="course-form-success">{success}</p>}
-    </form>
+        <button type="submit" disabled={loading}>
+          {loading ? "جارٍ الرفع..." : "رفع الدورة"}
+        </button>
+        {error && <p className="course-form-error">{error}</p>}
+        {success && <p className="course-form-success">{success}</p>}
+      </form>
     </div>
   );
 };

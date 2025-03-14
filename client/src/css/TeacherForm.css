@@ -65,3 +65,49 @@ button.submit-btn:hover {
   text-align: center;
   margin-top: 20px;
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .category-form-container {
+    max-width: 90%;
+    margin: 30px auto;
+    padding: 15px;
+  }
+  
+  .form-title {
+    font-size: 1.8rem;
+  }
+  
+  .dash-cat-inp {
+    font-size: 1.1rem;
+    padding: 8px;
+  }
+  
+  button.submit-btn {
+    font-size: 1rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-form-container {
+    max-width: 100%;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+  }
+  
+  .dash-cat-inp {
+    font-size: 1rem;
+    padding: 6px;
+  }
+  
+  button.submit-btn {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}

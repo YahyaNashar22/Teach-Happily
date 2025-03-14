@@ -7,6 +7,7 @@ export const createCourse = async (req, res) => {
     try {
         const {
             title,
+            description,
             level,
             duration,
             price,
@@ -37,6 +38,7 @@ export const createCourse = async (req, res) => {
 
         const course = new Course({
             title,
+            description,
             level,
             duration,
             price,

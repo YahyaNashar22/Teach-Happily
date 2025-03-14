@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 
 import Loading from "../components/Loading.tsx";
 import MainLayout from "./MainLayout.tsx";
-import DashboardLayout from "./DashboardLayout.tsx";
 
 const NotFound = lazy(() => import("../pages/NotFound.tsx"));
 
@@ -42,9 +41,7 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* protected routes */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
+        <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Not Found Route */}
         <Route path="*" element={<NotFound />} />
