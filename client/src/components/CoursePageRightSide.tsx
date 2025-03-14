@@ -4,8 +4,28 @@ import ICourse from "../interfaces/ICourse";
 
 import { GiGraduateCap, GiNetworkBars } from "react-icons/gi";
 import { FaClock, FaSync } from "react-icons/fa";
+import IContent from "../interfaces/IContent";
 
-const CoursePageRightSide = ({ course }: { course: ICourse | null }) => {
+const CoursePageRightSide = ({
+  course,
+  unlockedVideos,
+  setSelectedVideo,
+}: {
+  course: ICourse | null;
+  unlockedVideos: number[];
+  setSelectedVideo: (video: IContent) => void;
+}) => {
+  const removeFileExtension = (filename: string | undefined) => {
+    return filename?.split(".").slice(0, -1).join(".") || filename;
+  };
+
+  // Handles video selection
+  const handleSelectVideo = (video: IContent, index: number) => {
+    if (unlockedVideos.includes(index)) {
+      setSelectedVideo(video);
+    }
+  };
+
   return (
     <div className="course-viewer-right-side">
       {/* videos playlist */}
@@ -14,8 +34,18 @@ const CoursePageRightSide = ({ course }: { course: ICourse | null }) => {
         <ul className="course-viewer-playlist">
           {course?.content?.map((video, index) => {
             return (
-              <li key={index} className="course-viewer-playlist-item">
-                {video.title}
+              <li
+                key={index}
+                onClick={() => handleSelectVideo(video, index)}
+                className="course-viewer-playlist-item"
+                style={{
+                  cursor: unlockedVideos.includes(index)
+                    ? "pointer"
+                    : "not-allowed",
+                  opacity: unlockedVideos.includes(index) ? 1 : 0.5,
+                }}
+              >
+                {removeFileExtension(video.title)}
               </li>
             );
           })}
@@ -42,11 +72,12 @@ const CoursePageRightSide = ({ course }: { course: ICourse | null }) => {
 
           <li className="course-viewer-meta-list-item">
             <FaSync style={{ color: "var(--purple)" }} />
-            {course && new Date(course.createdAt).toLocaleDateString("ar-EG", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {course &&
+              new Date(course.createdAt).toLocaleDateString("ar-EG", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
           </li>
         </ul>
       </div>

@@ -10,7 +10,7 @@ export const createStudent = async (req, res) => {
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: "User already exists" });
+            return res.status(400).json({ message: "المستخدم موجود بالفعل" });
         }
 
         // Hash the password
@@ -50,13 +50,13 @@ export const login = async (req, res) => {
         // Check if user exists
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: "Email does not exist" });
+            return res.status(400).json({ message: "البريد ليس موجود" });
         }
 
         // Compare the entered password with the hashed password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: "Invalid email or password" });
+            return res.status(400).json({ message: "البريد او كلمة المرور غير صحيحين" });
         }
 
         // Generate JWT token
