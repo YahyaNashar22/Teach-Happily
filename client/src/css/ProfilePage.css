@@ -100,10 +100,86 @@
   background-color: var(--yellow);
 }
 
-.profile-signout {
-  background-color: var(--purple);
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .profile-wrapper {
+    padding: 100px;
+  }
+
+  .profile-title {
+    font-size: 2rem;
+  }
+
+  .enrolled-courses-title {
+    font-size: 1.5rem;
+  }
+
+  .profile-course-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .profile-buttons {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    margin-top: 100px;
+  }
 }
 
-.profile-signout:hover {
-  background-color: var(--yellow);
+@media (max-width: 768px) {
+  .profile-wrapper {
+    padding: 100px 50px;
+  }
+
+  .profile-title {
+    font-size: 1.8rem;
+  }
+
+  .enrolled-courses-title {
+    font-size: 1.3rem;
+  }
+
+  .profile-course-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .profile-buttons {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 50px;
+  }
+
+  .profile-signout {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-wrapper {
+    padding: 100px 30px;
+  }
+
+  .profile-title {
+    font-size: 1.5rem;
+  }
+
+  .enrolled-courses-title {
+    font-size: 1.2rem;
+  }
+
+  .profile-course-list {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-buttons {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 30px;
+  }
+
+  .profile-signout {
+    font-size: 0.8rem;
+    padding: 6px 14px;
+  }
 }
