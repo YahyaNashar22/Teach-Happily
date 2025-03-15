@@ -1,5 +1,4 @@
 import ICategory from "./interfaces/ICategory";
-import ICourse from "./interfaces/ICourse";
 import ITestimonial from "./interfaces/ITestimonial";
 import ITeacher from "./interfaces/ITeacher";
 
@@ -36,39 +35,6 @@ export const categories: ICategory[] = [
     _id: "6",
     name: "تطوير ويب",
     image: pic,
-  },
-];
-
-export const courses: ICourse[] = [
-  {
-    _id: "1",
-    image: pic,
-    title: "كيف تصنع موقع احترافي",
-    level: "ابتدائي",
-    duration: "4 ساعات",
-    teacher: { _id: "1", fullname: "أستاذ", profession: "شيء"},
-    category: categories[0],
-    price: 120,
-    enrolledStudents: ["string"],
-    content: ["string"],
-    whatWillYouLearn: ["كيف تصنع موقع", "كيف تفعل التجاوب مع البحث"],
-    requirements: ["معرفة html css", "معرفة javascript"],
-    audience: ["من يريدون الوصول للاحترافية", "من يريد انشاء مواقع"],
-  },
-  {
-    _id: "2",
-    image: pic,
-    title: "كيف تصنع ذكاء اصطناعي باستخدام ollamas",
-    level: "ابتدائي",
-    duration: "12 ساعة",
-    teacher: { _id: "2", fullname: "أستاذ", profession: "شيء"},
-    category: categories[0],
-    price: 120,
-    enrolledStudents: ["string"],
-    content: ["string"],
-    whatWillYouLearn: ["كيف تصنع موقع", "كيف تفعل التجاوب مع البحث"],
-    requirements: ["معرفة html css", "معرفة javascript"],
-    audience: ["من يريدون الوصول للاحترافية", "من يريد انشاء مواقع"],
   },
 ];
 
