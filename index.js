@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import bodyParser from 'body-parser';
+import path from "path";
+import { fileURLToPath } from 'url';
 
 import databaseConnection from "./db/databaseConnection.js";
 import userRouter from './routes/userRoutes.js';
@@ -10,6 +12,9 @@ import categoryRouter from './routes/categoryRoutes.js';
 import teacherRouter from './routes/teacherRoutes.js';
 import courseRouter from './routes/courseRoutes.js';
 
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Declaration
 dotenv.config();
@@ -35,6 +40,14 @@ app.use('/category', categoryRouter);
 app.use('/teacher', teacherRouter);
 app.use('/course', courseRouter);
 
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
+
+// Handle React routing, return all requests to React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 
 
