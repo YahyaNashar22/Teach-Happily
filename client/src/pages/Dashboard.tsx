@@ -53,9 +53,9 @@ const Dashboard = () => {
           <Link to="/" className="dash-home-btn">
             الرئيسية
           </Link>
-          <button className="dash-logout-btn btn" onClick={clearUser}>
+          <Link to="/" className="dash-logout-btn" onClick={clearUser}>
             تسجيل خروج
-          </button>
+          </Link>
         </div>
       </aside>
 

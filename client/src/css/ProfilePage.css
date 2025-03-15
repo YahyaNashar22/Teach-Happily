@@ -1,0 +1,108 @@
+/* Profile Wrapper */
+.profile-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 150px;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* Profile Title */
+.profile-title {
+  text-align: right;
+  font-size: 2.5rem;
+  color: var(--purple);
+  margin-bottom: 20px;
+}
+
+/* Enrolled Courses Section */
+.profile-courses {
+  margin-bottom: 40px;
+}
+
+.enrolled-courses-title {
+  font-size: 1.8rem;
+  color: var(--purple);
+  margin-bottom: 15px;
+  text-align: right;
+}
+
+/* Course List */
+.profile-course-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-course-item {
+  position: relative;
+  border-radius: 8px;
+  background-color: var(--purple);
+  box-shadow: 0 4px 8px var(--shadow);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-course-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px var(--shadow);
+}
+
+.profile-course-title {
+  color: var(--white);
+  font-weight: bold;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.profile-course-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--accent-grey);
+}
+
+/* Profile Buttons */
+.profile-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.profile-signout {
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 8px;
+  color: var(--white);
+  background-color: var(--purple);
+  transition: background-color 0.3s ease;
+}
+
+.profile-signout:hover {
+  background-color: var(--yellow);
+}
+
+.profile-signout {
+  background-color: var(--purple);
+}
+
+.profile-signout:hover {
+  background-color: var(--yellow);
+}

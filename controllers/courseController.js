@@ -147,3 +147,52 @@ export const getCourseBySlug = async (req, res) => {
         res.status(500).json({ error: error });
     }
 }
+
+export const getAllCoursesForUser = async (req, res) => {
+    try {
+        // Get userId from request parameters (or from the authenticated user's token if necessary)
+        const userId = req.params.userId;
+
+        // Find all courses where the user is enrolled
+        const courses = await Course.find({ enrolledStudents: userId })
+            .populate("teacher", "name")
+            .populate("category", "name");
+
+        if (!courses || courses.length === 0) {
+            return res.status(404).json({ message: "No courses found for this user." });
+        }
+
+        res.status(200).json({ payload: courses });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}
+
+
+export const deleteCourse = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // TODO: ADD CHECK TO NOT DELETE IF ENROLLED STUDENTS > 0
+
+        const course = await Course.findById(id);
+
+        if (course.image) {
+            removeFile(course.image)
+        }
+
+        if (course.content > 0) {
+            content.map(video => removeFile(video.url));
+        }
+
+        await Course.findByIdAndDelete(id);
+
+        res.status(200).json({
+            message: "تم محو الدورة بنجاح"
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}
