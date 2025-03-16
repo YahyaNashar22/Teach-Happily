@@ -1,3 +1,4 @@
+import AboutUsBlog from "../components/AboutUsBlog";
 import AboutUsHero from "../components/AboutUsHero";
 import EducationLevel from "../components/EducationLevel";
 import HomeNumbers from "../components/HomeNumbers";
@@ -8,6 +9,7 @@ const AboutPage = () => {
   return (
     <main>
       <AboutUsHero />
+      <AboutUsBlog />
       <EducationLevel />
       <HomeNumbers />
       <Testimonials />

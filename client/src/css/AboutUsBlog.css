@@ -1,0 +1,110 @@
+/* Main wrapper for the section */
+.about-us-blog-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centered alignment for a cleaner layout */
+  justify-content: flex-start;
+  padding: 80px 150px;
+  gap: 40px;
+  background-color: var(--white); /* Subtle background gradient */
+  text-align: right;
+}
+
+/* Header styling */
+.about-us-blog-header {
+  color: var(--purple);
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--purple);
+  padding-bottom: 10px;
+  letter-spacing: 1px; /* Subtle letter spacing for modern feel */
+  text-transform: uppercase; /* Capitalize the header text for emphasis */
+}
+
+/* Subheader styling */
+.about-us-blog-subheader {
+  color: #8e44ad;
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-weight: 500;
+  margin: 30px 0 15px;
+  text-transform: capitalize; /* Slightly refined style */
+}
+
+/* Main content text */
+.about-us-blog-text {
+  color: var(--accent-black);
+  font-size: 1.6rem;
+  line-height: 1.8;
+  background: var(--white);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* More prominent shadow for depth */
+  margin-bottom: 30px;
+  transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+/* Hover effect for text blocks */
+.about-us-blog-text:hover {
+  transform: translateY(-5px); /* Slight elevation on hover for interactivity */
+}
+
+/* Remove bottom margin for last text block */
+.about-us-blog-text:last-of-type {
+  margin-bottom: 0;
+}
+
+/* List item styling */
+.about-us-blog-text li {
+  position: relative;
+  padding-right: 35px; /* Extra space for the check mark */
+  font-weight: 400; /* Subtle text weight for modern look */
+  margin-bottom: 12px; /* More space between list items */
+  color: var(--accent-black);
+  transition: color 0.3s ease; /* Smooth text color transition */
+}
+
+/* Check mark icon */
+.about-us-blog-text li::before {
+  content: "\2713"; /* Unicode for check mark */
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: var(--purple);
+  font-size: 1.8rem;
+  transition: transform 0.3s ease; /* Smooth check mark animation */
+}
+
+/* Change check mark color on hover */
+.about-us-blog-text li:hover {
+  color: var(--yellow); /* Change text color on hover */
+}
+
+.about-us-blog-text li:hover::before {
+  transform: scale(1.1); /* Slightly enlarge the check mark on hover */
+}
+
+@media (max-width: 768px) {
+  .about-us-blog-wrapper {
+    padding: 50px 15px;
+  }
+
+  .about-us-blog-header {
+    font-size: 2.5rem;
+  }
+
+  .about-us-blog-subheader {
+    font-size: 1.7rem;
+  }
+
+  .about-us-blog-text {
+    font-size: 1.4rem;
+    padding: 20px;
+  }
+
+  .about-us-blog-text li {
+    padding-left: 25px;
+  }
+}

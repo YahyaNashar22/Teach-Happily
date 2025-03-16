@@ -69,8 +69,8 @@ const Footer = () => {
         <div className="footer-col">
           <img src={logo} alt="logo" width={120} loading="lazy" />
           <Link to="/about" className="footer-col-text">
-            هناك بعض المزايا التي تتمتع بها مدرستنا. <br />
-            اقرأ هذا النص وستكتشف لماذا يجب عليك الانضمام إلينا.
+            انضمي لمنصة علم بسعادة وكوني من اول المؤسسين لها
+            <br /> حيث ننطلق معا لصناعة الفرق في التعليم
           </Link>
         </div>
       </div>
