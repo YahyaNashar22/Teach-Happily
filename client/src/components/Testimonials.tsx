@@ -40,9 +40,9 @@ const Testimonials = () => {
           <p className="testimonial-text">
             {testimonials[currentIndex].content}
           </p>
-          <p className="student-name">
+          {/* <p className="student-name">
             {testimonials[currentIndex].studentName}
-          </p>
+          </p> */}
         </div>
 
         <div className="dots">
