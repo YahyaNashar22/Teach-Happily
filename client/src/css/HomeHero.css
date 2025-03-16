@@ -21,7 +21,8 @@
 }
 
 .slogan {
-  font-size: 1.3rem;
+  margin-top: 16px;
+  font-size: 1.6rem;
   color: var(--white);
 }
 
@@ -37,6 +38,7 @@
   border-radius: 32px;
   padding: 12px 24px;
   transition: 0.3s ease-in-out;
+  font-size: 1.2rem;
 }
 
 #hero-discover:hover {
@@ -49,6 +51,7 @@
   padding: 12px 24px;
   border: 1px solid transparent;
   border-radius: 32px;
+  font-size: 1.2rem;
 }
 
 #hero-start-learn:hover {
@@ -73,7 +76,7 @@
   }
 
   .slogan {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
 
   .hero-btns {

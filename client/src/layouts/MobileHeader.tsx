@@ -26,7 +26,9 @@ const MobileHeader = () => {
   }, []);
 
   return (
-    <header className={`mobile-header ${isScrolled ? "scrolled" : ""}`}>
+    <header
+      className={`mobile-header ${isScrolled || menuOpen ? "scrolled" : ""}`}
+    >
       <img src={logo} alt="logo" width={100} loading="lazy" />
       <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FiX size={30} /> : <FiMenu size={30} />}

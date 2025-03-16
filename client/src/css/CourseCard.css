@@ -41,7 +41,7 @@
 .enroll-btn {
   color: var(--purple);
   border: 1px solid var(--purple);
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   padding: 8px;
 }
 
@@ -60,7 +60,7 @@
   font-weight: bold;
   direction: ltr;
   color: var(--purple);
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .hovered {
@@ -73,6 +73,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  font-size: 1.2rem;
 }
 
 .teacher-initials {
@@ -87,7 +88,7 @@
   color: var(--white);
   font-weight: bold;
   border-radius: 50%;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin: 0 8px;
   text-transform: uppercase;
 }
@@ -95,6 +96,7 @@
 .course-title {
   color: var(--purple);
   line-height: 30px;
+  font-size: 1.8rem;
 }
 
 .course-duration {
