@@ -3,12 +3,28 @@ import "../css/Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/Logo_white.png";
 import { useUserStore } from "../store";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const { user } = useUserStore();
   const navigate = useNavigate();
+
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 180) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
-    <header className="header">
+    <header className={`header ${isScrolled ? "scrolled" : ""}`}>
       <img
         src={logo}
         alt="logo"
@@ -22,13 +38,16 @@ const Header = () => {
             الرئيسية
           </Link>
           <Link to="/about" className="nav-link">
-            معلومات عنا
+            عن المنصة
           </Link>
           <Link to="/courses" className="nav-link">
             الدورات
           </Link>
           <Link to="/tutors" className="nav-link">
-            مدرباتنا
+            المدربون و المستشارون
+          </Link>
+          <Link to="/digital-products" className="nav-link">
+            المنتجات الرقمية
           </Link>
           <Link to="/contact" className="nav-link">
             تواصل معنا

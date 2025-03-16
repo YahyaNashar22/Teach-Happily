@@ -1,12 +1,18 @@
 .header {
-  background-color: var(--semi-transparent-purple);
-  padding: 12px 36px;
+  background-color: transparent;
+  padding: 24px 36px;
   position: fixed;
   width: 100%;
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.header.scrolled {
+  background-color: var(--semi-transparent-purple);
+  backdrop-filter: blur(10px);
 }
 
 .nav-links {

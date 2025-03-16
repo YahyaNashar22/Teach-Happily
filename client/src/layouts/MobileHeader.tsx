@@ -1,6 +1,6 @@
 import "../css/MobileHeader.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Logo_white.png";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -10,8 +10,23 @@ const MobileHeader = () => {
   const { user } = useUserStore();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 180) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="mobile-header">
+    <header className={`mobile-header ${isScrolled ? "scrolled" : ""}`}>
       <img src={logo} alt="logo" width={100} loading="lazy" />
       <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FiX size={30} /> : <FiMenu size={30} />}
@@ -27,7 +42,7 @@ const MobileHeader = () => {
             className="nav-link"
             onClick={() => setMenuOpen(false)}
           >
-            معلومات عنا
+            عن المنصة
           </Link>
           <Link
             to="/courses"
@@ -41,7 +56,10 @@ const MobileHeader = () => {
             className="nav-link"
             onClick={() => setMenuOpen(false)}
           >
-            مدرباتنا
+            المدربون و المستشارون
+          </Link>
+          <Link to="/digital-products" className="nav-link">
+            المنتجات الرقمية
           </Link>
           <Link
             to="/contact"
