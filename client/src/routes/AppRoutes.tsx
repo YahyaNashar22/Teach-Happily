@@ -20,6 +20,11 @@ const CoursePage = lazy(() => import("../pages/CoursePage.tsx"));
 const ProfilePage = lazy(() => import("../pages/ProfilePage.tsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.tsx"));
 
+const TeachWithUs = lazy(() => import("../pages/TeachWithUs.tsx"));
+const ShowCaseDigitalProduct = lazy(
+  () => import("../pages/ShowCaseDigitalProduct.tsx")
+);
+
 const AppRoutes = () => {
   return (
     <Suspense fallback={<Loading />}>
@@ -33,6 +38,11 @@ const AppRoutes = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/course/:slug" element={<CoursePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/teach-with-us" element={<TeachWithUs />} />
+          <Route
+            path="/showcase-digital-product"
+            element={<ShowCaseDigitalProduct />}
+          />
         </Route>
 
         {/* Sign in/up routes */}

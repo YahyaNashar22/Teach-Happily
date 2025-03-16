@@ -51,6 +51,25 @@ const Header = () => {
           </Link>
           <Link to="/contact" className="nav-link">
             تواصل معنا
+            <div className="dropdown">
+              <ul>
+                <li>
+                  <Link to="/teach-with-us" className="nav-link">
+                    درب معنا
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sign-up" className="nav-link">
+                    تدرب معنا
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/showcase-digital-product" className="nav-link">
+                    اعرض منتجك الرقمي لدينا
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </Link>
         </ul>
       </nav>

@@ -70,6 +70,29 @@ const MobileHeader = () => {
           >
             تواصل معنا
           </Link>
+
+          <Link
+            to="/teach-with-us"
+            className="nav-link"
+            onClick={() => setMenuOpen(false)}
+          >
+            درب معنا
+          </Link>
+          <Link
+            to="/sign-up"
+            className="nav-link"
+            onClick={() => setMenuOpen(false)}
+          >
+            تدرب معنا
+          </Link>
+          <Link
+            to="/showcase-digital-product"
+            className="nav-link"
+            onClick={() => setMenuOpen(false)}
+          >
+            اعرض منتجك الرقمي لدينا
+          </Link>
+
           {user ? (
             user.role === "admin" ? (
               <Link to="/dashboard" className="mob-profile">

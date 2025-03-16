@@ -32,6 +32,8 @@
   flex-direction: column;
   text-align: center;
   padding: 20px 0;
+  height: 720px;
+  overflow-y: auto;
 }
 
 .mobile-nav.open {
