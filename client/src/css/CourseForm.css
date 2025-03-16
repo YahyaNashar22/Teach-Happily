@@ -40,6 +40,7 @@
   border-radius: 8px;
   background-color: var(--bg-grey);
   color: var(--accent-black);
+  text-align: right;
 }
 
 .course-form input:focus,
@@ -47,6 +48,13 @@
 .course-form textarea:focus {
   border-color: var(--purple);
   outline: none;
+}
+
+.course-form input::placeholder,
+.course-form select::placeholder,
+.course-form textarea::placeholder,
+.course-form select {
+  text-align: right;
 }
 
 .course-form textarea {
@@ -72,7 +80,7 @@
 }
 
 .course-form button:hover {
-  background-color: var(--purple-dark);
+  background-color: var(--yellow);
 }
 
 .course-form button:disabled {
@@ -94,6 +102,22 @@
   font-weight: bold;
   text-align: center;
   margin-top: 20px;
+}
+
+.cancel-btn {
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-black) !important;
+  background-color: var(--white) !important;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+  border: 1px solid var(--purple) !important;
 }
 
 /* 📌 Responsive Design */

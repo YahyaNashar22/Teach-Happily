@@ -3,7 +3,7 @@ import ITeacher from "./ITeacher";
 
 interface ICourse {
   _id: string;
-  image: string;
+  image: string | File;
   title: string;
   description: string;
   level: string;

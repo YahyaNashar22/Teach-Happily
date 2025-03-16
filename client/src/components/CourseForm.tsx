@@ -5,7 +5,11 @@ import axios from "axios";
 import ITeacher from "../interfaces/ITeacher";
 import ICategory from "../interfaces/ICategory";
 
-const CourseUploadForm = () => {
+const CourseUploadForm = ({
+  setNewCourseForm,
+}: {
+  setNewCourseForm: (bool: boolean) => void;
+}) => {
   const backend = import.meta.env.VITE_BACKEND;
 
   const [image, setImage] = useState<File | null>(null);
@@ -132,6 +136,7 @@ const CourseUploadForm = () => {
       });
       setImage(null);
       setVideos([]);
+      setNewCourseForm(false);
     } catch (error) {
       console.error(error);
       setError("حدث خطأ أثناء رفع الدورة");
@@ -276,6 +281,15 @@ const CourseUploadForm = () => {
 
         <button type="submit" disabled={loading}>
           {loading ? "جارٍ الرفع..." : "رفع الدورة"}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setNewCourseForm(false)}
+          disabled={loading}
+          className="cancel-btn"
+        >
+          الغاء
         </button>
         {error && <p className="course-form-error">{error}</p>}
         {success && <p className="course-form-success">{success}</p>}
