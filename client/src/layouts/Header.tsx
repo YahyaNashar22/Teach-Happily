@@ -19,13 +19,13 @@ const Header = () => {
       <nav>
         <ul className="nav-links">
           <Link to="/" className="nav-link">
-            الشاشة الرئيسية
+            الرئيسية
           </Link>
           <Link to="/about" className="nav-link">
             معلومات عنا
           </Link>
           <Link to="/courses" className="nav-link">
-           الدورات
+            الدورات
           </Link>
           <Link to="/tutors" className="nav-link">
             مدرباتنا

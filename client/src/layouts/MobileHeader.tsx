@@ -20,7 +20,7 @@ const MobileHeader = () => {
       <nav className={`mobile-nav ${menuOpen ? "open" : ""}`}>
         <ul>
           <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>
-            الشاشة الرئيسية
+            الرئيسية
           </Link>
           <Link
             to="/about"
@@ -34,7 +34,7 @@ const MobileHeader = () => {
             className="nav-link"
             onClick={() => setMenuOpen(false)}
           >
-           الدورات
+            الدورات
           </Link>
           <Link
             to="/tutors"
