@@ -4,7 +4,7 @@ import removeFile from "../utils/removeFile.js";
 
 export const createCategory = async (req, res) => {
     try {
-        const { name } = req.body;
+        const { name, title, description } = req.body;
         const image = req.file?.filename;
 
         const existingCategory = await Category.findOne({ name });
@@ -14,6 +14,8 @@ export const createCategory = async (req, res) => {
 
         const category = new Category({
             name,
+            title,
+            description,
             image,
         });
 
@@ -78,7 +80,8 @@ export const deleteCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
 
     try {
-        const { name } = req.body;
+        const id = req.params.id;
+        const { name, title,  description } = req.body;
         const image = req.file?.filename;
 
         const category = await Category.findById(id);
@@ -90,6 +93,8 @@ export const updateCategory = async (req, res) => {
         const updatedCategory = await Category.findByIdAndUpdate(id, {
             $set: {
                 name: name ? name : category.name,
+                title: title ? title : category.title,
+                description: description ? description : category.description,
                 image: image ? image : category.image
             }
 

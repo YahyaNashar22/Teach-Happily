@@ -2,11 +2,14 @@
 .dashboard-container {
   display: flex;
   min-height: 100dvh;
+  background-color: #ecf0f1;
 }
 
 /* Sidebar */
 .dashboard-sidebar {
+  margin-top: 10dvh;
   width: 250px;
+  height: 768px;
   background-color: var(--white);
   color: var(--purple);
   padding: 20px;
@@ -156,7 +159,8 @@
     font-size: 1.2rem;
     padding: 5px;
   }
-  .dash-home-btn, .dash-logout-btn {
+  .dash-home-btn,
+  .dash-logout-btn {
     padding: 2px;
   }
 }

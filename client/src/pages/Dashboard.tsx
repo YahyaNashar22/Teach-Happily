@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "../css/Dashboard.css";
-import CategoryForm from "../components/CategoryForm";
 import CourseForm from "../components/CourseForm";
 import TeacherForm from "../components/TeacherForm";
 import { useUserStore } from "../store";
 import { Link } from "react-router-dom";
+import ListCategories from "../components/ListCategories";
 
 const Dashboard = () => {
   const { clearUser } = useUserStore();
@@ -61,7 +61,7 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="dashboard-content">
-        {activeForm === "category" && <CategoryForm />}
+        {activeForm === "category" && <ListCategories />}
         {activeForm === "teacher" && <TeacherForm />}
         {activeForm === "course" && <CourseForm />}
       </main>

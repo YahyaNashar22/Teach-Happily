@@ -109,7 +109,7 @@ const MobileHeader = () => {
               className="btn-yellow"
               onClick={() => setMenuOpen(false)}
             >
-              انضم الآن
+               تسجيل دخول
             </Link>
           )}
         </ul>

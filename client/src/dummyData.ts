@@ -1,42 +1,7 @@
-import ICategory from "./interfaces/ICategory";
 import ITestimonial from "./interfaces/ITestimonial";
 import ITeacher from "./interfaces/ITeacher";
 
-import pic from "./assets/dummy_data.jpg";
 import tutor from "./assets/Tutor1.jpg";
-
-export const categories: ICategory[] = [
-  {
-    _id: "1",
-    name: "تطوير ويب",
-    image: pic,
-  },
-  {
-    _id: "2",
-    name: "تطوير ويب",
-    image: pic,
-  },
-  {
-    _id: "3",
-    name: "تطوير ويب",
-    image: pic,
-  },
-  {
-    _id: "4",
-    name: "تطوير ويب",
-    image: pic,
-  },
-  {
-    _id: "5",
-    name: "تطوير ويب",
-    image: pic,
-  },
-  {
-    _id: "6",
-    name: "تطوير ويب",
-    image: pic,
-  },
-];
 
 export const testimonials: ITestimonial[] = [
   {

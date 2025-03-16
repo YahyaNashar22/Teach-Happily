@@ -84,8 +84,8 @@ const Header = () => {
           </Link>
         )
       ) : (
-        <Link to="/sign-up" className="btn-yellow">
-          انضم الآن
+        <Link to="/sign-in" className="btn-yellow">
+          تسجيل دخول 
         </Link>
       )}
     </header>

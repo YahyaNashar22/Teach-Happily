@@ -1,0 +1,49 @@
+.list-categories {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .list-categories-from {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+ .list-categories-from input,
+  .list-categories-from textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .list-categories-from button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .list-categories-from button:hover {
+    background-color: #0056b3;
+  }
+  
+  .category-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .category-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .category-list img {
+    border-radius: 5px;
+  }
+  

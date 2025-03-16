@@ -35,7 +35,11 @@ const HomeCategories = () => {
               <li
                 key={category._id}
                 className="home-category-item"
-                style={{ background: `url(${backend}/${category.image})` }}
+                style={{
+                  background: `url(${backend}/${category.image})`,
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }}
               >
                 {category.name}
               </li>

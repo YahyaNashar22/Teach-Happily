@@ -58,10 +58,35 @@ button.submit-btn:hover {
   background-color: var(--yellow);
 }
 
+.cancel-btn {
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-black);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+  border: 1px solid var(--purple);
+}
+
 .message {
   font-size: 1rem;
   font-weight: bold;
   color: var(--accent-grey);
   text-align: center;
   margin-top: 20px;
+}
+
+.category-form input::placeholder,
+.category-form textarea::placeholder {
+  text-align: right;
+}
+
+.category-form input, .category-form textarea{
+  text-align: right;
+  direction: ltr;
 }
