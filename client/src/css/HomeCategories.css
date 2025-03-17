@@ -102,6 +102,9 @@
   .home-categories-container {
     grid-template-columns: repeat(2, 1fr);
   }
+  .home-categories-category-description {
+    font-size: 1.05rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -112,5 +115,8 @@
   .home-category-item {
     height: 180px;
     font-size: 1.6rem;
+  }
+  .home-categories-category-description {
+    font-size: 1.05rem;
   }
 }
