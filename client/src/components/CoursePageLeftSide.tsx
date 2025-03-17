@@ -84,7 +84,11 @@ const CoursePageLeftSide = ({
           key={selectedVideo?.url} // Force re-render when the video changes
           className="video-player"
           controls
-          poster={course?.image}
+          poster={
+            course?.image instanceof File
+              ? URL.createObjectURL(course.image)
+              : course?.image
+          }
           controlsList="nodownload"
           disablePictureInPicture
           onTimeUpdate={handleTimeUpdate}
