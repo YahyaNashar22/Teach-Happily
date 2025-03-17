@@ -120,7 +120,7 @@ const ListCategories = () => {
       {loading ? (
         <CircularProgress />
       ) : (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{direction: "rtl"}}>
           {newCategoryFrom && <CategoryForm setNewCategoryForm={setNewCategoryForm} />}
 
           <Table>

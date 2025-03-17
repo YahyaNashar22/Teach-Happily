@@ -58,8 +58,14 @@ const ListCourses = () => {
     if (!selectedCourse) return;
     try {
       const formData = new FormData();
-      formData.append("name", selectedCourse.title);
+      formData.append("title", selectedCourse.title);
       formData.append("description", selectedCourse.description);
+      formData.append("level", selectedCourse.level);
+      formData.append("duration", selectedCourse.duration);
+      formData.append("price", selectedCourse.price.toString());
+      formData.append("whatWillYouLearn", selectedCourse.whatWillYouLearn);
+      formData.append("requirements", selectedCourse.requirements);
+      formData.append("audience", selectedCourse.audience);
 
       if (selectedCourse.image) {
         formData.append("image", selectedCourse.image);
@@ -113,7 +119,7 @@ const ListCourses = () => {
       {loading ? (
         <CircularProgress />
       ) : (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{ direction: "rtl" }}>
           {newCourseForm && <CourseForm setNewCourseForm={setNewCourseForm} />}
 
           <Table>
@@ -137,15 +143,7 @@ const ListCourses = () => {
                 >
                   الاسم
                 </TableCell>
-                <TableCell
-                  style={{
-                    textAlign: "right",
-                    color: "white",
-                    fontSize: "1.2rem",
-                  }}
-                >
-                  العنوان
-                </TableCell>
+
                 <TableCell
                   style={{
                     textAlign: "right",
@@ -154,6 +152,60 @@ const ListCourses = () => {
                   }}
                 >
                   الوصف
+                </TableCell>
+                <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  المرحلة
+                </TableCell>
+                <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  المدة
+                </TableCell>
+                <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  السعر
+                </TableCell>
+                <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  ماذا ستتعلم
+                </TableCell>
+                <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  المتطلبات
+                </TableCell>
+                <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  الجمهور
                 </TableCell>
                 <TableCell
                   style={{
@@ -180,12 +232,33 @@ const ListCourses = () => {
                   <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
                     {course.title}
                   </TableCell>
-                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
-                    {course.title}
-                  </TableCell>
+
                   <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
                     {course.description}
                   </TableCell>
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {course.level}
+                  </TableCell>
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {course.duration}
+                  </TableCell>
+
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {course.price}
+                  </TableCell>
+
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {course.whatWillYouLearn}
+                  </TableCell>
+
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {course.requirements}
+                  </TableCell>
+
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {course.audience}
+                  </TableCell>
+
                   <TableCell>
                     <img
                       src={`${backend}/${course.image}`}
@@ -202,24 +275,12 @@ const ListCourses = () => {
       )}
       {selectedCourse && (
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>تعديل الفئة</DialogTitle>
+          <DialogTitle>تعديل الدورة</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
               margin="dense"
               label="الاسم"
-              value={selectedCourse.title}
-              onChange={(e) =>
-                setSelectedCourse({
-                  ...selectedCourse,
-                  title: e.target.value,
-                })
-              }
-            />
-            <TextField
-              fullWidth
-              margin="dense"
-              label="العنوان"
               value={selectedCourse.title}
               onChange={(e) =>
                 setSelectedCourse({
@@ -239,6 +300,85 @@ const ListCourses = () => {
                   description: e.target.value,
                 })
               }
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              label="المرحلة"
+              value={selectedCourse.level}
+              onChange={(e) =>
+                setSelectedCourse({
+                  ...selectedCourse,
+                  level: e.target.value,
+                })
+              }
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              label="المدة"
+              value={selectedCourse.duration}
+              onChange={(e) =>
+                setSelectedCourse({
+                  ...selectedCourse,
+                  duration: e.target.value,
+                })
+              }
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              label="السعر"
+              value={selectedCourse.price}
+              onChange={(e) =>
+                setSelectedCourse({
+                  ...selectedCourse,
+                  price: Number(e.target.value),
+                })
+              }
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              label=" ماذا ستتعلم"
+              value={selectedCourse.whatWillYouLearn}
+              onChange={(e) =>
+                setSelectedCourse({
+                  ...selectedCourse,
+                  whatWillYouLearn: e.target.value,
+                })
+              }
+              multiline
+              rows={4}
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              label="المتطلبات"
+              value={selectedCourse.requirements}
+              onChange={(e) =>
+                setSelectedCourse({
+                  ...selectedCourse,
+                  requirements: e.target.value,
+                })
+              }
+              multiline
+              rows={4}
+            />
+
+            <TextField
+              fullWidth
+              margin="dense"
+              label="الجمهور"
+              value={selectedCourse.audience}
+              onChange={(e) =>
+                setSelectedCourse({
+                  ...selectedCourse,
+                  audience: e.target.value,
+                })
+              }
+              multiline
+              rows={4}
             />
             <input
               type="file"

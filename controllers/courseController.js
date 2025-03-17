@@ -196,3 +196,41 @@ export const deleteCourse = async (req, res) => {
         res.status(500).json({ error: error });
     }
 }
+
+export const updateCourse = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { title, description, level, duration, price, whatWillYouLearn, requirements, audience } = req.body;
+        const image = req.file?.filename;
+
+        const course = await Course.findById(id);
+
+        if (image && course.image) {
+            removeFile(course.image);
+        }
+
+        const updatedCourse = await Course.findByIdAndUpdate(id, {
+            $set: {
+                title: title ? title : course.title,
+                description: description ? description : course.description,
+                level: level ? level : course.level,
+                duration: duration ? duration : course.duration,
+                price: price ? price : course.price,
+                whatWillYouLearn: whatWillYouLearn ? whatWillYouLearn : course.whatWillYouLearn,
+                requirements: requirements ? requirements : course.requirements,
+                audience: audience ? audience : course.audience,
+                image: image ? image : course.image
+            }
+
+        },
+            {
+                new: true
+            }
+        )
+
+        res.status(200).json({ payload: updatedCourse })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}

@@ -78,7 +78,7 @@ const courseSchema = new Schema(
 // Middleware to generate slug before saving
 courseSchema.pre("save", function (next) {
     if (this.isModified("title")) {
-        this.slug = slugify(this.title, { lower: true, strict: true });
+        this.slug = slugify(this.title + this._id, { lower: true, strict: true });
     }
     next();
 });
