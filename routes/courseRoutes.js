@@ -18,7 +18,7 @@ courseRouter.get("/get/:slug", getCourseBySlug);
 
 courseRouter.get("/get-courses-enrolled/:userId", getAllCoursesForUser);
 
-courseRouter.delete("/delete/:id", deleteCourse);
+courseRouter.delete("/:id", deleteCourse);
 
 courseRouter.patch("/:id", upload.single("image"), updateCourse);
 

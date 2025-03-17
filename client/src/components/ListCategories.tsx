@@ -44,7 +44,7 @@ const ListCategories = () => {
       }
     };
     fetchCategories();
-  }, [backend]);
+  }, [backend, open, newCategoryFrom]);
 
   const handleOpen = (category: ICategory) => {
     setSelectedCategory(category);

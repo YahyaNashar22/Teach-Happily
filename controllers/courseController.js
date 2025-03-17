@@ -178,11 +178,15 @@ export const deleteCourse = async (req, res) => {
 
         const course = await Course.findById(id);
 
+        if (course.enrolledStudents.length > 0 ) {
+            return res.status(400).json({message: "لا يمكن محو الدرس يوجد فيه متدربين"})
+        }
+
         if (course.image) {
             removeFile(course.image)
         }
 
-        if (course.content > 0) {
+        if (course.content.length > 0) {
             content.map(video => removeFile(video.url));
         }
 

@@ -42,7 +42,7 @@ const ListCourses = () => {
       }
     };
     fetchCourses();
-  }, [backend]);
+  }, [backend, open, newCourseForm]);
 
   const handleOpen = (category: ICourse) => {
     setSelectedCourse(category);
@@ -80,6 +80,16 @@ const ListCourses = () => {
           course._id === selectedCourse._id ? selectedCourse : course
         )
       );
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (courseId: string) => {
+    try {
+      await axios.delete(`${backend}/course/${courseId}`);
+
       handleClose();
     } catch (error) {
       console.log(error);
@@ -396,6 +406,13 @@ const ListCourses = () => {
             </Button>
             <Button onClick={handleUpdate} color="primary">
               حفظ
+            </Button>
+
+            <Button
+              onClick={() => handleDelete(selectedCourse._id)}
+              color="error"
+            >
+              حذف الدورة
             </Button>
           </DialogActions>
         </Dialog>
