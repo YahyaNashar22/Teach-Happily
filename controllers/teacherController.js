@@ -75,6 +75,7 @@ export const deleteTeacher = async (req, res) => {
 export const updateTeacher = async (req, res) => {
 
     try {
+        const id = req.params.id;
         const { name, profession } = req.body;
         const image = req.file?.filename;
 

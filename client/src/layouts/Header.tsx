@@ -54,9 +54,7 @@ const Header = () => {
             <div className="dropdown">
               <ul>
                 <li>
-                  <Link to="/teach-with-us" className="nav-link">
-                    درب معنا
-                  </Link>
+                  <p className="nav-link">درب معنا</p>
                 </li>
                 <li>
                   <Link to="/sign-up" className="nav-link">
@@ -64,9 +62,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/showcase-digital-product" className="nav-link">
-                    اعرض منتجك الرقمي لدينا
-                  </Link>
+                  <p className="nav-link">اعرض منتجك الرقمي لدينا</p>
                 </li>
               </ul>
             </div>
@@ -85,7 +81,7 @@ const Header = () => {
         )
       ) : (
         <Link to="/sign-in" className="btn-yellow">
-          تسجيل دخول 
+          تسجيل دخول
         </Link>
       )}
     </header>

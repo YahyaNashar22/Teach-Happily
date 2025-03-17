@@ -174,12 +174,10 @@ export const deleteCourse = async (req, res) => {
     try {
         const id = req.params.id;
 
-        // TODO: ADD CHECK TO NOT DELETE IF ENROLLED STUDENTS > 0
-
         const course = await Course.findById(id);
 
-        if (course.enrolledStudents.length > 0 ) {
-            return res.status(400).json({message: "لا يمكن محو الدرس يوجد فيه متدربين"})
+        if (course.enrolledStudents.length > 0) {
+            return res.status(400).json({ message: "لا يمكن حذف دورة يوجد فيها متدربين" })
         }
 
         if (course.image) {

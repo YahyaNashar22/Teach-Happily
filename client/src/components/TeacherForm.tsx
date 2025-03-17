@@ -2,7 +2,11 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import "../css/TeacherForm.css";
 
-const TeacherForm = () => {
+const TeacherForm = ({
+  setNewTeacherForm,
+}: {
+  setNewTeacherForm: (bool: boolean) => void;
+}) => {
   const backend = import.meta.env.VITE_BACKEND;
   const [loading, setLoading] = useState<boolean>(false);
   const [name, setName] = useState("");
@@ -40,10 +44,11 @@ const TeacherForm = () => {
       setName("");
       setProfession("");
       setMessage(response.data.message);
+      setNewTeacherForm(false);
     } catch (error) {
       if (error instanceof AxiosError) setMessage(error.response?.data.message);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -91,6 +96,15 @@ const TeacherForm = () => {
 
         <button type="submit" disabled={loading} className="submit-btn">
           إضافة المدربة
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setNewTeacherForm(false)}
+          disabled={loading}
+          className="cancel-btn"
+        >
+          الغاء
         </button>
       </form>
       {message && <p className="message">{message}</p>}

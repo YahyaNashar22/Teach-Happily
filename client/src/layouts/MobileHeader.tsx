@@ -71,13 +71,12 @@ const MobileHeader = () => {
             تواصل معنا
           </Link>
 
-          <Link
-            to="/teach-with-us"
+          <p
             className="nav-link"
             onClick={() => setMenuOpen(false)}
           >
             درب معنا
-          </Link>
+          </p>
           <Link
             to="/sign-up"
             className="nav-link"
@@ -85,13 +84,12 @@ const MobileHeader = () => {
           >
             تدرب معنا
           </Link>
-          <Link
-            to="/showcase-digital-product"
+          <p
             className="nav-link"
             onClick={() => setMenuOpen(false)}
           >
             اعرض منتجك الرقمي لدينا
-          </Link>
+          </p>
 
           {user ? (
             user.role === "admin" ? (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../css/ListCategories.css";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {
   Table,
   TableBody,
@@ -93,6 +93,9 @@ const ListCourses = () => {
       handleClose();
     } catch (error) {
       console.log(error);
+      if (error instanceof AxiosError) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
