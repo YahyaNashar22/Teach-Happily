@@ -50,7 +50,7 @@ const Footer = () => {
           <h4 className="footer-col-title">روابط سريعة</h4>
           <ul>
             <li className="footer-col-text">
-              <Link to="/">الشاشة الرئيسية</Link>
+              <Link to="/">الرئيسية</Link>
             </li>
             <li className="footer-col-text">
               <Link to="/about">معلومات عنا</Link>

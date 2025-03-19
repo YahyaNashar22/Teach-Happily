@@ -34,11 +34,12 @@ const TutorCards = () => {
                 key={teacher._id}
                 className="tutor-card"
                 style={{
-                  background: `${
-                    teacher.image && teacher.image !== ""
-                      ? `url(${backend}/${teacher.image})`
-                      : `var(--gradient-overlay)`
-                  }`,
+                  backgroundImage: teacher.image
+                    ? `url(${backend}/${teacher.image})`
+                    : "var(--gradient-overlay)",
+                  backgroundSize: teacher.image ? "cover" : "auto",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
                 }}
               >
                 <h3 className="teacher-name">{teacher.fullname}</h3>
