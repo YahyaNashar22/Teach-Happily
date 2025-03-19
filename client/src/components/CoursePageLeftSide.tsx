@@ -105,8 +105,6 @@ const CoursePageLeftSide = ({
         <h2 className="course-viewer-description-tile">نبذة عن الدورة</h2>
         <p className="course-viewer-description-content">
           {course?.description}
-          سشيشبشي بسبشسي شبش لشل شب سيشس بشي بشيبلصق لقصاقا صق لص صقل صثل شيب ش
-          لث لثص لص ثلصث يش ي ب
         </p>
       </div>
 

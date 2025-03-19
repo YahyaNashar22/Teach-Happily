@@ -1,9 +1,12 @@
 import fs from 'fs';
 
 function removeFile(file) {
-    fs.unlinkSync("uploads/" + file, (error) => {
-        if (error) console.log('unable to delete file');
-        else console.log('file deleted');
+    fs.unlink("uploads/" + file, (error) => {
+        if (error) {
+            console.log(`Unable to delete file: ${file}, Error: ${error.message}`);
+        } else {
+            console.log(`File deleted: ${file}`);
+        }
     });
 }
 

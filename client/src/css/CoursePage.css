@@ -37,8 +37,12 @@
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
-  gap: 20px;
+  gap: 50px;
   flex-wrap: wrap;
+}
+
+.course-viewer-left-side {
+  flex-grow: 1;
 }
 
 /* Responsive Adjustments */

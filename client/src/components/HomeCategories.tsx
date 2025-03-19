@@ -11,6 +11,7 @@ const HomeCategories = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      console.log(backend);
       try {
         const res = await axios.get(`${backend}/category`);
         setCategories(res.data.payload || []);
@@ -41,8 +42,12 @@ const HomeCategories = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h2 className="home-categories-category-title">{category.name}</h2>
-                <p className="home-categories-category-description">{category.description}</p>
+                <h2 className="home-categories-category-title">
+                  {category.name}
+                </h2>
+                <p className="home-categories-category-description">
+                  {category.description}
+                </p>
               </li>
             );
           })}
