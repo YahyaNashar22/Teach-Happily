@@ -77,10 +77,11 @@ const CourseCard = ({ course }: { course: ICourse }) => {
       <li className="course-card">
         <img
           src={`${backend}/${course.image}`}
-          width={261}
-          height={146.81}
+          width={320}
+          height={200}
           alt={course.title}
           loading="lazy"
+          className="course-card-image"
         />
         <div className="upper">
           <h2 className="course-title">{course.title}</h2>
