@@ -7,9 +7,9 @@ const TutorsMeet = () => {
         <div className="overlay"></div>
         <div className="tutors-meet-content">
           <h2 className="tutors-meet-title">تعرف على فريقنا من المحترفين</h2>
-          <p className="tutors-meet-text">
+          {/* <p className="tutors-meet-text">
             خلال تعاوننا، أثبت موظفو الشركة أنفسهم كفريق محترف
-          </p>
+          </p> */}
         </div>
       </div>
     </section>
