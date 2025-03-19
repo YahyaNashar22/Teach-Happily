@@ -1,19 +1,24 @@
 .header {
-  background-color: transparent;
-  padding: 24px 36px;
+  background-color: var(--semi-transparent-yellow);
+  padding: 12px 24px;
   position: fixed;
-  width: 100%;
+  width: 60%;
   z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   transition: 0.3s ease-in-out;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 30px;
+  border-radius: 32px;
+  backdrop-filter: blur(20px);
 }
 
-.header.scrolled {
+/* .header.scrolled {
   background-color: var(--semi-transparent-purple);
   backdrop-filter: blur(10px);
-}
+} */
 
 .nav-links {
   display: flex;
@@ -26,7 +31,7 @@
 .nav-link {
   color: var(--white);
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
 }
 
 .nav-link:hover {

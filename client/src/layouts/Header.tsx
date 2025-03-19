@@ -1,7 +1,7 @@
 import "../css/Header.css";
 
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/Logo_white.png";
+// import logo from "../assets/Logo_white.png";
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
 
@@ -25,13 +25,13 @@ const Header = () => {
   }, []);
   return (
     <header className={`header ${isScrolled ? "scrolled" : ""}`}>
-      <img
+      {/* <img
         src={logo}
         alt="logo"
-        width={120}
+        width={80}
         loading="lazy"
         onClick={() => navigate("/")}
-      />
+      /> */}
       <nav>
         <ul className="nav-links">
           <Link to="/" className="nav-link">
@@ -61,7 +61,7 @@ const Header = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       navigate("/sign-up");
-                    }}  
+                    }}
                     className="nav-link"
                   >
                     تدرب معنا
