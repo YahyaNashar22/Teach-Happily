@@ -41,6 +41,11 @@
   gap: 2px;
   color: var(--accent-grey);
   font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+.course-viewer-playlist-item:hover {
+  color: var(--purple);
 }
 
 .course-viewer-meta-list {

@@ -45,7 +45,7 @@ const SigninPage = () => {
       navigate("/");
     } catch (error) {
       console.error(error);
-      setError("Invalid email or password");
+      setError("خطأ في البريد او كلمة المرور");
     } finally {
       setLoading(false);
     }
