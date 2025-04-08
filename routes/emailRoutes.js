@@ -6,7 +6,7 @@ const emailRouter = express.Router();
 
 
 emailRouter.post("/contact-email", sendContactEmail);
-emailRouter.post("/teach-with-us-email", sendTeachWithUsEmail);
+emailRouter.post("/teach-with-us-email", upload.single('file'), sendTeachWithUsEmail);
 emailRouter.post("/digital-product-email", upload.single('image'), sendDigitalProductEmail);
 
 

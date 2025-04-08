@@ -4,42 +4,74 @@ import ContactUsHero from "../components/ContactUsHero";
 import Map from "../components/Map";
 import SocialMedia from "../components/SocialMedia";
 import "../css/ContactPage.css";
+import axios from "axios";
 
 const ContactPageTeachWithUs = () => {
+  const backend = import.meta.env.VITE_BACKEND;
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [profession, setProfession] = useState("");
   const [message, setMessage] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
-    if (!fullName || !email || !profession || !message || !file) {
-      alert("يرجى ملء جميع الحقول.");
-      return;
+    try {
+      if (!fullName || !email || !profession || !message || !file) {
+        alert("يرجى ملء جميع الحقول.");
+        return;
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert("يرجى إدخال بريد إلكتروني صالح.");
+        return;
+      }
+
+      // Validate file type (PDF)
+      if (file && file.type !== "application/pdf") {
+        alert("يرجى تحميل ملف PDF فقط.");
+        return;
+      }
+
+      // Create FormData and append form fields and the file
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("profession", profession);
+      formData.append("message", message);
+      formData.append("file", file);
+
+      const res = await axios.post(
+        `${backend}/email/teach-with-us-email`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        alert("تم إرسال رسالتك بنجاح!");
+        setFullName("");
+        setEmail("");
+        setProfession("");
+        setMessage("");
+        setFile(null);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
+};
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      alert("يرجى إدخال بريد إلكتروني صالح.");
-      return;
-    }
-
-    // Validate file type (PDF)
-    if (file && file.type !== "application/pdf") {
-      alert("يرجى تحميل ملف PDF فقط.");
-      return;
-    }
-
-    alert("تم إرسال رسالتك بنجاح!");
-    setFullName("");
-    setEmail("");
-    setProfession("");
-    setMessage("");
-    setFile(null);
-  };
 
   return (
     <main>
@@ -105,7 +137,11 @@ const ContactPageTeachWithUs = () => {
           />
         </label>
 
-        <button className="contact-page-form-button" type="submit">
+        <button
+          disabled={loading}
+          className="contact-page-form-button"
+          type="submit"
+        >
           إرسال
         </button>
       </form>
