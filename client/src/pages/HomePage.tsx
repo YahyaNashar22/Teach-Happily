@@ -1,4 +1,3 @@
-import HomeCategories from "../components/HomeCategories";
 import HomeContactInfo from "../components/HomeContactInfo";
 import HomeHeroNew from "../components/HomeHeroNew";
 import HomeNumbers from "../components/HomeNumbers";
@@ -14,7 +13,6 @@ const HomePage = () => {
       <LatestCourses />
       <HomeNumbers />
       <HomeContactInfo />
-      <HomeCategories />
       <Testimonials />
     </main>
   );
