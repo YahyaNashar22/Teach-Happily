@@ -5,7 +5,21 @@ import { Link } from "react-router-dom";
 import logo from "../assets/Logo_white.png";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { ChangeEvent, FormEvent, useState } from "react";
 const Footer = () => {
+  const [email, setEmail] = useState<string>("");
+
+  const newsLetter = (e: FormEvent) => {
+    e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      alert("يرجى إدخال بريد إلكتروني صالح.");
+      return;
+    }
+    alert("شكرا لاشتاركك!");
+    setEmail("");
+  };
   return (
     <footer className="footer-container">
       <div className="wrapper-footer">
@@ -14,15 +28,24 @@ const Footer = () => {
           <p className="footer-col-text">
             اشترك في الإشعارات للحصول على الأخبار
           </p>
-          <form className="form-container">
-            <button className="btn-yellow" id="news-letter-btn">
-              تسجيل دخول
+          <form className="footer-form-container">
+            <button
+              type="button"
+              className="btn-yellow"
+              id="news-letter-btn"
+              onClick={newsLetter}
+            >
+              اشترك الان
             </button>
             <input
               type="email"
               className="news-letter"
               required
+              value={email}
               placeholder="بريد إلكتروني"
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
             />
           </form>
           <div className="icons">

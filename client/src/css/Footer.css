@@ -6,7 +6,7 @@
   row-gap: 16px;
 }
 
-.form-container {
+.footer-form-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
