@@ -102,3 +102,7 @@
   text-decoration: none;
   color: var(--white);
 }
+
+.secondary:hover {
+  color: var(--yellow);
+}

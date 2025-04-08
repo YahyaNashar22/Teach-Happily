@@ -11,6 +11,8 @@ import userRouter from './routes/userRoutes.js';
 import categoryRouter from './routes/categoryRoutes.js';
 import teacherRouter from './routes/teacherRoutes.js';
 import courseRouter from './routes/courseRoutes.js';
+import transporter from './utils/nodemailerTransporter.js';
+import emailRouter from './routes/emailRoutes.js';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -39,6 +41,28 @@ app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/teacher', teacherRouter);
 app.use('/course', courseRouter);
+app.use('/email', emailRouter);
+
+
+
+// test nodemailer
+app.post("/send-test-email", async (req, res) => {
+    try {
+        const mailOptions = {
+            from: process.env.SENDER_EMAIL,
+            to: "yahyanashar22@gmail.com",
+            subject: "How are you today?",
+            text: "This is a test email from your Nodemailer setup!",
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: "Email sent!", info });
+    } catch (error) {
+        console.error("Email error:", error);
+        res.status(500).json({ error: "Failed to send email" });
+    }
+});
+
 
 
 // Serve static files from the React app

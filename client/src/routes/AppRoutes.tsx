@@ -9,6 +9,13 @@ const NotFound = lazy(() => import("../pages/NotFound.tsx"));
 const HomePage = lazy(() => import("../pages/HomePage.tsx"));
 const AboutPage = lazy(() => import("../pages/AboutPage.tsx"));
 const ContactPage = lazy(() => import("../pages/ContactPage.tsx"));
+const ContactPageTeachWithUs = lazy(
+  () => import("../pages/ContactPageTeachWithUs.tsx")
+);
+const ContactPageDigitalProduct = lazy(
+  () => import("../pages/ContactPageDigitalProduct.tsx")
+);
+
 const CoursesPage = lazy(() => import("../pages/CoursesPage.tsx"));
 const ForgotPasswordPage = lazy(
   () => import("../pages/ForgotPasswordPage.tsx")
@@ -21,6 +28,7 @@ const ProfilePage = lazy(() => import("../pages/ProfilePage.tsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.tsx"));
 
 const TeachWithUs = lazy(() => import("../pages/TeachWithUs.tsx"));
+
 const ShowCaseDigitalProduct = lazy(
   () => import("../pages/ShowCaseDigitalProduct.tsx")
 );
@@ -36,6 +44,15 @@ const AppRoutes = () => {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/tutors" element={<TutorsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route
+            path="/contact-teach-with-us"
+            element={<ContactPageTeachWithUs />}
+          />
+          <Route
+            path="/contact-teach-digital-product"
+            element={<ContactPageDigitalProduct />}
+          />
+
           <Route path="/course/:slug" element={<CoursePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/teach-with-us" element={<TeachWithUs />} />

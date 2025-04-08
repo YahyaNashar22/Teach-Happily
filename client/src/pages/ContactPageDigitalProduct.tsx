@@ -6,45 +6,59 @@ import SocialMedia from "../components/SocialMedia";
 import "../css/ContactPage.css";
 import axios from "axios";
 
-const ContactPage = () => {
+const ContactPageDigitalProduct = () => {
   const backend = import.meta.env.VITE_BACKEND;
+
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      if (!email || !message) {
-        alert("يرجى ملء البريد الإلكتروني والرسالة.");
+      if (!fullName || !email || !message || !projectTitle || !image) {
+        alert("يرجى ملء جميع الحقول.");
         return;
       }
 
-      // Optionally add more email validation
+      // Email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         alert("يرجى إدخال بريد إلكتروني صالح.");
         return;
       }
 
+      // Prepare FormData for file upload
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("message", message);
+      formData.append("projectTitle", projectTitle);
+      formData.append("image", image);
+
+      // Send data to backend
       const res = await axios.post(
-        `${backend}/email/contact-email`,
-        {
-          email,
-          message,
-        },
+        `${backend}/email/digital-product-email`,
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data", 
           },
         }
       );
 
       if (res.status === 200) {
         alert("تم إرسال رسالتك بنجاح!");
+        setFullName("");
         setEmail("");
         setMessage("");
+        setProjectTitle("");
+        setImage(null);
       }
     } catch (error) {
       console.log(error);
@@ -52,11 +66,25 @@ const ContactPage = () => {
       setLoading(false);
     }
   };
+
   return (
     <main>
       <ContactUsHero />
       <form className="contact-page-form" onSubmit={handleSubmit}>
-        <h2 className="contact-page-form-title">نرغب بسماع ارائك</h2>
+        <h2 className="contact-page-form-title"> أرغب بعرض منتج رقمي</h2>
+
+        <label className="contact-page-form-label">
+          الاسم الكامل:
+          <input
+            className="contact-page-form-input"
+            type="text"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="الاسم الكامل"
+            required
+          />
+        </label>
+
         <label className="contact-page-form-label">
           البريد الإلكتروني:
           <input
@@ -65,6 +93,18 @@ const ContactPage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="بريدك الإلكتروني"
+            required
+          />
+        </label>
+
+        <label className="contact-page-form-label">
+          اسم المنتج:
+          <input
+            className="contact-page-form-input"
+            type="text"
+            value={projectTitle}
+            onChange={(e) => setProjectTitle(e.target.value)}
+            placeholder="اسم المنتج"
             required
           />
         </label>
@@ -80,6 +120,19 @@ const ContactPage = () => {
           />
         </label>
 
+        <label className="contact-page-form-label">
+          تحميل الصورة:
+          <input
+            className="contact-page-form-input"
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setImage(e.target.files ? e.target.files[0] : null)
+            }
+            required
+          />
+        </label>
+
         <button
           disabled={loading}
           className="contact-page-form-button"
@@ -88,6 +141,7 @@ const ContactPage = () => {
           إرسال
         </button>
       </form>
+
       <ContactCards />
       <Map />
       <SocialMedia />
@@ -95,4 +149,4 @@ const ContactPage = () => {
   );
 };
 
-export default ContactPage;
+export default ContactPageDigitalProduct;

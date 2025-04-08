@@ -54,21 +54,27 @@ const Header = () => {
             <div className="dropdown">
               <ul>
                 <li>
-                  <p className="nav-link">درب معنا</p>
-                </li>
-                <li>
                   <p
+                    className="nav-link secondary"
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate("/sign-up");
+                      navigate("/contact-teach-with-us");
                     }}
-                    className="nav-link"
                   >
-                    تدرب معنا
+                    درب معنا
                   </p>
                 </li>
+
                 <li>
-                  <p className="nav-link">اعرض منتجك الرقمي لدينا</p>
+                  <p
+                    className="nav-link secondary"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/contact-teach-digital-product");
+                    }}
+                  >
+                    اعرض منتجك الرقمي لدينا
+                  </p>
                 </li>
               </ul>
             </div>
