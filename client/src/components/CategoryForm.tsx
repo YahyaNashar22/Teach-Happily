@@ -61,7 +61,7 @@ const CategoryForm = ({
       <h1 className="form-title">إضافة فئة جديدة</h1>
       <form onSubmit={handleSubmit} className="category-form">
         <label htmlFor="name" className="dash-cat-label">
-          اسم الخانة
+          اسم الفئة
         </label>
         <input
           type="text"
@@ -94,7 +94,7 @@ const CategoryForm = ({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-          placeholder="أدخل وصف الخانة"
+          placeholder="أدخل وصف الفئة"
           className="dash-cat-inp"
         />
 

@@ -33,7 +33,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
   }, [user, backend, course]);
   return (
     <>
-      <li className="course-card">
+      <li className="course-card" onClick={handleCourseNavigation}>
         <img
           src={`${backend}/${course.image}`}
           width={320}
@@ -41,7 +41,6 @@ const CourseCard = ({ course }: { course: ICourse }) => {
           alt={course.title}
           loading="lazy"
           className="course-card-image"
-          onClick={handleCourseNavigation}
         />
         <div className="upper">
           <h2 className="course-title">{course.title}</h2>

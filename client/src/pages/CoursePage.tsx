@@ -57,7 +57,7 @@ const CoursePage = () => {
           <div className="course-viewer-title-section">
             <h1 className="course-viewer-title">{course?.title}</h1>
             <p className="course-viewer-category">
-              الخانة:{" "}
+              الفئة:{" "}
               <span className="course-viewer-black">
                 {course?.category?.name}
               </span>

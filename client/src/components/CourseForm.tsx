@@ -217,7 +217,7 @@ const CourseUploadForm = ({
         </label>
 
         <label>
-          الخانة
+          الفئة
           <select name="category" onChange={handleChange}>
             {categories.map((category) => {
               return (

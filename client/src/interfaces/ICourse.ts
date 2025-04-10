@@ -12,6 +12,7 @@ interface ICourse {
   category: ICategory;
   price: number;
   enrolledStudents: string[];
+  demo: string;
   content: [
     {
       title: string;
