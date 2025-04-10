@@ -1,16 +1,19 @@
 import "../css/CoursePage.css";
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ICourse from "../interfaces/ICourse";
 import axios from "axios";
 import Loading from "../components/Loading";
 import CoursePageRightSide from "../components/CoursePageRightSide";
 import CoursePageLeftSide from "../components/CoursePageLeftSide";
 import IContent from "../interfaces/IContent";
+import { useUserStore } from "../store";
 
 const CoursePage = () => {
   const { slug } = useParams();
+  const { user } = useUserStore();
+  const navigate = useNavigate();
   const backend = import.meta.env.VITE_BACKEND;
 
   const [course, setCourse] = useState<ICourse | null>(null);
@@ -24,6 +27,11 @@ const CoursePage = () => {
       setLoading(true);
       try {
         const res = await axios.get(`${backend}/course/get/${slug}`);
+
+        if (!res.data.payload.enrolledStudents.includes(user?._id)) {
+          navigate("*");
+        }
+
         setCourse(res.data.payload);
 
         // Set the first video as the default selected one
@@ -38,7 +46,7 @@ const CoursePage = () => {
     };
 
     fetchCourse();
-  }, [backend, slug]);
+  }, [backend, slug, user, navigate]);
   return (
     <main>
       {loading && course === null ? (

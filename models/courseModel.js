@@ -59,6 +59,10 @@ const courseSchema = new Schema(
             type: String,
             required: false,
         }],
+        rating: {
+            type: Number,
+            default: 5
+        },
         content: [
             {
                 title: { type: String, required: true },

@@ -1,7 +1,25 @@
 import "../css/CourseShowCase.css";
 
 const CourseShowCase = () => {
-  return <main className="course-showcase-wrapper"></main>;
+  return (
+    <main className="course-showcase-wrapper">
+      {/* Upper Section  */}
+      <div className="course-showcase-upper">
+        {/* Upper right Section  */}
+        <div className="course-showcase-upper-right"></div>
+
+        {/* Upper left Section  */}
+        <div className="course-showcase-upper-left"></div>
+      </div>
+
+
+
+
+
+      {/* Lower Section  */}
+      <div className="course-showcase-lower"></div>
+    </main>
+  );
 };
 
 export default CourseShowCase;
