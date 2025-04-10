@@ -176,6 +176,10 @@
   background-color: var(--accent-black);
 }
 
+.enrolled {
+  width: 100%;
+}
+
 /* Fade-in Animation */
 @keyframes fadeIn {
   from {

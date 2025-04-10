@@ -2,7 +2,7 @@ import "../css/CourseCard.css";
 
 import { FaClock } from "react-icons/fa";
 import ICourse from "../interfaces/ICourse";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
 
@@ -10,8 +10,15 @@ const CourseCard = ({ course }: { course: ICourse }) => {
   const backend = import.meta.env.VITE_BACKEND;
 
   const { user } = useUserStore();
+  const navigate = useNavigate();
 
   const [isUserEnrolled, setIsUserEnrolled] = useState<boolean>(false);
+
+  const handleCourseNavigation = () => {
+    return isUserEnrolled
+      ? navigate(`/course/${course.slug}`)
+      : navigate(`/course-showcase/${course.slug}`);
+  };
 
   useEffect(() => {
     const checkUserEnrolled = () => {
@@ -34,6 +41,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
           alt={course.title}
           loading="lazy"
           className="course-card-image"
+          onClick={handleCourseNavigation}
         />
         <div className="upper">
           <h2 className="course-title">{course.title}</h2>
@@ -57,7 +65,10 @@ const CourseCard = ({ course }: { course: ICourse }) => {
 
         <div className="card-footer">
           {isUserEnrolled ? (
-            <Link to={`/course/${course.slug}`} className="btn enroll-btn ">
+            <Link
+              to={`/course/${course.slug}`}
+              className="btn enroll-btn enrolled "
+            >
               الالتحاق
             </Link>
           ) : (
