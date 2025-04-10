@@ -3,6 +3,9 @@ import Course from "../models/courseModel.js";
 import removeFile from "../utils/removeFile.js";
 
 
+// TODO: ADD DEMO
+
+
 export const createCourse = async (req, res) => {
     try {
         const {
