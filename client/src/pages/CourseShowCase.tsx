@@ -1,5 +1,5 @@
 import "../css/CourseShowCase.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
 import ICourse from "../interfaces/ICourse";
@@ -7,6 +7,8 @@ import axios from "axios";
 import Loading from "../components/Loading";
 
 import placeholderImg from "../assets/course_placeholder.png";
+import IFeedback from "../interfaces/IFeedback";
+import CourseCard from "../components/CourseCard";
 
 const CourseShowCase = () => {
   const { slug } = useParams();
@@ -15,6 +17,9 @@ const CourseShowCase = () => {
   const backend = import.meta.env.VITE_BACKEND;
 
   const [course, setCourse] = useState<ICourse | null>(null);
+  const [similar, setSimilar] = useState<ICourse[]>([]);
+  const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [isPurchaseModal, setIsPurchaseModal] = useState<boolean>(false);
 
@@ -187,7 +192,75 @@ const CourseShowCase = () => {
           </div>
 
           {/* Lower Section  */}
-          <div className="course-showcase-lower"></div>
+          <div className="course-showcase-lower">
+            <div className="course-showcase-course-description-teacher">
+              <div className="course-showcase-course-description">
+                <h1 className="course-showcase-course-description-title">
+                  محتوى الدورة
+                </h1>
+                <p className="course-showcase-course-description-content">
+                  {course?.description}
+                </p>
+              </div>
+              <div className="course-showcase-course-teacher">
+                <img
+                  src={`${backend}/${course?.teacher.image}`}
+                  alt={course?.teacher.fullname}
+                  loading="lazy"
+                  className="course-showcase-course-teacher-section-img"
+                />
+                <h2 className="course-showcase-teacher-section-name">
+                  {course?.teacher.fullname}
+                </h2>
+                <p className="course-showcase-teacher-section-teacher">
+                  المدرب
+                </p>
+                <Link to="" className="course-showcase-teacher-read-more">
+                  اقرأ المزيد
+                </Link>
+              </div>
+            </div>
+
+            <div className="course-showcase-feedback">
+              <h2 className="course-showcase-feedback-header">
+                التقييمات والآراء
+              </h2>
+              <ul className="course-showcase-feedback-list">
+                {feedbacks.map((feedback) => {
+                  return (
+                    <li
+                      key={feedback._id}
+                      className="course-showcase-feedback-card"
+                    >
+                      <p className="course-showcase-feedback-card-initials">
+                        {feedback.userId.fullName.split(" ")[0][0]}
+                      </p>
+                      <div className="course-showcase-feedback-card-text">
+                        <p className="course-showcase-feedback-card-user-name">
+                          {feedback.userId.fullName}
+                        </p>
+                        <p className="course-showcase-feedback-card-date">
+                          {feedback.createdAt}
+                        </p>
+                        <p className="course-showcase-feedback-card-content">
+                          {feedback.content}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <div className="course-showcase-similar">
+              <h2 className="course-showcase-similar-header">دورات مشابهة</h2>
+              <ul className="course-showcase-similar-list">
+                {similar.map((c) => {
+                  return <CourseCard course={c} />;
+                })}
+              </ul>
+            </div>
+          </div>
 
           {/* Purchase Confirmation Modal */}
           {isPurchaseModal && (
