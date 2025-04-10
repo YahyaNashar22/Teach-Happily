@@ -113,7 +113,7 @@ const ListCategories = () => {
         </Button>
 
         <Typography variant="h4" gutterBottom style={{ color: "#8f438c" }}>
-          الخانات
+          الفئات
         </Typography>
       </div>
 

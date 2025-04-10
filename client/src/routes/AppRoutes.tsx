@@ -34,6 +34,8 @@ const ShowCaseDigitalProduct = lazy(
   () => import("../pages/ShowCaseDigitalProduct.tsx")
 );
 
+const CourseShowCase = lazy(() => import("../pages/CourseShowCase.tsx"));
+
 const AppRoutes = () => {
   const { user } = useUserStore();
   return (
@@ -56,6 +58,8 @@ const AppRoutes = () => {
           />
 
           <Route path="/course/:slug" element={<CoursePage />} />
+          <Route path="/course-showcase/:slug" element={<CourseShowCase />} />
+
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/teach-with-us" element={<TeachWithUs />} />
           <Route

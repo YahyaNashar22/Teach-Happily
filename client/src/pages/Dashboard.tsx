@@ -24,7 +24,7 @@ const Dashboard = () => {
                 }`}
                 onClick={() => setActiveForm("category")}
               >
-                الخانات
+                الفئات
               </button>
             </li>
             <li>

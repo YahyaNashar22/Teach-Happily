@@ -62,7 +62,7 @@ const CategorySelector = ({
 
   return (
     <div className="category-panel">
-      <h3 className="category-title">الخانات</h3>
+      <h3 className="category-title">الفئات</h3>
       {loading ? (
         <Loading />
       ) : categories.length > 0 ? (
