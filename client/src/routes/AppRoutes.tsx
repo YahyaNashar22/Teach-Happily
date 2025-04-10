@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Loading from "../components/Loading.tsx";
 import MainLayout from "./MainLayout.tsx";
+import { useUserStore } from "../store.ts";
 
 const NotFound = lazy(() => import("../pages/NotFound.tsx"));
 
@@ -34,6 +35,7 @@ const ShowCaseDigitalProduct = lazy(
 );
 
 const AppRoutes = () => {
+  const { user } = useUserStore();
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
@@ -63,12 +65,20 @@ const AppRoutes = () => {
         </Route>
 
         {/* Sign in/up routes */}
-        <Route path="/sign-up" element={<SignupPage />} />
-        <Route path="/sign-in" element={<SigninPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        {!user && (
+          <>
+            <Route path="/sign-up" element={<SignupPage />} />
+            <Route path="/sign-in" element={<SigninPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          </>
+        )}
 
         {/* protected routes */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {(user?.role === "teacher" || user?.role === "admin") && (
+          <>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </>
+        )}
 
         {/* Not Found Route */}
         <Route path="*" element={<NotFound />} />

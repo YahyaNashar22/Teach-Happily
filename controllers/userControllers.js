@@ -2,6 +2,8 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import { createToken, verifyToken } from "../utils/token.js";
 import Course from "../models/courseModel.js";
+import generateOTP from "../utils/generateOTP.js";
+import transporter from "../utils/nodemailerTransporter.js";
 
 
 export const createStudent = async (req, res) => {
@@ -111,7 +113,7 @@ export const getUser = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا.' });
     }
 };
 
@@ -146,7 +148,7 @@ export const unlockVideo = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "something went wrong" })
+        res.status(500).json({ message: "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا." })
     }
 }
 
@@ -169,7 +171,7 @@ export const getUnlockedVideos = async (req, res) => {
         return res.status(200).json({ unlockedVideos: unlockedCourse.videos });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "something went wrong" })
+        res.status(500).json({ message: "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا." })
     }
 }
 
@@ -222,12 +224,94 @@ export const enrollCourse = async (req, res) => {
         return res.status(200).json({ message: "Enrolled successfully", course });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا." });
     }
 };
 
 
+export const sendForgotPasswordOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const otp = generateOTP();
+        const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes from now
+
+        await User.findOneAndUpdate(
+            { email },
+            { passwordResetOTP: otp, passwordResetExpires: expiresAt },
+            { new: true, upsert: true }
+        );
+
+        const mailOptions = {
+            from: process.env.SENDER_EMAIL,
+            to: email,
+            subject: "إعادة تعيين كلمة المرور - رمز التحقق (OTP)",
+            html: `
+            <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 500px; margin: auto; border: 1px solid #ddd; border-radius: 10px;">
+                <h2 style="color: #333;">طلب إعادة تعيين كلمة المرور</h2>
+                <p style="font-size: 16px; color: #555;">
+                    مرحباً، <br><br>
+                    لقد قمت مؤخرًا بطلب إعادة تعيين كلمة المرور الخاصة بك. استخدم رمز التحقق (OTP) أدناه لإتمام العملية:
+                </p>
+                <div style="background: #f8f8f8; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; color: #222; border-radius: 5px;">
+                    ${otp} 
+                </div>
+                <p style="font-size: 14px; color: #777; margin-top: 20px;">
+                    هذا الرمز صالح لمدة 5 دقائق فقط. إذا لم تطلب إعادة تعيين كلمة المرور، يرجى تجاهل هذا البريد الإلكتروني.
+                </p>
+                <p style="font-size: 14px; color: #777;">مع تحيات، <br>فيوتشر إنسايتس</p>
+            </div>
+            `,
+        };
 
 
-// TODO: ADD FORGET PASSWORD
+        const info = await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: "Email sent!", info });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا." });
+    }
+}
+
+
+
+export const resetPassword = async (req, res) => {
+    try {
+
+        const { email, password, otp } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user || !user.passwordResetOTP || !user.passwordResetExpires) {
+           return res.status(403).json({ message: "رمز التحقق غير موجود أو منتهي الصلاحية" });
+        }
+
+        if (user.passwordResetExpires < new Date()) {
+           return res.status(403).json({ message: "انتهت صلاحية رمز التحقق" });
+        }
+
+        if (user.passwordResetOTP !== otp) {
+           return res.status(403).json({ message: "رمز التحقق غير صالح" });
+        }
+
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        user.password = hashedPassword;
+
+        // Clear OTP fields
+        user.passwordResetOTP = undefined;
+        user.passwordResetExpires = undefined;
+        await user.save();
+
+        return res.status(200).json({ message: "تم إعادة تعيين كلمة المرور بنجاح!" });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا." });
+    }
+}
+
+
 // TODO: ADD CHANGE NAME FOR CERTIFICATE

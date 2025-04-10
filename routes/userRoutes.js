@@ -1,5 +1,5 @@
 import express from "express";
-import { createStudent, enrollCourse, getUnlockedVideos, getUser, login, logout, unlockVideo } from "../controllers/userControllers.js";
+import { createStudent, enrollCourse, getUnlockedVideos, getUser, login, logout, resetPassword, sendForgotPasswordOTP, unlockVideo } from "../controllers/userControllers.js";
 
 const userRouter = express.Router();
 
@@ -12,6 +12,9 @@ userRouter.get("/get-user", getUser);
 userRouter.post("/unlock-video", unlockVideo);
 userRouter.get("/get-unlocked-videos", getUnlockedVideos);
 userRouter.post("/enroll-course", enrollCourse);
+
+userRouter.post("/forgot-password", sendForgotPasswordOTP);
+userRouter.post("/reset-password", resetPassword);
 
 
 

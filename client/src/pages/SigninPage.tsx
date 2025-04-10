@@ -86,6 +86,9 @@ const SigninPage = () => {
             الدخول
           </button>
         </div>
+        <Link to="/forgot-password" className="forgot-password">
+         نسيت كلمة المرور
+        </Link>
         <Link to="/sign-up" className="sign-up">
           ليس لدي حساب
         </Link>
