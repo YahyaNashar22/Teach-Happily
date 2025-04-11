@@ -54,12 +54,13 @@ const ListTeachers = () => {
     setSelectedTeacher(null);
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e: React.MouseEvent) => {
+    e.preventDefault();
     if (!selectedTeacher) return;
     try {
       const formData = new FormData();
       formData.append("fullname", selectedTeacher.fullname);
-      formData.append("description", selectedTeacher.profession);
+      formData.append("profession", selectedTeacher.profession);
 
       if (selectedTeacher.image) {
         formData.append("image", selectedTeacher.image);
