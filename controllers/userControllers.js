@@ -283,15 +283,15 @@ export const resetPassword = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user || !user.passwordResetOTP || !user.passwordResetExpires) {
-           return res.status(403).json({ message: "رمز التحقق غير موجود أو منتهي الصلاحية" });
+            return res.status(403).json({ message: "رمز التحقق غير موجود أو منتهي الصلاحية" });
         }
 
         if (user.passwordResetExpires < new Date()) {
-           return res.status(403).json({ message: "انتهت صلاحية رمز التحقق" });
+            return res.status(403).json({ message: "انتهت صلاحية رمز التحقق" });
         }
 
         if (user.passwordResetOTP !== otp) {
-           return res.status(403).json({ message: "رمز التحقق غير صالح" });
+            return res.status(403).json({ message: "رمز التحقق غير صالح" });
         }
 
         // Hash the password
@@ -312,6 +312,35 @@ export const resetPassword = async (req, res) => {
         return res.status(500).json({ message: "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا." });
     }
 }
+
+
+export const toggleWishlist = async (req, res) => {
+    const { userId, courseId } = req.body;
+
+
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const index = user.courseWishlist.findIndex(
+            (id) => id.toString() === courseId
+        );
+
+        if (index === -1) {
+            user.courseWishlist.push(courseId); // Add
+            await user.save();
+            return res.status(200).json({ message: "Added to wishlist", wishlist: user.courseWishlist });
+        } else {
+            user.courseWishlist.splice(index, 1); // Remove
+            await user.save();
+            return res.status(200).json({ message: "Removed from wishlist", wishlist: user.courseWishlist });
+        }
+    } catch (error) {
+        console.error("Wishlist toggle error:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
+};
 
 
 // TODO: ADD CHANGE NAME FOR CERTIFICATE

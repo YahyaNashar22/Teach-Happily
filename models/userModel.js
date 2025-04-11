@@ -40,6 +40,14 @@ const userSchema = new Schema(
             }
         ],
 
+        courseWishlist: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Course",
+                required: true
+            }
+        ],
+
         passwordResetOTP: {
             type: String,
             required: false

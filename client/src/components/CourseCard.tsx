@@ -1,10 +1,11 @@
 import "../css/CourseCard.css";
 
-import { FaClock } from "react-icons/fa";
+import { FaClock, FaHeart, FaRegHeart } from "react-icons/fa";
 import ICourse from "../interfaces/ICourse";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const CourseCard = ({ course }: { course: ICourse }) => {
   const backend = import.meta.env.VITE_BACKEND;
@@ -13,6 +14,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
   const navigate = useNavigate();
 
   const [isUserEnrolled, setIsUserEnrolled] = useState<boolean>(false);
+  const [inWishlist, setInWishlist] = useState<boolean>(false);
 
   const handleCourseNavigation = () => {
     return isUserEnrolled
@@ -31,9 +33,35 @@ const CourseCard = ({ course }: { course: ICourse }) => {
 
     checkUserEnrolled();
   }, [user, backend, course]);
+
+  const toggleWishlist = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const res = await axios.put(
+        `${backend}/user/course-wishlist`,
+        {
+          userId: user?._id,
+          courseId: course._id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setInWishlist(res.data.message === "Added to wishlist");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <li className="course-card" onClick={handleCourseNavigation}>
+        {user && !course.enrolledStudents.includes(user._id) && (
+          <div className="wishlist-icon" onClick={toggleWishlist}>
+            {inWishlist ? <FaHeart color="var(--yellow)" /> : <FaRegHeart />}
+          </div>
+        )}
         <img
           src={`${backend}/${course.image}`}
           width={320}
