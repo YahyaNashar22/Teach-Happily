@@ -295,6 +295,11 @@
   font-style: italic;
 }
 
+.course-showcase-wishlist-icon {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 900px) {
   .course-showcase-wrapper {
     margin-top: 0px;

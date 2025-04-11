@@ -16,6 +16,7 @@ import message from "../assets/message.png";
 import infinity from "../assets/infinity.png";
 import badge_ico from "../assets/badge_ico.png";
 import StarRating from "../components/StarRating";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const CourseShowCase = () => {
   const { slug } = useParams();
@@ -30,6 +31,8 @@ const CourseShowCase = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [feedbackLoader, setFeedbackLoader] = useState<boolean>(false);
   const [similarLoader, setSimilarLoader] = useState<boolean>(false);
+
+  const [inWishlist, setInWishlist] = useState<boolean>(false);
 
   const [isPurchaseModal, setIsPurchaseModal] = useState<boolean>(false);
 
@@ -149,6 +152,27 @@ const CourseShowCase = () => {
     }
   }, [user, course, navigate]);
 
+  const toggleWishlist = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const res = await axios.put(
+        `${backend}/user/course-wishlist`,
+        {
+          userId: user?._id,
+          courseId: course?._id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setInWishlist(res.data.message === "Added to wishlist");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const averageRating = feedbacks.length
     ? Math.round(
         feedbacks.reduce((acc, f) => acc + (f.rating || 0), 0) /
@@ -193,6 +217,20 @@ const CourseShowCase = () => {
               <div className="course-showcase-course-rating">
                 <StarRating rating={averageRating} />
               </div>
+              {user &&
+                course &&
+                !course.enrolledStudents.includes(user._id) && (
+                  <div
+                    className="course-showcase-wishlist-icon"
+                    onClick={toggleWishlist}
+                  >
+                    {inWishlist ? (
+                      <FaHeart color="var(--yellow)" />
+                    ) : (
+                      <FaRegHeart />
+                    )}
+                  </div>
+                )}
               <ul className="course-showcase-course-meta">
                 <li className="course-showcase-course-meta-item">
                   <span>
