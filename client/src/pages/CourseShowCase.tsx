@@ -21,6 +21,8 @@ const CourseShowCase = () => {
   const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [feedbackLoader, setFeedbackLoader] = useState<boolean>(false);
+
   const [isPurchaseModal, setIsPurchaseModal] = useState<boolean>(false);
 
   useEffect(() => {
@@ -28,6 +30,10 @@ const CourseShowCase = () => {
       setLoading(true);
       try {
         const res = await axios.get(`${backend}/course/get/${slug}`);
+
+        if (!res.data.payload) {
+          navigate("*");
+        }
 
         setCourse(res.data.payload);
       } catch (error) {
@@ -39,6 +45,24 @@ const CourseShowCase = () => {
 
     fetchCourse();
   }, [backend, slug, user, navigate]);
+
+  useEffect(() => {
+    if (!course) return;
+    const fetchFeedbacks = async () => {
+      setFeedbackLoader(true);
+      try {
+        const res = await axios.get(`${backend}/feedback/${course._id}`);
+
+        setFeedbacks(res.data.payload);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setFeedbackLoader(false);
+      }
+    };
+
+    fetchFeedbacks();
+  }, [backend, course, user]);
 
   const handleEnrollClick = () => {
     if (!user) {

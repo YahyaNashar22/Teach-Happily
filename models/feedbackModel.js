@@ -11,6 +11,11 @@ const feedbackSchema = new Schema(
             ref: "User",
             required: true,
         },
+        courseId: {
+            type: Schema.Types.ObjectId,
+            ref: "Course",
+            required: true,
+        },
         content: {
             type: String,
             required: false,

@@ -13,6 +13,7 @@ import teacherRouter from './routes/teacherRoutes.js';
 import courseRouter from './routes/courseRoutes.js';
 import transporter from './utils/nodemailerTransporter.js';
 import emailRouter from './routes/emailRoutes.js';
+import feedbackRouter from './routes/feedbackRoutes.js';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -42,6 +43,8 @@ app.use('/category', categoryRouter);
 app.use('/teacher', teacherRouter);
 app.use('/course', courseRouter);
 app.use('/email', emailRouter);
+app.use('/feedback', feedbackRouter);
+
 
 
 
