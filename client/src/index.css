@@ -115,3 +115,15 @@ button:disabled {
   transition: 0.3s ease-in-out;
   text-align: center;
 }
+
+.enroll-btn {
+  color: var(--purple);
+  border: 1px solid var(--purple);
+  font-size: 1.3rem;
+  padding: 8px;
+}
+
+.enroll-btn:hover {
+  color: var(--white);
+  background-color: var(--purple);
+}

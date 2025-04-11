@@ -235,7 +235,7 @@ const CourseShowCase = () => {
               <button
                 type="button"
                 onClick={handleEnrollClick}
-                className="btn enroll-btn"
+                className="btn enroll-btn course-showcase-buy"
               >
                 شراء الان
               </button>
