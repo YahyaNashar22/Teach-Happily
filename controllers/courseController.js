@@ -239,3 +239,28 @@ export const updateCourse = async (req, res) => {
         res.status(500).json({ error: error });
     }
 }
+
+
+export const getAllLatestSimilarCourses = async (req, res) => {
+    try {
+        const { category } = req.body;
+        const limit = 3;
+
+        const limitNumber = parseInt(limit, 8);
+
+        const courses = await Course.find({ category })
+            .sort({ createdAt: -1 })
+            .limit(limitNumber)
+            .populate('teacher', 'fullname')
+
+
+
+        res.status(200).json({
+            payload: courses
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}

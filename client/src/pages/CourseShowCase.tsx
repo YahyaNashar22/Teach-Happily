@@ -22,6 +22,7 @@ const CourseShowCase = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [feedbackLoader, setFeedbackLoader] = useState<boolean>(false);
+  const [similarLoader, setSimilarLoader] = useState<boolean>(false);
 
   const [isPurchaseModal, setIsPurchaseModal] = useState<boolean>(false);
 
@@ -62,6 +63,32 @@ const CourseShowCase = () => {
     };
 
     fetchFeedbacks();
+  }, [backend, course, user]);
+
+  useEffect(() => {
+    if (!course) return;
+    const fetchSimilar = async () => {
+      setSimilarLoader(true);
+      try {
+        const res = await axios.post(
+          `${backend}/course/get-similar`,
+          { category: course.category },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        setSimilar(res.data.payload);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setSimilarLoader(false);
+      }
+    };
+
+    fetchSimilar();
   }, [backend, course, user]);
 
   const handleEnrollClick = () => {
@@ -249,40 +276,52 @@ const CourseShowCase = () => {
               <h2 className="course-showcase-feedback-header">
                 التقييمات والآراء
               </h2>
-              <ul className="course-showcase-feedback-list">
-                {feedbacks.map((feedback) => {
-                  return (
-                    <li
-                      key={feedback._id}
-                      className="course-showcase-feedback-card"
-                    >
-                      <p className="course-showcase-feedback-card-initials">
-                        {feedback.userId.fullName.split(" ")[0][0]}
-                      </p>
-                      <div className="course-showcase-feedback-card-text">
-                        <p className="course-showcase-feedback-card-user-name">
-                          {feedback.userId.fullName}
+              {feedbackLoader ? (
+                <p className="course-showcase-loading-text">
+                  جار الحصول على البيانات
+                </p>
+              ) : (
+                <ul className="course-showcase-feedback-list">
+                  {feedbacks.map((feedback) => {
+                    return (
+                      <li
+                        key={feedback._id}
+                        className="course-showcase-feedback-card"
+                      >
+                        <p className="course-showcase-feedback-card-initials">
+                          {feedback.userId.fullName.split(" ")[0][0]}
                         </p>
-                        <p className="course-showcase-feedback-card-date">
-                          {feedback.createdAt}
-                        </p>
-                        <p className="course-showcase-feedback-card-content">
-                          {feedback.content}
-                        </p>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+                        <div className="course-showcase-feedback-card-text">
+                          <p className="course-showcase-feedback-card-user-name">
+                            {feedback.userId.fullName}
+                          </p>
+                          <p className="course-showcase-feedback-card-date">
+                            {feedback.createdAt}
+                          </p>
+                          <p className="course-showcase-feedback-card-content">
+                            {feedback.content}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
 
             <div className="course-showcase-similar">
               <h2 className="course-showcase-similar-header">دورات مشابهة</h2>
-              <ul className="course-showcase-similar-list">
-                {similar.map((c) => {
-                  return <CourseCard course={c} />;
-                })}
-              </ul>
+              {similarLoader ? (
+                <p className="course-showcase-loading-text">
+                  جار الحصول على البيانات
+                </p>
+              ) : (
+                <ul className="course-showcase-similar-list">
+                  {similar.map((c) => {
+                    return <CourseCard course={c} />;
+                  })}
+                </ul>
+              )}
             </div>
           </div>
 
