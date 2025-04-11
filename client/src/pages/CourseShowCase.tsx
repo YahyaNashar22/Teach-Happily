@@ -15,6 +15,7 @@ import clock from "../assets/clock.png";
 import message from "../assets/message.png";
 import infinity from "../assets/infinity.png";
 import badge_ico from "../assets/badge_ico.png";
+import StarRating from "../components/StarRating";
 
 const CourseShowCase = () => {
   const { slug } = useParams();
@@ -148,6 +149,13 @@ const CourseShowCase = () => {
     }
   }, [user, course, navigate]);
 
+  const averageRating = feedbacks.length
+    ? Math.round(
+        feedbacks.reduce((acc, f) => acc + (f.rating || 0), 0) /
+          feedbacks.length
+      )
+    : 0;
+
   return (
     <>
       {loading ? (
@@ -182,7 +190,9 @@ const CourseShowCase = () => {
             {/* Upper left Section  */}
             <div className="course-showcase-upper-left">
               <h1 className="course-showcase-course-title">{course?.title}</h1>
-              <div className="course-showcase-course-rating">⭐⭐⭐⭐⭐</div>
+              <div className="course-showcase-course-rating">
+                <StarRating rating={averageRating} />
+              </div>
               <ul className="course-showcase-course-meta">
                 <li className="course-showcase-course-meta-item">
                   <span>
@@ -300,9 +310,7 @@ const CourseShowCase = () => {
                 التقييمات والآراء
               </h2>
               {feedbackLoader ? (
-                <p  >
-                  جار الحصول على البيانات
-                </p>
+                <p>جار الحصول على البيانات</p>
               ) : feedbacks.length === 0 ? (
                 <p className="course-showcase-loading-text">لا يوجد تقييمات</p>
               ) : (
@@ -323,6 +331,7 @@ const CourseShowCase = () => {
                           <p className="course-showcase-feedback-card-date">
                             {feedback.createdAt}
                           </p>
+                          <StarRating rating={feedback.rating || 0} />
                           <p className="course-showcase-feedback-card-content">
                             {feedback.content}
                           </p>

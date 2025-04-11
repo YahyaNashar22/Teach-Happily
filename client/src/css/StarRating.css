@@ -1,0 +1,13 @@
+.star-rating {
+  display: flex;
+  gap: 2px;
+  font-size: 1.2rem;
+}
+
+.star {
+  color: var(--divider-card); /* default grey star */
+}
+
+.star.filled {
+  color: var(--yellow); /* filled star */
+}
