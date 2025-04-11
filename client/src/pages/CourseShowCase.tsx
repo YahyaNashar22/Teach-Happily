@@ -10,6 +10,12 @@ import placeholderImg from "../assets/course_placeholder.png";
 import IFeedback from "../interfaces/IFeedback";
 import CourseCard from "../components/CourseCard";
 
+import documents from "../assets/documents.png";
+import clock from "../assets/clock.png";
+import message from "../assets/message.png";
+import infinity from "../assets/infinity.png";
+import badge_ico from "../assets/badge_ico.png";
+
 const CourseShowCase = () => {
   const { slug } = useParams();
   const { user } = useUserStore();
@@ -179,10 +185,21 @@ const CourseShowCase = () => {
               <div className="course-showcase-course-rating">⭐⭐⭐⭐⭐</div>
               <ul className="course-showcase-course-meta">
                 <li className="course-showcase-course-meta-item">
+                  <span>
+                    <img src={clock} width={16} alt="clock" loading="lazy" />
+                  </span>
                   {course?.duration}
                 </li>
 
                 <li className="course-showcase-course-meta-item">
+                  <span>
+                    <img
+                      src={documents}
+                      width={16}
+                      alt="documents"
+                      loading="lazy"
+                    />
+                  </span>
                   {course?.content.length}
                 </li>
               </ul>
@@ -193,6 +210,9 @@ const CourseShowCase = () => {
                   alt={course?.teacher.fullname}
                   className="course-showcase-course-teacher-img"
                 />
+                <p className="course-showcase-course-teacher-name">
+                  تقديم {course?.teacher.fullname}
+                </p>
               </div>
               <div className="course-showcase-perks">
                 <h2 className="course-showcase-perks-title">
@@ -200,10 +220,11 @@ const CourseShowCase = () => {
                 </h2>
                 <div className="course-showcase-perks-item">
                   <img
-                    src=""
+                    src={infinity}
                     loading="lazy"
                     alt="perk-icon"
                     className="course-showcase-perks-item-ico"
+                    width={16}
                   />
                   <p className="course-showcase-perks-item-text">
                     مشاهدة غير محدودة للدورة
@@ -211,10 +232,11 @@ const CourseShowCase = () => {
                 </div>
                 <div className="course-showcase-perks-item">
                   <img
-                    src=""
+                    src={badge_ico}
                     loading="lazy"
                     alt="perk-icon"
                     className="course-showcase-perks-item-ico"
+                    width={16}
                   />
                   <p className="course-showcase-perks-item-text">
                     شهادة إتمام الدورة
@@ -222,10 +244,11 @@ const CourseShowCase = () => {
                 </div>
                 <div className="course-showcase-perks-item">
                   <img
-                    src=""
+                    src={message}
                     loading="lazy"
                     alt="perk-icon"
                     className="course-showcase-perks-item-ico"
+                    width={16}
                   />
                   <p className="course-showcase-perks-item-text">
                     التواصل مع المدرب
@@ -277,9 +300,11 @@ const CourseShowCase = () => {
                 التقييمات والآراء
               </h2>
               {feedbackLoader ? (
-                <p className="course-showcase-loading-text">
+                <p  >
                   جار الحصول على البيانات
                 </p>
+              ) : feedbacks.length === 0 ? (
+                <p className="course-showcase-loading-text">لا يوجد تقييمات</p>
               ) : (
                 <ul className="course-showcase-feedback-list">
                   {feedbacks.map((feedback) => {

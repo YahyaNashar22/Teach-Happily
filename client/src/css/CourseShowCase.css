@@ -52,11 +52,31 @@
   margin-bottom: 1.5rem;
 }
 
+.course-showcase-course-meta-item {
+  display: flex;
+  gap: 4px;
+}
+
+.course-showcase-course-teacher {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  width: 240px;
+  padding: 4px 8px;
+  border-radius: 32px;
+  border: 1px solid var(--accent-grey);
+}
+
 .course-showcase-course-teacher-img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 2px solid var(--purple);
+}
+
+.course-showcase-course-teacher-name {
+  font-size: 1.1rem;
+  color: var(--white);
 }
 
 /* Perks */
@@ -84,6 +104,12 @@
 .course-showcase-buy {
   width: 90%;
   margin: 20px auto 20px auto;
+  color: var(--white);
+  border-color: var(--white);
+}
+
+.course-showcase-buy:hover {
+  border-color: var(--purple);
 }
 
 /* Lower Section */
@@ -118,7 +144,6 @@
   width: 100px;
   height: 100px;
   border-radius: 1rem;
-  border: 2px solid var(--purple);
   object-fit: cover;
 }
 
@@ -143,9 +168,9 @@
 
 /* Feedback */
 .course-showcase-feedback {
-  background-color: var(--bg-grey);
   padding: 1rem;
-  border-radius: 1rem;
+  border-top: 1px solid var(--accent-grey);
+  border-bottom: 1px solid var(--accent-grey);
 }
 
 .course-showcase-feedback-header {
