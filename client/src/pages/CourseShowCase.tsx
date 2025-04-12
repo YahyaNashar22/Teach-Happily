@@ -201,9 +201,7 @@ const CourseShowCase = () => {
                 </video>
               ) : (
                 <img
-                  // TODO: DON'T FORGET TO CHANGE THIS BACK
-                  // src={`${backend}/${course?.image}`}
-                  src={placeholderImg}
+                  src={`${backend}/${course?.image}`}
                   alt={course?.title}
                   loading="lazy"
                   className="course-showcase-thumbnail"
