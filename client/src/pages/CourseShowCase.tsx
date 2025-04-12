@@ -6,7 +6,6 @@ import ICourse from "../interfaces/ICourse";
 import axios from "axios";
 import Loading from "../components/Loading";
 
-import placeholderImg from "../assets/course_placeholder.png";
 import IFeedback from "../interfaces/IFeedback";
 import CourseCard from "../components/CourseCard";
 
