@@ -3,9 +3,12 @@ import "../css/TutorCards.css";
 import ITeacher from "../interfaces/ITeacher";
 import axios from "axios";
 import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
 
 const TutorCards = () => {
   const backend = import.meta.env.VITE_BACKEND;
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState<boolean>(true);
   const [teachers, setTeachers] = useState<ITeacher[]>([]);
 
@@ -41,6 +44,7 @@ const TutorCards = () => {
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                 }}
+                onClick={() => navigate(`/teacher-showcase/${teacher._id}`)}
               >
                 <h3 className="teacher-name">{teacher.fullname}</h3>
                 <p className="teacher-profession">{teacher.profession}</p>
