@@ -33,7 +33,6 @@ const ProfilePage = () => {
     fetchCoursesEnrolled();
   }, [backend, user]);
 
-  console.log(courses);
   return (
     <main className="profile-wrapper">
       <h1 className="profile-title">أهلا {user?.fullName}</h1>

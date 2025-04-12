@@ -1,8 +1,8 @@
-import transporter from "../../future_insights/utils/nodemailerTransporter.js";
 import path from 'path';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import transporter from '../utils/nodemailerTransporter.js';
 
 // Get the current directory path
 const __filename = fileURLToPath(import.meta.url);
