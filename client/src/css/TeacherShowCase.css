@@ -54,6 +54,10 @@
   .teacher-viewer-nav-option:hover {
     color: var(--purple);
   }
+
+  .teacher-viewer-nav-option-active {
+    color: var(--purple);
+  }
   
   /* Info Section */
   .teacher-viewer-info-container {

@@ -3,13 +3,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px 20px;
-  background-color: transparent;
+  background-color: var(--semi-transparent-purple);
   color: var(--white);
   position: fixed;
-  top:0;
+  top: 0;
   width: 100%;
   z-index: 100;
   transition: background-color 0.3s ease-in-out;
+  backdrop-filter: blur(10px);
 }
 
 .mobile-header.scrolled {

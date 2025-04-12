@@ -87,13 +87,21 @@ const TeacherShowCase = () => {
           {/* tab selector */}
           <div className="teacher-viewer-nav-selector">
             <p
-              className="teacher-viewer-nav-option"
+              className={
+                selectedTab === "Info"
+                  ? "teacher-viewer-nav-option teacher-viewer-nav-option-active"
+                  : "teacher-viewer-nav-option"
+              }
               onClick={() => setSelectedTab("Info")}
             >
               الرئيسية
             </p>
             <p
-              className="teacher-viewer-nav-option"
+              className={
+                selectedTab === "Courses"
+                  ? "teacher-viewer-nav-option teacher-viewer-nav-option-active"
+                  : "teacher-viewer-nav-option"
+              }
               onClick={() => setSelectedTab("Courses")}
             >
               الدورات
