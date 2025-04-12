@@ -138,7 +138,7 @@ export const getCourseBySlug = async (req, res) => {
         const { slug } = req.params;
 
         const course = await Course.findOne({ slug })
-            .populate('teacher', 'fullname')
+            .populate('teacher')
             .populate('category', 'name');
 
         res.status(200).json({

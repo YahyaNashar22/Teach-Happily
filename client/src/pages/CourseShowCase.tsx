@@ -179,6 +179,8 @@ const CourseShowCase = () => {
       )
     : 0;
 
+  console.log(course);
+
   return (
     <>
       {loading ? (
@@ -250,7 +252,7 @@ const CourseShowCase = () => {
               </ul>
               <div className="course-showcase-course-teacher">
                 <img
-                  src={`${backend}/${course?.teacher.image}`}
+                  src={`${backend}/${course?.teacher?.image}`}
                   loading="lazy"
                   alt={course?.teacher.fullname}
                   className="course-showcase-course-teacher-img"
@@ -321,9 +323,9 @@ const CourseShowCase = () => {
                   {course?.description}
                 </p>
               </div>
-              <div className="course-showcase-course-teacher">
+              <div className="course-showcase-course-teacher-section">
                 <img
-                  src={`${backend}/${course?.teacher.image}`}
+                  src={`${backend}/${course?.teacher?.image}`}
                   alt={course?.teacher.fullname}
                   loading="lazy"
                   className="course-showcase-course-teacher-section-img"
@@ -387,7 +389,7 @@ const CourseShowCase = () => {
               ) : (
                 <ul className="course-showcase-similar-list">
                   {similar.map((c) => {
-                    return <CourseCard course={c} />;
+                    return <CourseCard key={c._id} course={c} />;
                   })}
                 </ul>
               )}
