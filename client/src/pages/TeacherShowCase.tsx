@@ -103,11 +103,29 @@ const TeacherShowCase = () => {
           {/* information about the teacher  */}
           {selectedTab === "Info" && (
             <div className="teacher-viewer-info-container">
-   <h2 className="teacher-viewer-info-container-title">
-                عن المدرب
-              </h2>
+              <h2 className="teacher-viewer-info-container-title">عن المدرب</h2>
+              <h3 className="teacher-viewer-info-container-section-header">
+                التعليم
+              </h3>
+              <p className="teacher-viewer-info-container-section-description">
+                {teacher?.description}
+              </p>
 
-              
+              <h3 className="teacher-viewer-info-container-section-header">
+                المهنة
+              </h3>
+              <ul className="teacher-viewer-info-container-section-description">
+                {teacher?.previousExperience.map((e, index) => {
+                  return (
+                    <li
+                      key={index}
+                      className="teacher-viewer-info-container-section-description-prev-work"
+                    >
+                      {e}
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           )}
 
@@ -117,13 +135,18 @@ const TeacherShowCase = () => {
               <h2 className="teacher-viewer-courses-container-title">
                 الدورات
               </h2>
-            <ul className="teacher-viewer-courses">
-              {courses.map((c) => {
-                return <CourseCard key={c._id} course={c} />;
-              })}
-            </ul>
+              {courses.length === 0 ? (
+                <p className="teacher-viewer-courses-no-content">
+                  لا توجد دروس بعد
+                </p>
+              ) : (
+                <ul className="teacher-viewer-courses">
+                  {courses.map((c) => {
+                    return <CourseCard key={c._id} course={c} />;
+                  })}
+                </ul>
+              )}
             </div>
-
           )}
         </main>
       )}
