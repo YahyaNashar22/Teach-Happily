@@ -3,6 +3,8 @@ interface ITeacher {
   fullname: string;
   profession: string;
   image?: string | File;
+  description: string;
+  previousExperience: string[];
 }
 
 export default ITeacher;

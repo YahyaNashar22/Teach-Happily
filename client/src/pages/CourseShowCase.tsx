@@ -179,8 +179,6 @@ const CourseShowCase = () => {
       )
     : 0;
 
-  console.log(course);
-
   return (
     <>
       {loading ? (
@@ -336,7 +334,10 @@ const CourseShowCase = () => {
                 <p className="course-showcase-teacher-section-teacher">
                   المدرب
                 </p>
-                <Link to="" className="course-showcase-teacher-read-more">
+                <Link
+                  to={`/teacher-showcase/${course?.teacher._id}`}
+                  className="course-showcase-teacher-read-more"
+                >
                   اقرأ المزيد
                 </Link>
               </div>

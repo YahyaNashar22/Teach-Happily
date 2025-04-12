@@ -16,6 +16,14 @@ const teacherSchema = new Schema(
             type: String,
             required: false,
         },
+        description: {
+            type: String,
+            required: false,
+        },
+        previousExperience: {
+            type: [String],
+            required: true,
+        }
     },
     {
         timestamps: true

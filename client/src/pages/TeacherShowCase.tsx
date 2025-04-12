@@ -102,20 +102,28 @@ const TeacherShowCase = () => {
 
           {/* information about the teacher  */}
           {selectedTab === "Info" && (
-            <div className="teacher-viewer-info"></div>
+            <div className="teacher-viewer-info-container">
+   <h2 className="teacher-viewer-info-container-title">
+                عن المدرب
+              </h2>
+
+              
+            </div>
           )}
 
           {/* courses provided by the teacher */}
           {selectedTab === "Courses" && (
+            <div className="teacher-viewer-courses-container">
+              <h2 className="teacher-viewer-courses-container-title">
+                الدورات
+              </h2>
             <ul className="teacher-viewer-courses">
-              {
-                courses.map(c => {
-                  return (
-                    <CourseCard key={c._id} course={c} />
-                  )
-                })
-              }
+              {courses.map((c) => {
+                return <CourseCard key={c._id} course={c} />;
+              })}
             </ul>
+            </div>
+
           )}
         </main>
       )}
