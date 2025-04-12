@@ -74,8 +74,8 @@
 .dash-home-btn {
   margin-top: auto;
   padding: 10px;
-  background-color: var(--purple);
-  color: var(--white);
+  /* background-color: var(--purple); */
+  color: var(--purple);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -86,14 +86,15 @@
 }
 
 .dash-home-btn:hover {
-  background-color: var(--yellow);
+  color: var(--white);
+  background-color: var(--purple);
 }
 
 .dash-logout-btn {
   margin-top: auto;
   padding: 10px;
   background-color: var(--white);
-  color: var(--purple);
+  color: var(--red);
   border: none;
   border-radius: 5px;
   cursor: pointer;

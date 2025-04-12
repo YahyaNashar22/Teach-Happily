@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import ICourse from "../interfaces/ICourse";
 import axios from "axios";
 import Loading from "../components/Loading";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const backend = import.meta.env.VITE_BACKEND;
-  const { user, clearUser } = useUserStore();
+  const { user } = useUserStore();
   const navigate = useNavigate();
 
   const [courses, setCourses] = useState<ICourse[]>([]);
@@ -125,11 +125,11 @@ const ProfilePage = () => {
         )}
       </section>
 
-      <section className="profile-buttons">
+      {/* <section className="profile-buttons">
         <Link to="/" onClick={clearUser} className="profile-signout">
           تسجيل الخروج
         </Link>
-      </section>
+      </section> */}
     </main>
   );
 };

@@ -1,15 +1,21 @@
 import "../css/Header.css";
 
 import { Link, useNavigate } from "react-router-dom";
-// import logo from "../assets/Logo_white.png";
+import logo from "../assets/Logo_white.png";
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
 
 const Header = () => {
-  const { user } = useUserStore();
+  const { user, clearUser } = useUserStore();
   const navigate = useNavigate();
 
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleLogout = () => {
+    clearUser();
+    navigate("/");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,13 +31,13 @@ const Header = () => {
   }, []);
   return (
     <header className={`header ${isScrolled ? "scrolled" : ""}`}>
-      {/* <img
+      <img
         src={logo}
         alt="logo"
         width={80}
         loading="lazy"
         onClick={() => navigate("/")}
-      /> */}
+      />
       <nav>
         <ul className="nav-links">
           <Link to="/" className="nav-link">
@@ -83,13 +89,35 @@ const Header = () => {
       </nav>
       {user ? (
         user.role === "admin" ? (
-          <Link to="/dashboard" className="profile">
-            {user.fullName.split(" ")[0][0]}
-          </Link>
+          <div className="profile-dropdown">
+            <div
+              className="profile"
+              onClick={() => setShowDropdown((prev) => !prev)}
+            >
+              {user.fullName.split(" ")[0][0]}
+            </div>
+            {showDropdown && (
+              <ul className="dropdown-menu">
+                <li onClick={() => navigate("/dashboard")}> لوحة التحكم</li>
+                <li onClick={() => handleLogout()}>تسجيل خروج</li>
+              </ul>
+            )}
+          </div>
         ) : (
-          <Link to="/profile" className="profile">
-            {user.fullName.split(" ")[0][0]}
-          </Link>
+          <div className="profile-dropdown">
+            <div
+              className="profile"
+              onClick={() => setShowDropdown((prev) => !prev)}
+            >
+              {user.fullName.split(" ")[0][0]}
+            </div>
+            {showDropdown && (
+              <ul className="dropdown-menu">
+                <li onClick={() => navigate("/profile")}>الملف الشخصي</li>
+                <li onClick={() => handleLogout()}>تسجيل خروج</li>
+              </ul>
+            )}
+          </div>
         )
       ) : (
         <Link to="/sign-in" className="btn-yellow">
