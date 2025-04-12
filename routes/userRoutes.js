@@ -1,5 +1,5 @@
 import express from "express";
-import { createStudent, enrollCourse, getUnlockedVideos, getUser, login, logout, resetPassword, sendForgotPasswordOTP, toggleWishlist, unlockVideo } from "../controllers/userControllers.js";
+import { createStudent, enrollCourse, getFavoriteCourses, getUnlockedVideos, getUser, login, logout, resetPassword, sendForgotPasswordOTP, toggleWishlist, unlockVideo } from "../controllers/userControllers.js";
 
 const userRouter = express.Router();
 
@@ -17,6 +17,8 @@ userRouter.post("/forgot-password", sendForgotPasswordOTP);
 userRouter.post("/reset-password", resetPassword);
 
 userRouter.put("/course-wishlist", toggleWishlist);
+userRouter.post("/get-favorite-courses", getFavoriteCourses);
+
 
 
 

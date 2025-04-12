@@ -343,4 +343,19 @@ export const toggleWishlist = async (req, res) => {
 };
 
 
+export const getFavoriteCourses = async (req, res) => {
+    const { userId } = req.body;
+
+    try {
+
+        const favorites = await User.findById(userId).populate("courseWishlist");
+
+        return res.status(200).json({ payload: favorites });
+    } catch (error) {
+        console.error("Wishlist fetch error:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
+};
+
+
 // TODO: ADD CHANGE NAME FOR CERTIFICATE
