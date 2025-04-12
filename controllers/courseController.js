@@ -264,3 +264,18 @@ export const getAllLatestSimilarCourses = async (req, res) => {
         res.status(500).json({ error: error });
     }
 }
+
+
+export const getCoursesByTeacherId = async (req, res) => {
+    try {
+        const { teacherId } = req.body;
+
+        const courses = await Course.find({ teacher: teacherId });
+
+
+        return res.status(200).json({ payload: courses });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}
