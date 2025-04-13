@@ -9,7 +9,11 @@ export const createFeedback = async (req, res) => {
         });
         await feedback.save();
 
-        return res.status(201).json({ payload: feedback })
+        // Populate the userId field after saving
+        const populatedFeedback = await Feedback.findById(feedback._id).populate("userId");
+
+
+        return res.status(201).json({ payload: populatedFeedback })
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error });
@@ -23,7 +27,7 @@ export const getCourseFeedbacks = async (req, res) => {
 
         const feedbacks = await Feedback.find({
             courseId
-        });
+        }).populate("userId");
 
         return res.status(200).json({ payload: feedbacks })
     } catch (error) {

@@ -367,7 +367,17 @@ const CourseShowCase = () => {
                             {feedback.userId.fullName}
                           </p>
                           <p className="course-showcase-feedback-card-date">
-                            {feedback.createdAt}
+                            {new Date(feedback.createdAt).toLocaleString(
+                              "ar-EG",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              }
+                            )}
                           </p>
                           <StarRating rating={feedback.rating || 0} />
                           <p className="course-showcase-feedback-card-content">

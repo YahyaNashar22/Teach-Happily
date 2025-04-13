@@ -5,6 +5,8 @@ import IContent from "../interfaces/IContent";
 import ICourse from "../interfaces/ICourse";
 import { useUserStore } from "../store";
 import axios from "axios";
+import IFeedback from "../interfaces/IFeedback";
+import StarRating from "./StarRating";
 
 const CoursePageLeftSide = ({
   selectedVideo,
@@ -20,6 +22,13 @@ const CoursePageLeftSide = ({
   const { user } = useUserStore();
 
   const [, setVideoProgress] = useState<Record<number, number>>({});
+
+  const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
+  const [feedbackLoader, setFeedbackLoader] = useState<boolean>(false);
+
+  const [newFeedback, setNewFeedback] = useState<string>("");
+  const [newRating, setNewRating] = useState<number>(0);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   // Handle video progress tracking
   const handleTimeUpdate = (event: React.SyntheticEvent<HTMLVideoElement>) => {
@@ -77,6 +86,46 @@ const CoursePageLeftSide = ({
       fetchUnlockedVideos();
     }
   }, [course, user, backend, setUnlockedVideos]);
+
+  useEffect(() => {
+    if (!course) return;
+    const fetchFeedbacks = async () => {
+      setFeedbackLoader(true);
+      try {
+        const res = await axios.get(`${backend}/feedback/${course._id}`);
+
+        setFeedbacks(res.data.payload);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setFeedbackLoader(false);
+      }
+    };
+
+    fetchFeedbacks();
+  }, [backend, course, user]);
+
+  const addFeedback = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!newFeedback || !newRating || !user || !course) return;
+    setSubmitting(true);
+    try {
+      const res = await axios.post(`${backend}/feedback/create`, {
+        userId: user._id,
+        courseId: course._id,
+        rating: newRating,
+        content: newFeedback,
+      });
+
+      setFeedbacks((prev) => [res.data.payload, ...prev]);
+      setNewFeedback("");
+      setNewRating(0);
+    } catch (err) {
+      console.error("Error adding feedback:", err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <div className="course-viewer-left-side-wrapper">
       <div className="course-video-container">
@@ -119,6 +168,70 @@ const CoursePageLeftSide = ({
           ))}
         </ul>
       </div>
+
+      {/* Feedbacks section  */}
+      <div className="course-left-side-feedback">
+        <h2 className="course-left-side-feedback-header">التقييمات والآراء</h2>
+        {feedbackLoader ? (
+          <p>جار الحصول على البيانات</p>
+        ) : feedbacks.length === 0 ? (
+          <p className="course-left-side-loading-text">لا يوجد تقييمات</p>
+        ) : (
+          <ul className="course-left-side-feedback-list">
+            {feedbacks.map((feedback) => {
+              return (
+                <li
+                  key={feedback._id}
+                  className="course-left-side-feedback-card"
+                >
+                  <p className="course-left-side-feedback-card-initials">
+                    {feedback?.userId?.fullName?.split(" ")[0][0]}
+                  </p>
+                  <div className="course-left-side-feedback-card-text">
+                    <p className="course-left-side-feedback-card-user-name">
+                      {feedback?.userId.fullName}
+                    </p>
+                    <p className="course-left-side-feedback-card-date">
+                      {new Date(feedback?.createdAt).toLocaleString("ar-EG", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </p>
+                    <StarRating rating={feedback?.rating || 0} />
+                    <p className="course-left-side-feedback-card-content">
+                      {feedback?.content}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+
+      {user && (
+        <div className="course-left-side-add-feedback">
+          <h3>أضف تقييمك</h3>
+          <StarRating rating={newRating} setRating={setNewRating} />
+          <textarea
+            className="course-left-side-feedback-input"
+            placeholder="اكتب تقييمك هنا..."
+            value={newFeedback}
+            onChange={(e) => setNewFeedback(e.target.value)}
+          />
+          <button
+            className="course-left-side-feedback-submit"
+            onClick={addFeedback}
+            disabled={submitting}
+          >
+            {submitting ? "جاري الإرسال..." : "إرسال التقييم"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
