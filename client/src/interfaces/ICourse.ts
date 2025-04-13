@@ -1,4 +1,5 @@
 import ICategory from "./ICategory";
+import IContent from "./IContent";
 import ITeacher from "./ITeacher";
 
 interface ICourse {
@@ -10,15 +11,10 @@ interface ICourse {
   duration: string;
   teacher: ITeacher;
   category: ICategory;
-  price: number;
+  price: string;
   enrolledStudents: string[];
   demo: string;
-  content: [
-    {
-      title: string;
-      url: string;
-    }
-  ];
+  content: IContent[];
   whatWillYouLearn: string;
   requirements: string;
   audience: string;

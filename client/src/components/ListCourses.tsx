@@ -58,18 +58,35 @@ const ListCourses = () => {
     if (!selectedCourse) return;
     try {
       const formData = new FormData();
+
+      // Append all text fields
       formData.append("title", selectedCourse.title);
       formData.append("description", selectedCourse.description);
       formData.append("level", selectedCourse.level);
       formData.append("duration", selectedCourse.duration);
-      formData.append("price", selectedCourse.price.toString());
+      formData.append("price", selectedCourse.price);
       formData.append("whatWillYouLearn", selectedCourse.whatWillYouLearn);
       formData.append("requirements", selectedCourse.requirements);
       formData.append("audience", selectedCourse.audience);
-
-      if (selectedCourse.image) {
+  
+      // Handle image (optional)
+      if (selectedCourse.image instanceof File) {
         formData.append("image", selectedCourse.image);
       }
+  
+      // Prepare content (video title + url)
+      const content = selectedCourse.content.map((video) => {
+        if (video.url instanceof File) {
+          // upload the file
+          formData.append("videos", video.url);
+          return { title: video.title, url: video.url.name };
+        } else {
+          return { title: video.title, url: video.url };
+        }
+      });
+  
+      formData.append("content", JSON.stringify(content));
+  
 
       await axios.patch(`${backend}/course/${selectedCourse._id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -346,7 +363,7 @@ const ListCourses = () => {
               onChange={(e) =>
                 setSelectedCourse({
                   ...selectedCourse,
-                  price: Number(e.target.value),
+                  price: e.target.value,
                 })
               }
             />
@@ -393,7 +410,7 @@ const ListCourses = () => {
               multiline
               rows={4}
             />
-            <input
+            {/* <input
               type="file"
               onChange={(e) =>
                 setSelectedCourse({
@@ -401,7 +418,73 @@ const ListCourses = () => {
                   image: e.target.files?.[0] || selectedCourse.image,
                 })
               }
-            />
+            /> */}
+            {/* NEW IMPLEMENTATION FOR VIDEO UPLOAD  */}
+            {selectedCourse.content?.map((video, index) => (
+              <div
+                key={index}
+                style={{
+                  marginBottom: "1rem",
+                  border: "1px solid #ccc",
+                  padding: "1rem",
+                  borderRadius: "8px",
+                }}
+              >
+                <TextField
+                  fullWidth
+                  margin="dense"
+                  label={`عنوان الفيديو ${index + 1}`}
+                  value={video.title}
+                  onChange={(e) => {
+                    const updatedContent = [...selectedCourse.content];
+                    updatedContent[index].title = e.target.value;
+                    setSelectedCourse({
+                      ...selectedCourse,
+                      content: updatedContent,
+                    });
+                  }}
+                />
+                <input
+                  type="file"
+                  accept="video/*"
+                  onChange={(e) => {
+                    const updatedContent = [...selectedCourse.content];
+                    updatedContent[index].url =
+                      e.target.files?.[0] || video.url;
+                    setSelectedCourse({
+                      ...selectedCourse,
+                      content: updatedContent,
+                    });
+                  }}
+                />
+                <Button
+                  color="error"
+                  onClick={() => {
+                    const updatedContent = [...selectedCourse.content];
+                    updatedContent.splice(index, 1);
+                    setSelectedCourse({
+                      ...selectedCourse,
+                      content: updatedContent,
+                    });
+                  }}
+                >
+                  حذف الفيديو
+                </Button>
+              </div>
+            ))}
+
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                setSelectedCourse({
+                  ...selectedCourse,
+                  content: [...selectedCourse.content, { title: "", url: "" }],
+                });
+              }}
+            >
+              + إضافة فيديو جديد
+            </Button>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">

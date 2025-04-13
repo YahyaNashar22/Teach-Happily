@@ -8,7 +8,7 @@ import ListTeachers from "../components/ListTeachers";
 
 const Dashboard = () => {
   const { clearUser } = useUserStore();
-  const [activeForm, setActiveForm] = useState("category");
+  const [activeForm, setActiveForm] = useState("course");
 
   return (
     <div className="dashboard-container">
@@ -17,6 +17,16 @@ const Dashboard = () => {
         <div>
           <h2 className="dashboard-title">لوحة التحكم</h2>
           <ul className="dashboard-menu">
+            <li>
+              <button
+                className={`dashboard-menu-item ${
+                  activeForm === "course" ? "active" : ""
+                }`}
+                onClick={() => setActiveForm("course")}
+              >
+                الدورات
+              </button>
+            </li>
             <li>
               <button
                 className={`dashboard-menu-item ${
@@ -35,16 +45,6 @@ const Dashboard = () => {
                 onClick={() => setActiveForm("teacher")}
               >
                 المدربات
-              </button>
-            </li>
-            <li>
-              <button
-                className={`dashboard-menu-item ${
-                  activeForm === "course" ? "active" : ""
-                }`}
-                onClick={() => setActiveForm("course")}
-              >
-                الدورات
               </button>
             </li>
           </ul>

@@ -1,6 +1,6 @@
 interface IContent {
   title: string;
-  url: string;
+  url: string | File;
 }
 
 export default IContent;

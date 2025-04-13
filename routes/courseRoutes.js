@@ -22,9 +22,12 @@ courseRouter.get("/get-courses-enrolled/:userId", getAllCoursesForUser);
 
 courseRouter.delete("/:id", deleteCourse);
 
-courseRouter.patch("/:id", upload.single("image"), updateCourse);
+courseRouter.patch("/:id", upload.fields([
+    { name: "image", maxCount: 1 }, // Single image for course thumbnail
+    { name: "videos" } // Multiple videos for course content
+]), updateCourse);
 
-courseRouter.post("/get-teacher-courses",  getCoursesByTeacherId);
+courseRouter.post("/get-teacher-courses", getCoursesByTeacherId);
 
 
 

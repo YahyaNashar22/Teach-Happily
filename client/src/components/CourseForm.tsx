@@ -13,7 +13,9 @@ const CourseUploadForm = ({
   const backend = import.meta.env.VITE_BACKEND;
 
   const [image, setImage] = useState<File | null>(null);
-  const [videos, setVideos] = useState<File[]>([]);
+  const [videos, setVideos] = useState<{ title: string; file: File | null }[]>(
+    []
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -101,9 +103,27 @@ const CourseUploadForm = ({
     }
   };
 
-  const handleVideosChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files ? Array.from(e.target.files) : []; // Convert FileList to Array
-    setVideos(files);
+  const handleVideoChange = (
+    index: number,
+    field: "title" | "file",
+    value: string | File
+  ) => {
+    const updatedVideos = [...videos];
+    updatedVideos[index] = {
+      ...updatedVideos[index],
+      [field]: value,
+    };
+    setVideos(updatedVideos);
+  };
+
+  const addNewVideoField = () => {
+    setVideos([...videos, { title: "", file: null }]);
+  };
+
+  const removeVideoField = (index: number) => {
+    const updatedVideos = [...videos];
+    updatedVideos.splice(index, 1);
+    setVideos(updatedVideos);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -114,8 +134,16 @@ const CourseUploadForm = ({
     Object.keys(formData).forEach((key) => {
       data.append(key, formData[key as keyof typeof formData]);
     });
-    if (image) data.append("image", image);
-    videos.forEach((video) => data.append("videos", video));
+    if (image) {
+      data.append("image", image);
+    }
+
+    videos.forEach((video) => {
+      if (video.file) {
+        data.append("videos", video.file);
+        data.append("videoTitles", video.title); // send titles too
+      }
+    });
 
     try {
       const res = await axios.post(`${backend}/course/create-course`, data, {
@@ -269,15 +297,44 @@ const CourseUploadForm = ({
           />
         </label>
 
-        <label>
-          فيديوهات الدورة{" "}
-          <input
-            type="file"
-            accept="video/*"
-            multiple
-            onChange={handleVideosChange}
-          />
-        </label>
+        <label>فيديوهات الدورة</label>
+        {videos.map((video, index) => (
+          <div
+            key={index}
+            style={{
+              marginBottom: "1rem",
+              border: "1px solid #ccc",
+              padding: "1rem",
+              borderRadius: "8px",
+            }}
+          >
+            <input
+              type="text"
+              placeholder={`عنوان الفيديو ${index + 1}`}
+              value={video.title}
+              onChange={(e) =>
+                handleVideoChange(index, "title", e.target.value)
+              }
+              required
+            />
+            <input
+              type="file"
+              accept="video/*"
+              onChange={(e) =>
+                e.target.files &&
+                handleVideoChange(index, "file", e.target.files[0])
+              }
+              style={{margin:"10px 0px"}}
+              required
+            />
+            <button type="button" onClick={() => removeVideoField(index)}>
+              حذف الفيديو
+            </button>
+          </div>
+        ))}
+        <button type="button" onClick={addNewVideoField}>
+          + إضافة فيديو جديد
+        </button>
 
         <button type="submit" disabled={loading}>
           {loading ? "جارٍ الرفع..." : "رفع الدورة"}

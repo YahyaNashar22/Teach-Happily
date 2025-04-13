@@ -18,7 +18,8 @@ export const createCourse = async (req, res) => {
             category,
             whatWillYouLearn,
             requirements,
-            audience
+            audience,
+            videoTitles
         } = req.body;
 
         // Check if a course with the same title already exists
@@ -30,11 +31,15 @@ export const createCourse = async (req, res) => {
 
         const image = req.files?.image ? req.files.image[0].filename : null;
 
+        // Ensure it's always an array
+        if (videoTitles && !Array.isArray(videoTitles)) {
+            videoTitles = [videoTitles];
+        }
 
         // Handle file uploads (videos)
         const content = req.files?.videos
-            ? req.files.videos.map(file => ({
-                title: file.originalname,
+            ? req.files.videos.map((file, index) => ({
+                title: videoTitles?.[index] || file.originalname,
                 url: file.filename,
             }))
             : [];
@@ -183,12 +188,14 @@ export const deleteCourse = async (req, res) => {
             return res.status(400).json({ message: "لا يمكن حذف دورة يوجد فيها متدربين" })
         }
 
+        console.log(course)
+
         if (course.image) {
             removeFile(course.image)
         }
 
         if (course.content.length > 0) {
-            content.map(video => removeFile(video.url));
+            course.content.map(video => removeFile(video.url));
         }
 
         await Course.findByIdAndDelete(id);
@@ -202,43 +209,75 @@ export const deleteCourse = async (req, res) => {
     }
 }
 
+
 export const updateCourse = async (req, res) => {
     try {
         const id = req.params.id;
-        const { title, description, level, duration, price, whatWillYouLearn, requirements, audience } = req.body;
-        const image = req.file?.filename;
+        const {
+            title,
+            description,
+            level,
+            duration,
+            price,
+            whatWillYouLearn,
+            requirements,
+            audience,
+            content: contentJSON
+        } = req.body;
 
         const course = await Course.findById(id);
+        if (!course) return res.status(404).json({ error: "Course not found" });
 
-        if (image && course.image) {
-            removeFile(course.image);
-        }
+        // Handle new image
+        const imageFile = req.files?.image?.[0];
+        if (imageFile && course.image) removeFile(course.image);
 
-        const updatedCourse = await Course.findByIdAndUpdate(id, {
-            $set: {
-                title: title ? title : course.title,
-                description: description ? description : course.description,
-                level: level ? level : course.level,
-                duration: duration ? duration : course.duration,
-                price: price ? price : course.price,
-                whatWillYouLearn: whatWillYouLearn ? whatWillYouLearn : course.whatWillYouLearn,
-                requirements: requirements ? requirements : course.requirements,
-                audience: audience ? audience : course.audience,
-                image: image ? image : course.image
-            }
+        const image = imageFile?.filename || course.image;
 
-        },
+        // Parse incoming content list
+        const updatedContent = JSON.parse(contentJSON);
+
+        // Remove deleted videos
+        const updatedUrls = updatedContent.map(v => v.url);
+        course.content.forEach(v => {
+            if (!updatedUrls.includes(v.url)) removeFile(v.url);
+        });
+
+        // Handle newly uploaded videos
+        const uploadedVideos = req.files?.videos || [];
+
+        uploadedVideos.forEach((file) => {
+            const match = updatedContent.find(v => v.url === file.originalname);
+            if (match) match.url = file.filename;
+        });
+
+        const updatedCourse = await Course.findByIdAndUpdate(
+            id,
             {
-                new: true
-            }
-        )
+                $set: {
+                    title,
+                    description,
+                    level,
+                    duration,
+                    price,
+                    whatWillYouLearn,
+                    requirements,
+                    audience,
+                    image,
+                    content: updatedContent
+                }
+            },
+            { new: true }
+        );
 
-        res.status(200).json({ payload: updatedCourse })
+        res.status(200).json({ payload: updatedCourse });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: error });
+        console.error(error);
+        res.status(500).json({ error: "Failed to update course" });
     }
-}
+};
+
+
 
 
 export const getAllLatestSimilarCourses = async (req, res) => {
