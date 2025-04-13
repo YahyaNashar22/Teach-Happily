@@ -35,7 +35,7 @@ const ShowCaseDigitalProduct = lazy(
 );
 
 const CourseShowCase = lazy(() => import("../pages/CourseShowCase.tsx"));
-const TeacherShowCase = lazy(() => import("../pages/TeacherShowcase.tsx"));
+const TeacherShowCase = lazy(() => import("../pages/TeacherShowCase.tsx"));
 
 const AppRoutes = () => {
   const { user } = useUserStore();
