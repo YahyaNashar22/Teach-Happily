@@ -38,7 +38,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
-  gap: 2px;
+  gap: 8px;
   color: var(--accent-grey);
   font-weight: bold;
   transition: 0.3s ease-in-out;
@@ -53,7 +53,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
-  gap: 2px;
+  gap: 8px;
   color: var(--accent-grey);
   font-weight: bold;
 }
@@ -84,6 +84,7 @@
 }
 
 .course-viewer-teacher-name-content {
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: space-around;
