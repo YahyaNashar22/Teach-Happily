@@ -245,7 +245,7 @@ const CourseShowCase = () => {
                       loading="lazy"
                     />
                   </span>
-                  {course?.content.length}
+                  {course?.content.length} دروس
                 </li>
               </ul>
               <div className="course-showcase-course-teacher">

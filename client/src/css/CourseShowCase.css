@@ -267,7 +267,7 @@
 }
 
 .modal {
-  background-color: var(--white);
+  background-color: var(--semi-transparent-purple);
   padding: 2rem;
   border-radius: 1rem;
   max-width: 500px;
@@ -277,12 +277,12 @@
 }
 
 .modal-title {
-  color: var(--purple);
+  color: var(--white);
   margin-bottom: 1rem;
 }
 
 .modal-text {
-  color: var(--accent-black);
+  color: var(--white);
   margin-bottom: 2rem;
 }
 
@@ -298,7 +298,7 @@
 }
 
 .btn-confirm {
-  background-color: var(--blue);
+  background-color: var(--purple);
   color: var(--white);
 }
 
@@ -329,5 +329,12 @@
 
   .course-showcase-upper {
     padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .course-showcase-course-description-teacher {
+    flex-direction: column;
+    align-items: center;
   }
 }
