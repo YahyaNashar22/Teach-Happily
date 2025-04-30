@@ -11,7 +11,7 @@ interface ICourse {
   duration: string;
   teacher: ITeacher;
   category: ICategory;
-  price: string;
+  price: number;
   enrolledStudents: string[];
   demo: string;
   content: IContent[];
