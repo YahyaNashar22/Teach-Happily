@@ -10,7 +10,7 @@
 
 /* Title Styling */
 .section-title {
-  color: var(--purple);
+  color: var(--white);
   font-size: 3rem;
   font-weight: bold;
   text-align: right; /* Center text on smaller screens */
@@ -18,7 +18,7 @@
 
 /* Description Text */
 .text-grey {
-  color: var(--accent-grey);
+  color: var(--accent-black);
   font-size: 1.6rem;
   margin-top: 12px;
   font-weight: bold;

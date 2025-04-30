@@ -1,6 +1,7 @@
 import "../css/HomeTutorsBlock.css";
 
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import laptop from "../assets/Website design-11.png";
 
 const HomeTutorsBlock = () => {
   return (
@@ -14,9 +15,16 @@ const HomeTutorsBlock = () => {
           تهدف إلى تطوير مهارات المعلّمات وتعزيز قدرتهم على تقديم تعليم متميز
         </p>
       </div>
-      <Link to="/tutors" className="btn" id="tutors-btn">
+      {/* <Link to="/tutors" className="btn" id="tutors-btn">
         مدرباتنا
-      </Link>
+      </Link> */}
+      <img
+        src={laptop}
+        alt="laptop"
+        loading="lazy"
+        className="tutors-laptop"
+        width={400}
+      />
     </section>
   );
 };
