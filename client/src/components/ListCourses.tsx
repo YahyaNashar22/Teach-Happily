@@ -64,16 +64,16 @@ const ListCourses = () => {
       formData.append("description", selectedCourse.description);
       formData.append("level", selectedCourse.level);
       formData.append("duration", selectedCourse.duration);
-      formData.append("price", selectedCourse.price);
+      formData.append("price", selectedCourse.price.toString());
       formData.append("whatWillYouLearn", selectedCourse.whatWillYouLearn);
       formData.append("requirements", selectedCourse.requirements);
       formData.append("audience", selectedCourse.audience);
-  
+
       // Handle image (optional)
       if (selectedCourse.image instanceof File) {
         formData.append("image", selectedCourse.image);
       }
-  
+
       // Prepare content (video title + url)
       const content = selectedCourse.content.map((video) => {
         if (video.url instanceof File) {
@@ -84,9 +84,8 @@ const ListCourses = () => {
           return { title: video.title, url: video.url };
         }
       });
-  
+
       formData.append("content", JSON.stringify(content));
-  
 
       await axios.patch(`${backend}/course/${selectedCourse._id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -363,7 +362,7 @@ const ListCourses = () => {
               onChange={(e) =>
                 setSelectedCourse({
                   ...selectedCourse,
-                  price: e.target.value,
+                  price: Number(e.target.value),
                 })
               }
             />

@@ -22,8 +22,8 @@
 }
 
 @font-face {
-  font-family: 'DINNextLTArabic';
-  src: url('/fonts/DINNextLTArabic-Regular-3.ttf') format('truetype');
+  font-family: "DINNextLTArabic";
+  src: url("/fonts/DINNextLTArabic-Regular-3.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -85,8 +85,15 @@
 }
 
 body {
-  font-family: 'DINNextLTArabic', sans-serif;
-  background: var(--pink-purple);
+  font-family: "DINNextLTArabic", sans-serif;
+  background: linear-gradient(
+    177deg,
+    #b79dfe 0%,
+    #e7a1f4 37%,
+    #fde4c8 71%,
+    #fafafa 99%,
+    #fafafa 100%
+  );
 }
 
 footer {

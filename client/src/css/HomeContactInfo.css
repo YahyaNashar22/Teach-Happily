@@ -179,6 +179,10 @@
     top: 68%;
     right: 5%;
   }
+
+  .afro-container-hands {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
