@@ -33,9 +33,10 @@ const CoursePageLeftSide = ({
   // Handle video progress tracking
   const handleTimeUpdate = (event: React.SyntheticEvent<HTMLVideoElement>) => {
     const videoElement = event.currentTarget;
+    const key = selectedVideo?.url ? selectedVideo.url.toString() : "";
     setVideoProgress((prevProgress) => ({
       ...prevProgress,
-      [selectedVideo?.url || ""]: videoElement.currentTime,
+      [key]: videoElement.currentTime,
     }));
   };
 
@@ -130,7 +131,7 @@ const CoursePageLeftSide = ({
     <div className="course-viewer-left-side-wrapper">
       <div className="course-video-container">
         <video
-          key={selectedVideo?.url} // Force re-render when the video changes
+          key={selectedVideo?.url?.toString()} // Force re-render when the video changes
           className="video-player"
           controls
           poster={

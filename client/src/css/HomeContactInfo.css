@@ -14,8 +14,13 @@
 }
 
 .contact-info-header {
-  color: var(--purple);
+  color: var(--accent-black);
   font-size: 1.8rem;
+}
+
+.contact-info-purple {
+  color: var(--purple);
+  display: block;
 }
 
 .contact-info-fields {
@@ -55,13 +60,13 @@
 
 .afro-container {
   position: relative;
-  background: url("../assets/male_student_laptop.jpg");
+  /* background: url("../assets/male_student_laptop.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   height: 500px;
   max-width: 500px;
   border-radius: 20px;
-  width: 100%;
+  width: 100%; */
 }
 
 .contact-info-header {

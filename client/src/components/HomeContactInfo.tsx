@@ -1,18 +1,19 @@
 import "../css/HomeContactInfo.css";
 
-import trophy from "../assets/trophy.png";
-import badge from "../assets/badge.png";
-import flag from "../assets/flag.png";
+import hands from "../assets/hands.png";
 
 const HomeContactInfo = () => {
   return (
     <section className="contact-info-section">
       <div className="contact-info-container">
         <h2 className="contact-info-header">
-          ابدء في تطوير مهاراتك اليوم! سجّل في إحدى دوراتنا التّدريبيّة عبر
-          الموقع واحصل على تدريب متميّز سيُحدِث فارقاً في مسيرتك التعليمية
+          ابدء في تطوير مهاراتك اليوم!
+          <span className="contact-info-purple">
+            سجّل في إحدى دوراتنا التّدريبيّة عبر الموقع
+          </span>
+          واحصل على تدريب متميّز سيُحدِث فارقاً في مسيرتك التعليمية
         </h2>
-        <ul className="contact-info-fields">
+        {/* <ul className="contact-info-fields">
           <li className="contact-info-field">
             <span className="info-bold">البريد الالكتروني: </span>
             <span className="info-soft">teachhappily@outlook.com</span>
@@ -27,11 +28,18 @@ const HomeContactInfo = () => {
             <span className="info-bold">العنوان: </span>
             <span className="info-soft">قطر</span>
           </li>
-        </ul>
+        </ul> */}
       </div>
 
-      <div className="afro-container">
-        <div className="row-1">
+      {/* <div className="afro-container"> */}
+      <img
+        src={hands}
+        width={500}
+        alt="hands"
+        loading="lazy"
+        className="afro-container-hands"
+      />
+      {/* <div className="row-1">
           <p className="row-text">أفضل دورة تدريبية عبر الإنترنت</p>
           <img
             src={trophy}
@@ -65,8 +73,8 @@ const HomeContactInfo = () => {
             loading="lazy"
             className="flag"
           />
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </section>
   );
 };
