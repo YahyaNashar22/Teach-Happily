@@ -21,6 +21,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'DINNextLTArabic';
+  src: url('/fonts/DINNextLTArabic-Regular-3.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -69,11 +76,17 @@
     rgb(255, 206, 236) 0%,
     rgb(152, 150, 240) 100%
   );
+
+  --purple-pink: linear-gradient(
+    135deg,
+    rgb(152, 150, 240) 0%,
+    rgb(255, 206, 236) 100%
+  );
 }
 
 body {
-  font-family: "Canva Sans";
-  background-color: var(--white);
+  font-family: 'DINNextLTArabic', sans-serif;
+  background: var(--pink-purple);
 }
 
 footer {

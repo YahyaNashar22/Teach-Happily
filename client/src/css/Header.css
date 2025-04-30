@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--semi-transparent-yellow);
+  background-color: var(--white);
   padding: 12px 24px;
   position: fixed;
   width: 90%;
@@ -24,8 +24,7 @@
 }
 
 .nav-link {
-  color: var(--white);
-  font-weight: bold;
+  color: var(--accent-black);
   font-size: 1.1rem;
 }
 
@@ -33,17 +32,19 @@
   color: var(--purple);
 }
 
-.btn-yellow {
+.header-btn-yellow {
   padding: 4px 24px;
   color: var(--white);
   text-decoration: none;
   border-radius: 8px;
-  border: 1px solid var(--yellow);
+  border: none !important;
   transition: 0.3s ease-in-out;
+  background-color: var(--purple);
+  opacity: 0.8;
 }
 
-.btn-yellow:hover {
-  background-color: var(--yellow);
+.header-btn-yellow:hover {
+  opacity: 1;
 }
 
 .profile {
@@ -91,9 +92,15 @@
 
 .dropdown ul li {
   padding: 8px 16px;
+  color: var(--white) !important;
 }
 
 .dropdown ul li a {
+  text-decoration: none;
+  color: var(--white);
+}
+
+.dropdown ul li p {
   text-decoration: none;
   color: var(--white);
 }

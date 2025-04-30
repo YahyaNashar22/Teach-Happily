@@ -5,7 +5,18 @@
   justify-content: center;
   gap: 40px;
   min-height: 100dvh;
-  background: linear-gradient(to right, #fedefc, #fcb0fa);
+  /* background: linear-gradient(to right, #fedefc, #fcb0fa); */
+  background-color: transparent;
+  position: relative;
+}
+
+.new-home-emoji {
+  z-index: 2;
+}
+
+.new-home-title {
+  color: var(--white);
+  font-size: 4rem;
 }
 
 .content {
@@ -17,7 +28,7 @@
 }
 
 .new-home-purple-text {
-  color: var(--purple);
+  color: var(--accent-black);
   font-weight: bold;
   font-size: 2rem;
   text-align: center;
@@ -31,6 +42,12 @@
   padding: 20px;
   border-radius: 32px;
   text-align: center;
+}
+
+.new-home-trophy {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
 }
 
 @media (max-width: 1200px) {

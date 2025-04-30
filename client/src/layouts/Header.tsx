@@ -1,7 +1,7 @@
 import "../css/Header.css";
 
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/Logo_white.png";
+import logo from "../assets/logo.png";
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
 
@@ -34,7 +34,7 @@ const Header = () => {
       <img
         src={logo}
         alt="logo"
-        width={80}
+        width={120}
         loading="lazy"
         onClick={() => navigate("/")}
       />
@@ -120,7 +120,7 @@ const Header = () => {
           </div>
         )
       ) : (
-        <Link to="/sign-in" className="btn-yellow">
+        <Link to="/sign-in" className="header-btn-yellow">
           تسجيل دخول
         </Link>
       )}

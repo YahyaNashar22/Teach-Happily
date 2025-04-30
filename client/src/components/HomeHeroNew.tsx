@@ -1,7 +1,7 @@
 import "../css/HomeHeroNew.css";
 
 import emoji from "../assets/home_bg.png";
-import logo from "../assets/logo.png";
+import logo from "../assets/Website design-01.png";
 
 const HomeHeroNew = () => {
   return (
@@ -9,17 +9,19 @@ const HomeHeroNew = () => {
       <div className="content">
         <img
           src={logo}
-          alt="teach"
+          alt="trophy"
           loading="lazy"
-          className="new-home-logo"
-          width={500}
+          className="new-home-trophy"
+          width={200}
         />
 
+        <h1 className="new-home-title">علّم بسعادة</h1>
+
         <p className="new-home-purple-text">
-          لأنّ التّعليم رحلة ممتعة، نقدّم لك منصّة
+          لأنّ التّعليم رحلة ممتعة، نقدّم لك منصّة و خبرة تعليميّة
         </p>
 
-        <p className="new-home-yellow-text">وخبرة تعليميّة تفوق 10 سنوات</p>
+        <p className="new-home-yellow-text"> تفوق 10 سنوات</p>
 
         <p className="new-home-purple-text">لجعل التّدريس متعة لك ولطلّابك.</p>
       </div>
