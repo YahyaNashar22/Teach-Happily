@@ -3,15 +3,19 @@
   padding-bottom: 200px;
 }
 
+.contact-page-form-container {
+  position: relative;
+}
+
 .contact-page-form {
   max-width: 600px;
   margin: 20px auto;
-  background-color: var(--white);
+  background-color: #ffffffaa;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 10px var(--shadow);
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 .contact-page-form-title {
@@ -19,6 +23,7 @@
   text-align: center;
   color: var(--purple);
   margin-bottom: 16px;
+  z-index: 3;
 }
 
 .contact-page-form-label {
@@ -26,6 +31,7 @@
   margin-bottom: 1.5rem;
   color: var(--purple);
   font-weight: bold;
+  z-index: 3;
 }
 
 .contact-page-form-input,
@@ -39,6 +45,7 @@
   font-size: 1rem;
   color: var(--black);
   transition: border-color 0.3s ease;
+  z-index: 3;
 }
 
 .contact-page-form-input:focus,
@@ -50,6 +57,7 @@
 .contact-page-form-textarea {
   min-height: 150px;
   resize: vertical;
+  z-index: 3;
 }
 
 .contact-page-form-button {
@@ -65,6 +73,7 @@
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  z-index: 3;
 }
 
 .contact-page-form-button:hover {
@@ -79,12 +88,12 @@
   z-index: 1;
 }
 
-.contact-mails-img-2 {
+.contact-mails-img-2-teach {
   position: absolute;
-  left: 0px;
-  bottom: -200px;
+  left: 600px;
+  bottom: 0px;
   z-index: 1;
-  transform: rotate(90deg);
+  transform: rotate(70deg);
 }
 
 @media (max-width: 768px) {
