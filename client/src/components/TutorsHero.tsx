@@ -1,12 +1,28 @@
 import "../css/TutorsHero.css";
 
+import magnifier from "../assets/Website design-08.png";
+
 const TutorsHero = () => {
   return (
     <section className="tutors-hero">
-      <h1 className="tutors-hero-title">مدرباتنا</h1>
-      {/* <p className="tutors-hero-slogan">
-        إن قوة شركتنا سمحت لنا بأن نكون دائمًا متواجدين لمساعدة عملائنا
-      </p> */}
+      <div className="tutors-content">
+        <h1 className="tutors-title">علّم بسعادة</h1>
+
+        <p className="tutors-purple-text">
+          لأنّ التّعليم رحلة ممتعة، نقدّم لك منصّة و خبرة تعليميّة
+        </p>
+
+        <p className="tutors-yellow-text"> تفوق 10 سنوات</p>
+
+        <p className="tutors-purple-text">لجعل التّدريس متعة لك ولطلّابك.</p>
+      </div>
+      <img
+        src={magnifier}
+        alt="magnifier"
+        loading="lazy"
+        className="tutors-magnifier"
+        width={500}
+      />
     </section>
   );
 };
