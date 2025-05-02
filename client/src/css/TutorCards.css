@@ -2,36 +2,52 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-}
-
-.tutor-card-list {
-  display: grid;
-  grid-template-columns: repeat(3, 360px);
-  gap: 20px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.tutor-card {
-  background: var(--gradient-overlay);
+  padding: 20px 20px 400px 20px;
   position: relative;
-  padding: 20px;
-  border-radius: 8px;
-  color: white;
-  text-align: center;
-  overflow: hidden;
-  width: 100%; /* Ensure it takes full width */
-  height: 460px;
+}
+
+.tutor-cards-list-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  row-gap: 50px;
+}
+
+.tutor-cards-list-container-title {
+  color: var(--purple);
+  font-weight: bold;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.tutor-card-list {
+  display: grid;
+  grid-template-columns: repeat(3, 320px);
+  gap: 150px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  z-index: 2;
+}
+
+.tutor-card {
+  background-color: var(--white);
+  position: relative;
+  border-radius: 32px;
+  color: var(--accent-black);
+  text-align: center;
+  overflow: hidden;
+  width: 100%; /* Ensure it takes full width */
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   transition: 0.6s ease-in-out;
 }
 
-.tutor-card::before {
+/* .tutor-card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -45,21 +61,63 @@
 
 .tutor-card:hover::before {
   background: var(--gradient-overlay);
+} */
+
+.tutor-card-upper {
+  height: 100px;
+  width: 100%;
+}
+
+/* Even cards: yellow */
+.tutor-card:nth-child(even) .tutor-card-upper {
+  background-color: var(--yellow);
+}
+
+/* Odd cards: purple */
+.tutor-card:nth-child(odd) .tutor-card-upper {
+  background-color: var(--purple);
+}
+
+.tutor-card-teacher-img {
+  width: 150px;
+  height: 150px;
+  border: 4px solid var(--yellow);
+  border-radius: 50%;
+  position: absolute;
+  top: 50px;
 }
 
 .teacher-name {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: bold;
   z-index: 2;
+  margin-top: 150px;
+  color: var(--purple);
 }
 
 .teacher-profession {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   z-index: 2;
+  color: var(--yellow);
+  font-weight: bold;
 }
 
 .no-tutors-message {
   font-size: 1.2rem;
+}
+
+.testimonials-section-container-mails-img {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  z-index: 1;
+}
+
+.testimonials-section-container-mag-img {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1;
 }
 
 /* Responsive Styles */
@@ -79,11 +137,19 @@
 }
 
 @media (max-width: 480px) {
-  .teacher-name {
-    font-size: 1.4rem; /* Slightly smaller font size on very small screens */
+  .tutor-cards-list-container-title {
+    font-size: 2rem;
   }
 
-  .teacher-profession {
-    font-size: 1rem; /* Slightly smaller font size on very small screens */
+  .tutor-card-list {
+    width: 100%;
+  }
+
+  .tutor-card {
+    width: 100%;
+  }
+
+  .testimonials-section-container-mag-img {
+  bottom: 100px;
   }
 }
