@@ -1,10 +1,10 @@
-import { FormEvent, useState } from "react";
-import ContactCards from "../components/ContactCards";
-import ContactUsHero from "../components/ContactUsHero";
-import Map from "../components/Map";
-import SocialMedia from "../components/SocialMedia";
 import "../css/ContactPage.css";
+
+import { FormEvent, useState } from "react";
+import ContactUsHero from "../components/ContactUsHero";
 import axios from "axios";
+
+import mails from "../assets/Vector Smart Object.png";
 
 const ContactPage = () => {
   const backend = import.meta.env.VITE_BACKEND;
@@ -53,12 +53,27 @@ const ContactPage = () => {
     }
   };
   return (
-    <main>
+    <main className="contact-from-page-wrapper">
+      <img
+        src={mails}
+        width={300}
+        alt="messages"
+        loading="lazy"
+        className="contact-mails-img"
+      />
+
+      <img
+        src={mails}
+        alt="messages"
+        loading="lazy"
+        className="contact-mails-img-2"
+      />
+
       <ContactUsHero />
       <form className="contact-page-form" onSubmit={handleSubmit}>
         <h2 className="contact-page-form-title">نرغب بسماع ارائك</h2>
         <label className="contact-page-form-label">
-          البريد الإلكتروني:
+          البريد الإلكتروني
           <input
             className="contact-page-form-input"
             type="email"
@@ -70,7 +85,7 @@ const ContactPage = () => {
         </label>
 
         <label className="contact-page-form-label">
-          الرسالة:
+          الرسالة
           <textarea
             className="contact-page-form-textarea"
             value={message}
@@ -88,9 +103,6 @@ const ContactPage = () => {
           إرسال
         </button>
       </form>
-      <ContactCards />
-      <Map />
-      <SocialMedia />
     </main>
   );
 };

@@ -1,23 +1,30 @@
+.contact-from-page-wrapper {
+  position: relative;
+  padding-bottom: 200px;
+}
+
 .contact-page-form {
   max-width: 600px;
   margin: 20px auto;
-  background-color: var(--accent-black);
+  background-color: var(--white);
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 10px var(--shadow);
+  position: relative;
+  z-index: 2;
 }
 
 .contact-page-form-title {
   font-size: 2rem;
   text-align: center;
-  color: var(--white);
+  color: var(--purple);
   margin-bottom: 16px;
 }
 
 .contact-page-form-label {
   display: block;
   margin-bottom: 1.5rem;
-  color: var(--white);
+  color: var(--purple);
   font-weight: bold;
 }
 
@@ -46,8 +53,11 @@
 }
 
 .contact-page-form-button {
-  background-color: var(--yellow);
+  background-color: var(--purple);
   color: var(--white);
+  margin: auto;
+  align-self: center;
+  width: 100%;
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
@@ -60,6 +70,21 @@
 .contact-page-form-button:hover {
   background-color: var(--purple);
   color: var(--white);
+}
+
+.contact-mails-img {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  z-index: 1;
+}
+
+.contact-mails-img-2 {
+  position: absolute;
+  left: 0px;
+  bottom: -200px;
+  z-index: 1;
+  transform: rotate(90deg);
 }
 
 @media (max-width: 768px) {
