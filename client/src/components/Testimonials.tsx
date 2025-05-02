@@ -87,22 +87,25 @@ const Testimonials = () => {
           className="testimonials-section-container-messages-img"
         />
       </div>
-      <div className="testimonials-left">
-        <div className="testimonial-content">
-          <p className="testimonial-text">
-            {testimonials[currentIndex].content}
-          </p>
-        </div>
+      <div className="testimonials-section-container-wrapper">
+        <div className="testimonials-left">
+          <div className="testimonial-content">
+            <p className="testimonial-text">
+              {testimonials[currentIndex].content}
+            </p>
+          </div>
 
-        <div className="dots">
-          {testimonials.map((_, index) => (
-            <span
-              key={index}
-              className={`dot ${index === currentIndex ? "active" : ""}`}
-              onClick={() => handleDotClick(index)}
-            />
-          ))}
+          <div className="dots">
+            {testimonials.map((_, index) => (
+              <span
+                key={index}
+                className={`dot ${index === currentIndex ? "active" : ""}`}
+                onClick={() => handleDotClick(index)}
+              />
+            ))}
+          </div>
         </div>
+        <p className="testimonials-left-title">اراء الطلاب</p>
       </div>
     </section>
   );
