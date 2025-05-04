@@ -40,6 +40,25 @@
   background-color: var(--black);
 }
 
+/* WebKit scrollbar styles (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--purple);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6a1b9a; /* darker purple on hover */
+}
+
 :root {
   --purple: #8f438c;
   --white: #ffffff;

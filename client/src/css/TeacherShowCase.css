@@ -48,7 +48,7 @@
 
 .teacher-viewer-nav-option {
   font-weight: bold;
-  color: var(--accent-grey);
+  color: var(--accent-black);
   cursor: pointer;
   transition: color 0.3s;
 }

@@ -2,8 +2,6 @@
 
 .course-showcase-wrapper {
   padding: 2rem;
-  background-color: var(--white);
-  box-shadow: 0 2px 8px var(--shadow);
   border-radius: 1rem;
   max-width: 1200px;
   margin: 120px auto 2rem auto;
@@ -15,7 +13,6 @@
   gap: 2rem;
   flex-wrap: wrap;
   margin: 3rem auto 4rem auto;
-  background-color: var(--accent-black);
   color: var(--white);
   border-radius: 1rem;
 }
@@ -34,7 +31,7 @@
 
 .course-showcase-course-title {
   font-size: 2rem;
-  color: var(--white);
+  color: var(--purple);
   margin-bottom: 0.5rem;
 }
 
@@ -48,7 +45,7 @@
   list-style: none;
   display: flex;
   gap: 1rem;
-  color: var(--white);
+  color: var(--purple);
   margin-bottom: 1.5rem;
 }
 
@@ -75,7 +72,7 @@
 
 .course-showcase-course-teacher-name {
   font-size: 1.1rem;
-  color: var(--white);
+  color: var(--accent-black);
 }
 
 /* Perks */
@@ -86,7 +83,7 @@
 .course-showcase-perks-title {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: var(--white);
+  color: var(--accent-black);
 }
 
 .course-showcase-perks-item {
@@ -97,14 +94,14 @@
 }
 
 .course-showcase-perks-item-text {
-  color: var(--white);
+  color: var(--purple);
 }
 
 .course-showcase-buy {
   width: 90%;
   margin: 20px auto 20px auto;
-  color: var(--white);
-  border-color: var(--white);
+  color: var(--purple);
+  border-color: var(--purple);
 }
 
 .course-showcase-buy:hover {
@@ -129,7 +126,7 @@
 }
 
 .course-showcase-course-description-title {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
   color: var(--purple);
 }
@@ -147,30 +144,36 @@
   width: 240px;
   padding: 4px 8px;
   border-radius: 32px;
-  border: 1px solid var(--accent-grey);
 }
 
 .course-showcase-course-teacher-section-img {
   width: 100px;
   height: 100px;
-  border-radius: 1rem;
+  border-radius: 50%;
   object-fit: cover;
+  z-index: 2;
+}
+
+.course-showcase-teacher-section-info-container {
+  background-color: var(--shadow);
+  padding: 12px 24px;
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1;
+  margin-top: -24px;
 }
 
 .course-showcase-teacher-section-name {
   margin-top: 0.5rem;
   font-size: 1.25rem;
-  color: var(--accent-black);
-}
-
-.course-showcase-teacher-section-teacher {
-  font-size: 1rem;
-  color: var(--accent-grey);
-  font-weight: bold;
+  color: var(--purple);
 }
 
 .course-showcase-teacher-read-more {
-  color: var(--purple);
+  color: var(--accent-grey);
   text-decoration: none;
   font-weight: bold;
   display: inline-block;
@@ -180,34 +183,49 @@
 }
 
 .course-showcase-teacher-read-more:hover {
-  color: var(--yellow);
+  color: var(--purple);
 }
 
 /* Feedback */
 .course-showcase-feedback {
   padding: 1rem;
-  border-top: 1px solid var(--accent-grey);
-  border-bottom: 1px solid var(--accent-grey);
 }
 
 .course-showcase-feedback-header {
   color: var(--purple);
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
 }
 
 .course-showcase-feedback-list {
   list-style: none;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.course-showcase-feedback-list::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 
 .course-showcase-feedback-card {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 1rem;
   background-color: var(--white);
   padding: 1rem;
   border-radius: 0.75rem;
   margin-bottom: 1rem;
   box-shadow: 0 1px 4px var(--shadow);
+  min-width: 200px;
+  min-height: 250px;
 }
 
 .course-showcase-feedback-card-initials {
@@ -241,7 +259,7 @@
 }
 
 .course-showcase-similar-header {
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: var(--purple);
   margin-bottom: 1rem;
 }
