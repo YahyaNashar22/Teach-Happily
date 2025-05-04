@@ -6,21 +6,42 @@
   justify-content: flex-start;
   padding: 80px 150px;
   gap: 40px;
-  background-color: var(--white); /* Subtle background gradient */
   text-align: right;
+  font-weight: bold;
+}
+
+.about-us-upper {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.about-us-upper-right {
+  width: 50%;
 }
 
 /* Header styling */
+.about-us-blog-header,
+.about-us-blog-white-header {
+  font-size: 3rem;
+  text-align: right;
+  font-weight: bold;
+}
+
 .about-us-blog-header {
   color: var(--purple);
-  font-size: 2.8rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid var(--purple);
-  padding-bottom: 10px;
-  letter-spacing: 1px; /* Subtle letter spacing for modern feel */
-  text-transform: uppercase; /* Capitalize the header text for emphasis */
+  line-height: 20px;
+}
+
+.about-us-blog-white-header {
+  color: var(--white);
+  margin-bottom: 60px;
+}
+
+.about-us-upper-desc {
+  color: var(--accent-black);
+  font-size: 1.4rem;
 }
 
 /* Subheader styling */
@@ -30,7 +51,9 @@
   font-weight: bold;
   font-weight: 500;
   margin: 30px 0 15px;
-  text-transform: capitalize; /* Slightly refined style */
+  border-bottom: 10px solid var(--purple);
+  text-align: right;
+  align-self: flex-start;
 }
 
 /* Main content text */
@@ -38,11 +61,12 @@
   color: var(--accent-black);
   font-size: 1.6rem;
   line-height: 1.8;
-  background: var(--white);
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* More prominent shadow for depth */
   margin-bottom: 30px;
+  align-self: flex-start;
+  width: 100%;
   transition: transform 0.3s ease-in-out; /* Smooth hover effect */
 }
 
@@ -79,11 +103,61 @@
 
 /* Change check mark color on hover */
 .about-us-blog-text li:hover {
-  color: var(--yellow); /* Change text color on hover */
+  color: var(--white); /* Change text color on hover */
 }
 
 .about-us-blog-text li:hover::before {
   transform: scale(1.1); /* Slightly enlarge the check mark on hover */
+}
+
+.about-us-goal-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.about-us-what-we-provide {
+  background-color: #ffffff99;
+  width: 99vw;
+  padding: 48px 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.about-us-blog-subheader-what-we-provide {
+  color: var(--white);
+  font-weight: bold;
+  background-color: var(--yellow);
+  padding: 12px 48px;
+  width: 300px;
+  text-align: center;
+  transform: rotateZ(2deg);
+  border-radius: 32px;
+  font-size: 1.6rem;
+}
+
+.about-us-what-we-provide .about-us-blog-text {
+  width: 50%;
+  box-shadow: none;
+}
+
+.about-us-blog-what-we-provide-list {
+  width: 100%;
+}
+
+.about-us-blog-what-we-provide-list li:hover {
+  color: var(--purple);
+}
+
+.about-us-blog-what-we-provide-list li:before {
+  content: url("../assets/Website design-2-purple.png");
+  position: absolute;
+  right: -10px;
+  top: 0;
+  color: var(--purple);
+  font-size: 1.8rem;
+  transition: transform 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -91,7 +165,16 @@
     padding: 50px 15px;
   }
 
-  .about-us-blog-header {
+  .about-us-upper {
+    flex-direction: column;
+  }
+
+  .about-us-upper-right {
+    width: 100%;
+  }
+
+  .about-us-blog-header,
+  .about-us-blog-white-header {
     font-size: 2.5rem;
   }
 
@@ -106,5 +189,14 @@
 
   .about-us-blog-text li {
     padding-left: 25px;
+  }
+
+  .about-us-goal-container,
+  .about-us-what-we-provide {
+    flex-direction: column;
+  }
+
+  .about-us-what-we-provide .about-us-blog-text {
+    width: 100%;
   }
 }

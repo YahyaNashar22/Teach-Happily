@@ -12,6 +12,7 @@
 
 .about-us-magnifier {
   z-index: 2;
+  transform: rotateZ(-20deg);
 }
 
 .about-us-title {
