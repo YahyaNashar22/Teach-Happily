@@ -6,7 +6,7 @@ const AboutUsHero = () => {
   return (
     <section className="about-us-hero">
       <div className="about-us-content">
-        <h1 className="about-us-title">علّم بسعادة</h1>
+        <h1 className="about-us-title"> معلومات عنا</h1>
 
         <p className="about-us-purple-text">
           لأنّ التّعليم رحلة ممتعة، نقدّم لك منصّة و خبرة تعليميّة

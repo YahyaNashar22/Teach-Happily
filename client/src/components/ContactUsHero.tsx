@@ -6,7 +6,7 @@ const ContactUsHero = () => {
   return (
     <section className="contact-hero">
       <div className="contact-content">
-        <h1 className="contact-title">علّم بسعادة</h1>
+        <h1 className="contact-title"> تواصل معنا</h1>
 
         <p className="contact-purple-text">
           لأنّ التّعليم رحلة ممتعة، نقدّم لك منصّة و خبرة تعليميّة

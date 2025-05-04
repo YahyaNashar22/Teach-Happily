@@ -6,7 +6,7 @@ const TutorsHero = () => {
   return (
     <section className="tutors-hero">
       <div className="tutors-content">
-        <h1 className="tutors-title">علّم بسعادة</h1>
+        <h1 className="tutors-title"> المدربون و المستشارون</h1>
 
         <p className="tutors-purple-text">
           لأنّ التّعليم رحلة ممتعة، نقدّم لك منصّة و خبرة تعليميّة
