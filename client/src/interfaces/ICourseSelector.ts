@@ -1,9 +1,9 @@
 interface ICourseSelector {
-    category: string;
-    priceType: string;
-    page: number;
-    setTotalPages: (pages: number) => void;
-  }
-  
+  category: string;
+  priceType: string;
+  page: number;
+  digital?: boolean;
+  setTotalPages: (pages: number) => void;
+}
 
-  export default ICourseSelector;
+export default ICourseSelector;

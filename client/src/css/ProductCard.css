@@ -1,0 +1,259 @@
+.course-card {
+  width: 320px;
+  height: 400px;
+  overflow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0px 0px 12px var(--shadow);
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+  position: relative;
+}
+
+.course-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(143, 67, 140, 0.5); /* purple overlay with 50% opacity */
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.course-card:hover {
+  transform: translateY(-3px);
+}
+
+.upper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 10px;
+  z-index: 2;
+}
+
+.card-footer {
+  width: 100%;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  color: var(--white);
+  z-index: 2;
+  background-color: #00000066;
+}
+
+.not-purchased {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.price {
+  direction: ltr;
+  color: var(--white);
+  font-size: 1.1rem;
+  z-index: 2;
+}
+
+.hovered {
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+  cursor: default;
+}
+
+.teacher-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 1.2rem;
+}
+
+.teacher-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  min-height: 45px;
+  background: var(--purple);
+  color: var(--white);
+  font-weight: bold;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  margin: 0 8px;
+  text-transform: uppercase;
+}
+
+.course-title {
+  color: var(--white);
+  line-height: 30px;
+  font-size: 1.4rem;
+}
+
+.course-duration {
+  color: var(--white);
+  z-index: 2;
+}
+
+/* Full-screen overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Box */
+.modal {
+  background: var(--semi-transparent-purple);
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Title */
+.modal-title {
+  font-size: 1.8rem;
+  color: var(--white);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Modal Text */
+.modal-text {
+  font-size: 1.2rem;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+/* Price Styling */
+.modal-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--yellow);
+}
+
+/* Buttons */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+/* Confirm Button */
+.btn-confirm {
+  color: var(--white);
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: 1px solid var(--purple);
+  background-color: var(--purple);
+}
+
+.btn-confirm:hover {
+  background-color: var(--yellow);
+}
+
+/* Cancel Button */
+.btn-cancel {
+  color: var(--white);
+  padding: 12px 24px;
+  font-size: 1rem;
+}
+
+.btn-cancel:hover {
+  background-color: var(--accent-black);
+}
+
+.enrolled {
+  width: 100%;
+}
+
+.wishlist-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--white);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-rating-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.hover-sheet {
+  position: absolute;
+  bottom: 130px; /* hidden initially */
+  left: 0;
+  width: 100%;
+  background-color: var(--purple);
+  color: var(--white);
+  padding: 16px 20px;
+  border-radius: 0 0 8px 8px;
+  text-align: center;
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.3s ease-in-out;
+}
+
+.hover-sheet-small-border {
+  width: 100px;
+  height: 2px;
+  background-color: white;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.course-card:hover .hover-sheet {
+  bottom: 0;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .modal {
+    width: 95%;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-text {
+    font-size: 1rem;
+  }
+}

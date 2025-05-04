@@ -43,7 +43,7 @@ app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/teacher', teacherRouter);
 app.use('/course', courseRouter);
-app.use('/email', emailRouter); s
+app.use('/email', emailRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/digital-product', digitalProductRouter);
 

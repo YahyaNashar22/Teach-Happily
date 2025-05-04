@@ -18,6 +18,10 @@ const ContactPageDigitalProduct = lazy(
 );
 
 const CoursesPage = lazy(() => import("../pages/CoursesPage.tsx"));
+const DigitalProductPage = lazy(
+  () => import("../pages/DigitalProductPage.tsx")
+);
+
 const ForgotPasswordPage = lazy(
   () => import("../pages/ForgotPasswordPage.tsx")
 );
@@ -47,6 +51,8 @@ const AppRoutes = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/digital-products" element={<DigitalProductPage />} />
+
           <Route path="/tutors" element={<TutorsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route
