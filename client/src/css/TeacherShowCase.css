@@ -1,117 +1,176 @@
+.teacher-viewer-wrapper {
+  margin: 100px auto 0 auto;
+  padding: 0px 200px;
+  color: var(--accent-black);
+  font-family: "Cairo", sans-serif;
+}
 
+.teacher-viewer-profile-img-section {
+  text-align: center;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+}
+
+.teacher-viewer-image {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px var(--shadow);
+  border: 5px solid var(--purple);
+}
+
+.teacher-viewer-name {
+  font-size: 2rem;
+  color: var(--white);
+  margin: 1rem 0 0.5rem;
+}
+
+.teacher-viewer-profession {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--purple);
+  margin-bottom: 1rem;
+}
+
+/* Nav Tabs */
+.teacher-viewer-nav-selector {
+  display: flex;
+  justify-content: space-around;
+  font-size: 2rem;
+  margin: 2rem 0;
+  border-top: 2px solid var(--purple);
+  padding-top: 0.5rem;
+}
+
+.teacher-viewer-nav-option {
+  font-weight: bold;
+  color: var(--accent-grey);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.teacher-viewer-nav-option:hover {
+  color: var(--purple);
+}
+
+.teacher-viewer-nav-option-active {
+  color: var(--purple);
+}
+
+/* Info Section */
+.teacher-viewer-info-container {
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.teacher-viewer-info-container-title {
+  font-size: 2rem;
+  color: var(--purple);
+  margin-bottom: 1rem;
+}
+
+.teacher-viewer-info-container-section-header {
+  font-size: 1.2rem;
+  color: var(--accent-black);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.teacher-viewer-info-container-section-description {
+  color: var(--accent-black);
+  line-height: 1.6;
+  list-style: inside disc;
+  padding-left: 1rem;
+}
+
+.teacher-viewer-info-container-section-description-prev-work {
+  margin-bottom: 0.3rem;
+}
+
+/* Courses Section */
+.teacher-viewer-courses-container {
+  margin: 2rem auto;
+}
+
+.teacher-viewer-courses-container-title {
+  font-size: 1.5rem;
+  color: var(--purple);
+  margin-bottom: 1rem;
+}
+
+.teacher-viewer-courses-no-content {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--accent-grey);
+}
+
+.teacher-viewer-courses {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 1024px) {
   .teacher-viewer-wrapper {
-    max-width: 1000px;
-    margin: 100px auto 0 auto;
-    padding: 2rem;
-    background-color: var(--white);
-    color: var(--accent-black);
-    font-family: "Cairo", sans-serif;
+    padding: 0 100px;
   }
-  
+}
+
+@media (max-width: 768px) {
+  .teacher-viewer-wrapper {
+    padding: 0 40px;
+  }
+
   .teacher-viewer-profile-img-section {
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    margin-bottom: 2rem;
   }
-  
+
+  .teacher-viewer-name,
+  .teacher-viewer-profession {
+    text-align: center;
+  }
+
+  .teacher-viewer-nav-selector {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .teacher-viewer-nav-option {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .teacher-viewer-wrapper {
+    padding: 0 20px;
+  }
+
   .teacher-viewer-image {
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 50%;
-    box-shadow: 0 4px 12px var(--shadow);
-    border: 5px solid var(--purple);
+    width: 140px;
+    height: 140px;
   }
-  
+
   .teacher-viewer-name {
-    font-size: 2rem;
-    color: var(--purple);
-    margin: 1rem 0 0.5rem;
+    font-size: 1.5rem;
   }
-  
+
   .teacher-viewer-profession {
     font-size: 1.1rem;
-    color: var(--accent-grey);
-    margin-bottom: 1rem;
-  }
-  
-  /* Nav Tabs */
-  .teacher-viewer-nav-selector {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin: 2rem 0;
-    border-bottom: 2px solid var(--divider-card);
-    padding-bottom: 0.5rem;
-  }
-  
-  .teacher-viewer-nav-option {
-    font-weight: bold;
-    color: var(--accent-grey);
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  
-  .teacher-viewer-nav-option:hover {
-    color: var(--purple);
   }
 
-  .teacher-viewer-nav-option-active {
-    color: var(--purple);
-  }
-  
-  /* Info Section */
-  .teacher-viewer-info-container {
-    background-color: var(--bg-grey);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px var(--shadow);
-    margin-bottom: 2rem;
-  }
-  
-  .teacher-viewer-info-container-title {
-    font-size: 1.5rem;
-    color: var(--purple);
-    margin-bottom: 1rem;
-  }
-  
-  .teacher-viewer-info-container-section-header {
+  .teacher-viewer-nav-option {
     font-size: 1.2rem;
-    color: var(--accent-black);
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
   }
-  
-  .teacher-viewer-info-container-section-description {
-    color: var(--accent-grey);
-    line-height: 1.6;
-    list-style: inside disc;
-    padding-left: 1rem;
+
+  .teacher-viewer-info-container {
+    padding: 1rem;
   }
-  
-  .teacher-viewer-info-container-section-description-prev-work {
-    margin-bottom: 0.3rem;
-  }
-  
-  /* Courses Section */
-  .teacher-viewer-courses-container {
-    margin-top: 2rem;
-  }
-  
-  .teacher-viewer-courses-container-title {
-    font-size: 1.5rem;
-    color: var(--purple);
-    margin-bottom: 1rem;
-  }
-  
-  .teacher-viewer-courses-no-content {
-    text-align: center;
-    font-size: 1.1rem;
-    color: var(--accent-grey);
-  }
-  
-  .teacher-viewer-courses {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-  
+}
