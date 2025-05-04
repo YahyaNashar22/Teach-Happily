@@ -14,6 +14,7 @@ import courseRouter from './routes/courseRoutes.js';
 import transporter from './utils/nodemailerTransporter.js';
 import emailRouter from './routes/emailRoutes.js';
 import feedbackRouter from './routes/feedbackRoutes.js';
+import digitalProductRouter from './routes/digitalProductRoutes.js';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -25,7 +26,7 @@ const app = express();
 
 // CORS Policies
 app.use(cors({
-    origin: ["http://localhost:5173", "https://teach-happily.onrender.com","https://www.teachhappily.qa", "https://teachhappily.qa"],
+    origin: ["http://localhost:5173", "https://teach-happily.onrender.com", "https://www.teachhappily.qa", "https://teachhappily.qa"],
     credentials: true,
     optionsSuccessStatus: 200,
 }
@@ -42,9 +43,9 @@ app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/teacher', teacherRouter);
 app.use('/course', courseRouter);
-app.use('/email', emailRouter);
+app.use('/email', emailRouter); s
 app.use('/feedback', feedbackRouter);
-
+app.use('/digital-product', digitalProductRouter);
 
 
 
