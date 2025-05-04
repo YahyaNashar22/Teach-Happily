@@ -2,6 +2,8 @@ import "../css/AboutUsBlog.css";
 
 import magnifier from "../assets/Website design-21.png";
 import stars from "../assets/Website design-2.png";
+import badge from "../assets/Website design-06.png";
+import hand from "../assets/Website design-19.png";
 
 const AboutUsBlog = () => {
   return (
@@ -103,12 +105,40 @@ const AboutUsBlog = () => {
         </p>
       </div>
 
-      <h3 className="about-us-blog-subheader">لماذا اسم "علم بسعادة"؟ </h3>
-      <p className="about-us-blog-text">
-        لأننا نؤمن بأن المعلم السعيد ينقل طاقته الإيجابية إلى طلابه . لأن
-        التعليم الفعّال لا يقتصر على المناهج والكتب، بل على شغف المعلم ورسالته .
-        لأننا نريد أن يكون التعليم رحلة ممتعة، وليس عبئًا !
-      </p>
+      <div className="about-us-blog-why">
+        <h3 className="about-us-blog-subheader-why">
+          لماذا اسم "علم بسعادة"؟{" "}
+        </h3>
+        <p className="about-us-blog-text">
+          لأننا نؤمن بأن المعلم السعيد ينقل طاقته الإيجابية إلى طلابه . لأن
+          التعليم الفعّال لا يقتصر على المناهج والكتب، بل على شغف المعلم ورسالته
+          .
+          <strong
+            style={{
+              color: "var(--purple)",
+              display: "block",
+            }}
+          >
+            لأننا نريد أن يكون التعليم رحلة ممتعة، وليس عبئًا !
+          </strong>
+        </p>
+
+        <img
+          src={badge}
+          alt="badge"
+          loading="lazy"
+          className="about-us-blog-badge"
+          width={200}
+        />
+
+        <img
+          src={hand}
+          alt="hand"
+          loading="lazy"
+          className="about-us-blog-hand"
+          width={200}
+        />
+      </div>
     </section>
   );
 };

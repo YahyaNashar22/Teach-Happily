@@ -105,7 +105,12 @@ const Testimonials = () => {
             ))}
           </div>
         </div>
-        <p className="testimonials-left-title">اراء الطلاب</p>
+        <p className="testimonials-left-title">
+          <span className="testimonials-left-title-1">
+          آراء الطلاب 
+          </span>
+          <br /> شهادات العملاء{" "}
+        </p>
       </div>
     </section>
   );

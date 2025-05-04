@@ -63,7 +63,6 @@
   line-height: 1.8;
   padding: 25px;
   border-radius: 15px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* More prominent shadow for depth */
   margin-bottom: 30px;
   align-self: flex-start;
   width: 100%;
@@ -110,14 +109,15 @@
   transform: scale(1.1); /* Slightly enlarge the check mark on hover */
 }
 
-.about-us-goal-container {
+.about-us-goal-container,
+.about-us-blog-why {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
-.about-us-what-we-provide {
-  background-color: #ffffff99;
+.about-us-what-we-provide,
+.about-us-blog-why {
   width: 99vw;
   padding: 48px 24px;
   display: flex;
@@ -125,11 +125,20 @@
   justify-content: space-around;
 }
 
-.about-us-blog-subheader-what-we-provide {
+.about-us-what-we-provide {
+  background-color: #ffffff99;
+}
+
+.about-us-blog-why {
+  background-color: var(--semi-transparent-purple);
+  border-bottom: 10px solid var(--yellow);
+  position: relative;
+}
+
+.about-us-blog-subheader-what-we-provide,
+.about-us-blog-subheader-why {
   color: var(--white);
   font-weight: bold;
-  background-color: var(--yellow);
-  padding: 12px 48px;
   width: 300px;
   text-align: center;
   transform: rotateZ(2deg);
@@ -137,9 +146,25 @@
   font-size: 1.6rem;
 }
 
-.about-us-what-we-provide .about-us-blog-text {
+.about-us-blog-subheader-what-we-provide {
+  background-color: var(--yellow);
+  padding: 12px 48px;
+}
+
+.about-us-blog-subheader-why {
+  background-color: var(--purple);
+  padding: 12px 24px;
+}
+
+.about-us-what-we-provide .about-us-blog-text,
+.about-us-blog-why .about-us-blog-text {
   width: 50%;
   box-shadow: none;
+}
+
+.about-us-blog-why .about-us-blog-text {
+  color: var(--white);
+  font-size: 2rem;
 }
 
 .about-us-blog-what-we-provide-list {
@@ -158,6 +183,13 @@
   color: var(--purple);
   font-size: 1.8rem;
   transition: transform 0.3s ease;
+}
+
+.about-us-blog-hand {
+  position: absolute;
+  transform: rotateZ(-70deg);
+  top: -280px;
+  right: 80px;
 }
 
 @media (max-width: 768px) {
@@ -192,11 +224,19 @@
   }
 
   .about-us-goal-container,
-  .about-us-what-we-provide {
+  .about-us-what-we-provide,
+  .about-us-blog-why {
     flex-direction: column;
   }
 
-  .about-us-what-we-provide .about-us-blog-text {
+  .about-us-what-we-provide .about-us-blog-text,
+  .about-us-blog-why .about-us-blog-text {
     width: 100%;
+  }
+
+  .about-us-blog-hand {
+    top: -270px;
+    right: 0;
+    scale: 0.8;
   }
 }

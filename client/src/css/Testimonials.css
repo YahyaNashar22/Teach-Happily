@@ -96,7 +96,7 @@
 
 .dots {
   position: absolute;
-  bottom: 100px;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -120,13 +120,19 @@
   background-color: var(--purple);
 }
 
-.testimonials-left-title {
+.testimonials-left-title,
+.testimonials-left-title-1 {
   color: var(--accent-black);
   align-self: flex-start;
   margin-right: auto;
   font-size: 2rem;
   font-weight: bold;
   z-index: 2;
+}
+
+.testimonials-left-title-1 {
+  color: var(--accent-black);
+  font-size: 3rem;
 }
 
 /* Mobile Styles */
