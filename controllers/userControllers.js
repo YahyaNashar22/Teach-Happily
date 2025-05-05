@@ -343,6 +343,7 @@ export const toggleWishlist = async (req, res) => {
 };
 
 
+
 export const getFavoriteCourses = async (req, res) => {
     const { userId } = req.body;
 
