@@ -65,7 +65,7 @@
 
 @media (max-width: 600px) {
   .new-home-hero {
-    padding: 100px;
+    padding: 100px 20px;
   }
   .new-home-emoji,
   .new-home-logo {
