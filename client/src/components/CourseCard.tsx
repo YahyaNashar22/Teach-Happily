@@ -160,9 +160,9 @@ const CourseCard = ({ course }: { course: ICourse }) => {
 
           <div className="hover-sheet">
             <div className="hover-sheet-small-border" />
-            <p>{course.teacher.fullname}</p>
-            <p>{course.category.name}</p>
-            <p>{course.description?.slice(0, 100)}...</p>
+            <p>تقديم {course.teacher.fullname}</p>
+            {/* <p>{course.category.name}</p>
+            <p>{course.description?.slice(0, 100)}...</p> */}
           </div>
         </div>
       </li>
