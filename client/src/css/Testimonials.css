@@ -123,7 +123,7 @@
 
 .testimonials-left-title,
 .testimonials-left-title-1 {
-  color: var(--accent-black);
+  color: #31363aaa;
   align-self: flex-start;
   margin-right: auto;
   font-size: 2rem;
@@ -201,7 +201,6 @@
 
   .dots {
     bottom: 70px;
-
   }
 
   .dot {

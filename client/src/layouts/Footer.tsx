@@ -1,11 +1,13 @@
 import "../css/Footer.css";
 
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
-import logo from "../assets/Logo_white.png";
-import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { ChangeEvent, FormEvent, useState } from "react";
+
+import logo from "../assets/Logo_white.png";
+
 const Footer = () => {
   const [email, setEmail] = useState<string>("");
 
@@ -21,84 +23,97 @@ const Footer = () => {
     setEmail("");
   };
   return (
-    <footer className="footer-container">
-      <div className="wrapper-footer">
-        <div className="footer-col">
-          <h4 className="footer-col-title">النشرات الإخبارية </h4>
-          <p className="footer-col-text">
-            اشترك في الإشعارات للحصول على الأخبار
-          </p>
-          <form className="footer-form-container">
-            <button
-              type="button"
-              className="btn-yellow"
-              id="news-letter-btn"
-              onClick={newsLetter}
-            >
-              اشترك الان
-            </button>
-            <input
-              type="email"
-              className="news-letter"
-              required
-              value={email}
-              placeholder="بريد إلكتروني"
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
-            />
-          </form>
-          <div className="icons">
-            <FaYoutube className="social-icon" />
-            <FaFacebook className="social-icon" />
-            <FaXTwitter className="social-icon" />
-            <FaInstagram className="social-icon" />
+    <footer>
+      <div className="footer-upper">
+        <div className="footer-upper-column">
+          <div className="footer-newsletter-container">
+            <p className="footer-newsletter-container-text">
+              اشترك في الإشعارات للحصول على الأخبار
+            </p>
+            <form className="footer-newsletter-container-form-container">
+              <button
+                type="button"
+                className="footer-newsletter-container-form-btn"
+                id="news-letter-btn"
+                onClick={newsLetter}
+              >
+                اشترك الان
+              </button>
+              <input
+                type="email"
+                className="footer-newsletter-container-form-input"
+                required
+                value={email}
+                placeholder="بريد إلكتروني"
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
+              />
+            </form>
           </div>
         </div>
-
-        <div className="footer-col">
-          <h4 className="footer-col-title">تواصل معنا</h4>
-          <ul>
-            <li className="footer-col-text">قطر</li>
-            <li className="footer-col-text" style={{ direction: "ltr" }}>
-              +97450003499
-            </li>
-            <li className="footer-col-text" style={{ direction: "ltr" }}>
-              teachhappily@outlook.com
-            </li>
-          </ul>
+        <div className="footer-upper-column">
+          <div className="footer-welcome-container">
+            <p className="footer-welcome-container-text">
+              أهلا بكم في <span>علم بسعادة</span>
+            </p>
+            <p className="footer-welcome-container-desc">
+              انضمي لمنصة علم بسعادة وكوني من اول المؤسسين لها حيث ننطلق معا
+              لصناعة الفرق في التعليم
+            </p>
+            <div className="footer-welcome-container-icons">
+              <FaFacebook className="social-icon" />
+              <FaXTwitter className="social-icon" />
+              <FaInstagram className="social-icon" />
+            </div>
+          </div>
         </div>
-
-        <div className="footer-col">
-          <h4 className="footer-col-title">روابط سريعة</h4>
-          <ul>
-            <li className="footer-col-text">
-              <Link to="/">الرئيسية</Link>
-            </li>
-            <li className="footer-col-text">
-              <Link to="/about">معلومات عنا</Link>
-            </li>
-            <li className="footer-col-text">
-              <Link to="/courses">لائحة الدروس</Link>
-            </li>
-            <li className="footer-col-text">
-              <Link to="/tutors">مدرباتنا</Link>
-            </li>
-            <li className="footer-col-text">
-              <Link to="/contact">تواصل معنا</Link>
-            </li>
-          </ul>
+        <div className="footer-upper-column">
+          <div className="footer-links-container">
+            <p className="footer-links-container-text">روابط سريعة</p>
+            <ul>
+              <li className="footer-links-container-link">
+                <Link to="/">الرئيسية</Link>
+              </li>
+              <li className="footer-links-container-link">
+                <Link to="/about">معلومات عنا</Link>
+              </li>
+              <li className="footer-links-container-link">
+                <Link to="/courses">لائحة الدروس</Link>
+              </li>
+              <li className="footer-links-container-link">
+                <Link to="/tutors">مدرباتنا</Link>
+              </li>
+              <li className="footer-links-container-link">
+                <Link to="/contact">تواصل معنا</Link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="footer-col">
-          <img src={logo} alt="logo" width={120} loading="lazy" />
-          <Link to="/about" className="footer-col-text">
-            انضمي لمنصة علم بسعادة وكوني من اول المؤسسين لها
-            <br /> حيث ننطلق معا لصناعة الفرق في التعليم
-          </Link>
+        <div className="footer-upper-column">
+          <div className="footer-logo-container">
+            <img src={logo} alt="logo" width={120} loading="lazy" />
+            <ul>
+              <li
+                className="footer-logo-container-text"
+                style={{ direction: "ltr" }}
+              >
+                +974 5 000 3 499
+              </li>
+              <li
+                className="footer-logo-container-text"
+                style={{ direction: "ltr" }}
+              >
+                teachhappily@outlook.com
+              </li>
+              <li className="footer-logo-container-text">Qatar</li>
+            </ul>
+          </div>
         </div>
       </div>
-
-      <p className="copyrights">&copy; Teach Happily 2025, Powered by bepro</p>
+      <div className="footer-lower">
+        <p className="footer-copyrights">© Copyright 2025</p>
+      </div>
     </footer>
   );
 };
