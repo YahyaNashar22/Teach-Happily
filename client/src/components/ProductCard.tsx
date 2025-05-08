@@ -57,6 +57,8 @@ const ProductCard = ({ product }: { product: IProduct }) => {
 
   const downloadProduct = () => {};
 
+  // TODO: CONTINUE THIS
+
   return (
     <>
       <li

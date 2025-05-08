@@ -56,7 +56,7 @@ const CourseSelector: FC<ICourseSelector> = ({
         setLoading(true);
         try {
           const res = await axios.post(
-            `${backend}/product/get-all`,
+            `${backend}/digital-product/get-all`,
             {
               category,
               priceType,

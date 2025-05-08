@@ -19,19 +19,20 @@
   font-size: 4rem;
 }
 
-.content {
+.new-home-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 20px;
+  text-align: right;
 }
 
 .new-home-purple-text {
   color: var(--accent-black);
   font-weight: bold;
   font-size: 2rem;
-  text-align: center;
+  text-align: right;
 }
 
 .new-home-yellow-text {
@@ -41,7 +42,7 @@
   background-color: var(--yellow);
   padding: 20px;
   border-radius: 32px;
-  text-align: center;
+  text-align: right;
 }
 
 .new-home-trophy {

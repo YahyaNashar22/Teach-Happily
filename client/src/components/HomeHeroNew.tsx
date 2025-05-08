@@ -6,7 +6,7 @@ import logo from "../assets/Website design-01.png";
 const HomeHeroNew = () => {
   return (
     <section className="new-home-hero">
-      <div className="content">
+      <div className="new-home-content">
         <img
           src={logo}
           alt="trophy"
