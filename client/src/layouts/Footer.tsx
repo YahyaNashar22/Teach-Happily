@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
+import { MdPhone } from "react-icons/md";
+import { MdLocationOn } from "react-icons/md";
 
 import logo from "../assets/Logo_white.png";
 
@@ -98,15 +101,18 @@ const Footer = () => {
                 className="footer-logo-container-text"
                 style={{ direction: "ltr" }}
               >
-                +974 5 000 3 499
+                <MdPhone /> +974 5 000 3 499
               </li>
               <li
                 className="footer-logo-container-text"
                 style={{ direction: "ltr" }}
               >
+                <MdEmail />
                 teachhappily@outlook.com
               </li>
-              <li className="footer-logo-container-text">Qatar</li>
+              <li className="footer-logo-container-text">
+                <MdLocationOn /> Qatar
+              </li>
             </ul>
           </div>
         </div>
