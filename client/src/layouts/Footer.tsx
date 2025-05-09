@@ -23,7 +23,7 @@ const Footer = () => {
     setEmail("");
   };
   return (
-    <footer>
+    <footer className="footer-wrapper">
       <div className="footer-upper">
         <div className="footer-upper-column">
           <div className="footer-newsletter-container">

@@ -1,4 +1,4 @@
-import "../css/Footer.css";
+import "../css/FooterOld.css";
 
 import { Link } from "react-router-dom";
 
