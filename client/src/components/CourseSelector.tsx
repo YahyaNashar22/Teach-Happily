@@ -107,7 +107,7 @@ const CourseSelector: FC<ICourseSelector> = ({
                   return <ProductCard key={product._id} product={product} />;
                 })
               ) : (
-                <p className="no-courses">لا توجد منتحات حاليا</p>
+                <p className="no-courses">لا توجد منتجات حاليا</p>
               )}
             </ul>
           )}

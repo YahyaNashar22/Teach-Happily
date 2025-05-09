@@ -40,7 +40,7 @@
 
 .mobile-nav.open {
   display: flex;
-  background-color: var(--semi-transparent-purple);
+  background-color: var(--purple);
   backdrop-filter: blur(16px);
 }
 
