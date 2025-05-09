@@ -13,6 +13,7 @@
   top: 30px;
   border-radius: 32px;
   backdrop-filter: blur(20px);
+  font-weight: bold;
 }
 
 .nav-links {
@@ -26,6 +27,8 @@
 .nav-link {
   color: var(--accent-black);
   font-size: 1.1rem;
+  border-left: 1px solid var(--accent-grey);
+  padding-left: 10px;
 }
 
 .nav-link:hover {
@@ -41,6 +44,10 @@
   transition: 0.3s ease-in-out;
   background-color: var(--purple);
   opacity: 0.8;
+  text-align: center; 
+  display: flex;
+  align-items: center;
+  height: 40px;
 }
 
 .header-btn-yellow:hover {
