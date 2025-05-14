@@ -4,6 +4,7 @@ import { createToken, verifyToken } from "../utils/token.js";
 import Course from "../models/courseModel.js";
 import generateOTP from "../utils/generateOTP.js";
 import transporter from "../utils/nodemailerTransporter.js";
+import DigitalProduct from "../models/digitalProductModel.js";
 
 
 export const createStudent = async (req, res) => {
@@ -222,6 +223,42 @@ export const enrollCourse = async (req, res) => {
         await user.save();
 
         return res.status(200).json({ message: "Enrolled successfully", course });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا." });
+    }
+};
+
+
+export const enrollProduct = async (req, res) => {
+    const { userId, productId } = req.body;
+
+    try {
+        // Find the product by its ID
+        const product = await DigitalProduct.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        // Check if the user is already enrolled in the product
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Check if the user is already enrolled
+        const alreadyEnrolled = product.enrolledStudents.some(
+            (user) => user.toString() === userId
+        );
+        if (alreadyEnrolled) {
+            return res.status(400).json({ message: "User already enrolled" });
+        }
+
+        // Add the user to the product's enrolledStudents array
+        product.enrolledStudents.push(userId);
+        await product.save();
+
+        return res.status(200).json({ message: "Enrolled successfully", product });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا." });

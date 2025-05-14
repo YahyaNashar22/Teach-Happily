@@ -14,7 +14,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
   const [isUserEnrolled, setIsUserEnrolled] = useState<boolean>(false);
   const [inWishlist, setInWishlist] = useState<boolean>(false);
   const [purchaseModal, setPurchaseModal] = useState<boolean>(false);
-  const [loading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const checkUserEnrolled = () => {
@@ -53,11 +53,68 @@ const ProductCard = ({ product }: { product: IProduct }) => {
     setPurchaseModal((prev) => !prev);
   };
 
-  const handleProductPurchase = () => {};
+  const enroll = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${backend}/user/enroll-product`,
+        {
+          userId: user?._id,
+          productId: product?._id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  // const downloadProduct = () => {};
+      if (res.status === 200) {
+        // Update UI state
+        setIsUserEnrolled(true);
+        setPurchaseModal(false);
+        downloadProduct();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // TODO: CONTINUE THIS
+  const handleProductPurchase = async () => {
+    try {
+      await enroll();
+    } catch (error) {
+      console.error("Purchase error:", error);
+    }
+  };
+
+  const downloadProduct = async () => {
+    try {
+      const response = await axios.get(
+        `${backend}/product/${product._id}/download`,
+        {
+          responseType: "blob", // Important for file downloads
+        }
+      );
+
+      // Create a URL and trigger a download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+
+      // Use product title as filename, or set a default one
+      const fileName = product.title ? `${product.title}` : "product-download";
+      link.setAttribute("download", fileName);
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
 
   return (
     <>
