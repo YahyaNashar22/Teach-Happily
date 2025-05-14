@@ -1,6 +1,6 @@
 import express from "express";
 import { upload } from "../middlewares/multer.js";
-import { createProduct, deleteProduct, getAllProducts, getAllProductsForUser, getProductsByTeacherId, updateProduct } from "../controllers/digitalProductControllers.js";
+import { createProduct, downloadProduct, deleteProduct, getAllProducts, getAllProductsForUser, getProductsByTeacherId, updateProduct } from "../controllers/digitalProductControllers.js";
 
 const digitalProductRouter = express.Router();
 
@@ -23,6 +23,8 @@ digitalProductRouter.patch("/:id", upload.fields([
 ]), updateProduct);
 
 digitalProductRouter.post("/get-teacher-products", getProductsByTeacherId);
+digitalProductRouter.get("/:id/download", downloadProduct);
+
 
 
 export default digitalProductRouter;

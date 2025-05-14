@@ -2,6 +2,14 @@ import DigitalProduct from "../models/digitalProductModel.js";
 
 import removeFile from "../utils/removeFile.js";
 
+import path from "path";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+
 export const createProduct = async (req, res) => {
     try {
         const {
@@ -162,7 +170,7 @@ export const updateProduct = async (req, res) => {
             removeFile(product.image);
         }
 
-        
+
         // Handle new product
         const productFile = req.files?.product?.[0];
         if (productFile && product.product) {
@@ -210,3 +218,19 @@ export const getProductsByTeacherId = async (req, res) => {
         res.status(500).json({ error: error });
     }
 }
+
+
+export const downloadProduct = async (req, res) => {
+    try {
+        const product = await DigitalProduct.findById(req.params.id);
+        if (!product) return res.status(404).send("Product not found");
+
+        // Construct the full file path in the uploads directory
+        const filePath = path.join(__dirname, "..", "uploads", product.fileName);
+
+        return res.download(filePath); // Triggers download
+    } catch (error) {
+        console.log("Download error:", error);
+        return res.status(500).json({ error: "File download failed" });
+    }
+};

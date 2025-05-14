@@ -247,7 +247,7 @@ export const enrollProduct = async (req, res) => {
         }
 
         // Check if the user is already enrolled
-        const alreadyEnrolled = product.enrolledStudents.some(
+        const alreadyEnrolled = product.students.some(
             (user) => user.toString() === userId
         );
         if (alreadyEnrolled) {
@@ -255,7 +255,7 @@ export const enrollProduct = async (req, res) => {
         }
 
         // Add the user to the product's enrolledStudents array
-        product.enrolledStudents.push(userId);
+        product.students.push(userId);
         await product.save();
 
         return res.status(200).json({ message: "Enrolled successfully", product });
