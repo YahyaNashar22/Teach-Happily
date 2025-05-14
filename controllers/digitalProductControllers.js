@@ -4,6 +4,7 @@ import removeFile from "../utils/removeFile.js";
 
 import path from "path";
 import { fileURLToPath } from 'url';
+import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -225,12 +226,20 @@ export const downloadProduct = async (req, res) => {
         const product = await DigitalProduct.findById(req.params.id);
         if (!product) return res.status(404).send("Product not found");
 
-        // Construct the full file path in the uploads directory
-        const filePath = path.join(__dirname, "..", "uploads", product.fileName);
+        const filePath = path.join(__dirname, "..", "uploads", product.product);
 
-        return res.download(filePath); // Triggers download
+        // Log file path and check size
+        console.log("Downloading file from:", filePath);
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).send("File does not exist");
+        }
+
+        const stats = fs.statSync(filePath);
+        console.log("File size:", stats.size, "bytes");
+
+        res.download(filePath, product.product);
     } catch (error) {
-        console.log("Download error:", error);
-        return res.status(500).json({ error: "File download failed" });
+        console.error(error);
+        res.status(500).json({ error: "Failed to download file" });
     }
 };

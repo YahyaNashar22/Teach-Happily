@@ -93,21 +93,23 @@ const ProductCard = ({ product }: { product: IProduct }) => {
   const downloadProduct = async () => {
     try {
       const response = await axios.get(
-        `${backend}/product/${product._id}/download`,
+        `${backend}/digital-product/${product._id}/download`,
         {
-          responseType: "blob", // Important for file downloads
+          responseType: "blob",
         }
       );
 
-      // Create a URL and trigger a download
+      let ext = "pdf";
+      if (typeof product.product === "string") {
+        ext = product.product.split(".").pop() || "pdf";
+      }
+
+      const fileName = `${product.title}.${ext}`;
+
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-
-      // Use product title as filename, or set a default one
-      const fileName = product.title ? `${product.title}` : "product-download";
       link.setAttribute("download", fileName);
-
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -169,7 +171,9 @@ const ProductCard = ({ product }: { product: IProduct }) => {
                 <button
                   className="btn btn-confirm"
                   disabled={loading}
-                  onClick={handleProductPurchase}
+                  onClick={
+                    isUserEnrolled ? downloadProduct : handleProductPurchase
+                  }
                 >
                   تأكيد
                 </button>
