@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ListCategories from "../components/ListCategories";
 import ListCourses from "../components/ListCourses";
 import ListTeachers from "../components/ListTeachers";
+import ListProducts from "../components/ListProducts";
 
 const Dashboard = () => {
   const { clearUser } = useUserStore();
@@ -47,6 +48,16 @@ const Dashboard = () => {
                 المدربات
               </button>
             </li>
+            <li>
+              <button
+                className={`dashboard-menu-item ${
+                  activeForm === "products" ? "active" : ""
+                }`}
+                onClick={() => setActiveForm("products")}
+              >
+                المنتجات الرقمية
+              </button>
+            </li>
           </ul>
         </div>
         <div className="dash-buttons">
@@ -64,6 +75,7 @@ const Dashboard = () => {
         {activeForm === "category" && <ListCategories />}
         {activeForm === "teacher" && <ListTeachers />}
         {activeForm === "course" && <ListCourses />}
+        {activeForm === "products" && <ListProducts />}
       </main>
     </div>
   );

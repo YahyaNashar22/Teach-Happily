@@ -32,11 +32,11 @@ export const createProduct = async (req, res) => {
             product
         });
 
-        await DigitalProduct.save();
+        await newProduct.save();
 
         res.status(201).json({
             message: "تم انشاء المنتج بنجاح",
-            payload: product,
+            payload: newProduct,
         });
     } catch (error) {
         console.log(error);
@@ -162,7 +162,16 @@ export const updateProduct = async (req, res) => {
             removeFile(product.image);
         }
 
+        
+        // Handle new product
+        const productFile = req.files?.product?.[0];
+        if (productFile && product.product) {
+            removeFile(product.product);
+        }
+
         const image = imageFile?.filename || product.image;
+        const newProductFile = productFile?.filename || product.product;
+
 
         const updatedProduct = await DigitalProduct.findByIdAndUpdate(
             id,
@@ -172,6 +181,7 @@ export const updateProduct = async (req, res) => {
                     description,
                     price,
                     image,
+                    product: newProductFile,
                     category,
                     teacher
                 }

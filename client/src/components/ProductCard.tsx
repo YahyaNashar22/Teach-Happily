@@ -14,7 +14,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
   const [isUserEnrolled, setIsUserEnrolled] = useState<boolean>(false);
   const [inWishlist, setInWishlist] = useState<boolean>(false);
   const [purchaseModal, setPurchaseModal] = useState<boolean>(false);
-  const [loading, ] = useState<boolean>(false);
+  const [loading] = useState<boolean>(false);
 
   useEffect(() => {
     const checkUserEnrolled = () => {

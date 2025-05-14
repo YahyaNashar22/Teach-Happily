@@ -5,7 +5,7 @@ import { createProduct, deleteProduct, getAllProducts, getAllProductsForUser, ge
 const digitalProductRouter = express.Router();
 
 
-digitalProductRouter.post("/create-course", upload.fields([
+digitalProductRouter.post("/create", upload.fields([
     { name: "image", maxCount: 1 },
     { name: "product", maxCount: 1 },
 
@@ -18,7 +18,8 @@ digitalProductRouter.get("/get-products-enrolled/:userId", getAllProductsForUser
 digitalProductRouter.delete("/:id", deleteProduct);
 
 digitalProductRouter.patch("/:id", upload.fields([
-    { name: "image", maxCount: 1 }
+    { name: "image", maxCount: 1 },
+    { name: "product", maxCount: 1 },
 ]), updateProduct);
 
 digitalProductRouter.post("/get-teacher-products", getProductsByTeacherId);
