@@ -1,6 +1,6 @@
 import "../css/CoursesHero.css";
 
-import magnifier from "../assets/Website design-09.png";
+import magnifier from "../assets/Website design-12.png";
 
 const CoursesHero = () => {
   return (
