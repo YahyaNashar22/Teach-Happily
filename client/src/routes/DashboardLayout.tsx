@@ -1,5 +1,4 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import DashboardHeader from "../layouts/DashboardHeader";
 import Footer from "../layouts/Footer";
 import { useUserStore } from "../store";
 import { useEffect } from "react";
@@ -15,7 +14,6 @@ const DashboardLayout = () => {
   }, [user, navigate]);
   return (
     <>
-      <DashboardHeader />
       <Outlet />
       <Footer />
     </>
