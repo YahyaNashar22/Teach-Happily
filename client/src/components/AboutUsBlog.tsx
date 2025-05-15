@@ -79,7 +79,7 @@ const AboutUsBlog = () => {
 
       <div className="about-us-what-we-provide">
         <h3 className="about-us-blog-subheader-what-we-provide">ماذا نقدم؟</h3>
-        <p className="about-us-blog-text">
+        <div className="about-us-blog-text">
           <ul className="about-us-blog-what-we-provide-list">
             <li>
               استشارات تعليمية فردية وجماعية لدعم المعلمين في تطوير مهاراتهم،
@@ -102,7 +102,7 @@ const AboutUsBlog = () => {
               وسعادة تجده هنا في "علم بسعادة"!
             </li>
           </ul>
-        </p>
+        </div>
       </div>
 
       <div className="about-us-blog-why">
