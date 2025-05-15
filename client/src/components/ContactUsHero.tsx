@@ -21,7 +21,6 @@ const ContactUsHero = () => {
         alt="magnifier"
         loading="lazy"
         className="contact-magnifier"
-        width={500}
       />
     </section>
   );

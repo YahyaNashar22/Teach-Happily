@@ -1,9 +1,10 @@
+import "../css/ContactPage.css";
+
 import { FormEvent, useState } from "react";
 import ContactUsHero from "../components/ContactUsHero";
-import "../css/ContactPage.css";
 import axios from "axios";
 
-import mails from "../assets/Vector Smart Object-1.png";
+// import mails from "../assets/Vector Smart Object-1.png";
 
 const ContactPageTeachWithUs = () => {
   const backend = import.meta.env.VITE_BACKEND;
@@ -73,93 +74,94 @@ const ContactPageTeachWithUs = () => {
 
   return (
     <main className="contact-from-page-wrapper">
-      <img
+      {/* <img
         src={mails}
-        width={300}
         alt="messages"
         loading="lazy"
         className="contact-mails-img"
-      />
+      /> */}
 
       <ContactUsHero />
       <div className="contact-page-form-container">
         <form className="contact-page-form" onSubmit={handleSubmit}>
-          <h2 className="contact-page-form-title"> أرغب بالانضمام </h2>
+          <div className="contact-page-form-bg">
+            <h2 className="contact-page-form-title"> أرغب بالانضمام </h2>
 
-          <label className="contact-page-form-label">
-            الاسم الكامل
-            <input
-              className="contact-page-form-input"
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="الاسم الكامل"
-              required
-            />
-          </label>
+            <label className="contact-page-form-label">
+              الاسم الكامل
+              <input
+                className="contact-page-form-input"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="الاسم الكامل"
+                required
+              />
+            </label>
 
-          <label className="contact-page-form-label">
-            البريد الإلكتروني
-            <input
-              className="contact-page-form-input"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="بريدك الإلكتروني"
-              required
-            />
-          </label>
+            <label className="contact-page-form-label">
+              البريد الإلكتروني
+              <input
+                className="contact-page-form-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="بريدك الإلكتروني"
+                required
+              />
+            </label>
 
-          <label className="contact-page-form-label">
-            المهنة
-            <input
-              className="contact-page-form-input"
-              type="text"
-              value={profession}
-              onChange={(e) => setProfession(e.target.value)}
-              placeholder="مهنك"
-              required
-            />
-          </label>
+            <label className="contact-page-form-label">
+              المهنة
+              <input
+                className="contact-page-form-input"
+                type="text"
+                value={profession}
+                onChange={(e) => setProfession(e.target.value)}
+                placeholder="مهنك"
+                required
+              />
+            </label>
 
-          <label className="contact-page-form-label">
-            الرسالة
-            <textarea
-              className="contact-page-form-textarea"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="اكتب رسالتك هنا"
-              required
-            />
-          </label>
+            <label className="contact-page-form-label">
+              الرسالة
+              <textarea
+                className="contact-page-form-textarea"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="اكتب رسالتك هنا"
+                required
+              />
+            </label>
 
-          <label className="contact-page-form-label">
-            تحميل الملف (PDF فقط)
-            <input
-              className="contact-page-form-input"
-              type="file"
-              accept="application/pdf"
-              onChange={(e) =>
-                setFile(e.target.files ? e.target.files[0] : null)
-              }
-              required
-            />
-          </label>
+            <label className="contact-page-form-label">
+              تحميل الملف (PDF فقط)
+              <input
+                className="contact-page-form-input"
+                type="file"
+                accept="application/pdf"
+                onChange={(e) =>
+                  setFile(e.target.files ? e.target.files[0] : null)
+                }
+                required
+              />
+            </label>
 
-          <button
-            disabled={loading}
-            className="contact-page-form-button"
-            type="submit"
-          >
-            إرسال
-          </button>
+            <button
+              disabled={loading}
+              className="contact-page-form-button"
+              type="submit"
+            >
+              إرسال
+            </button>
+          </div>
         </form>
-        <img
+        {/* <img
           src={mails}
           alt="messages"
           loading="lazy"
           className="contact-mails-img-2-teach"
-        />
+        /> */}
       </div>
     </main>
   );

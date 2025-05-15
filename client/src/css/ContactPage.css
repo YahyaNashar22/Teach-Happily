@@ -10,7 +10,7 @@
 .contact-page-form {
   max-width: 600px;
   margin: 20px auto;
-  background-color: #ffffffaa;
+  background-color: #ffffff33;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 10px var(--shadow);
@@ -29,7 +29,7 @@
 .contact-page-form-label {
   display: block;
   margin-bottom: 1.5rem;
-  color: var(--purple);
+  color: var(--white);
   font-weight: bold;
   z-index: 3;
 }
@@ -41,7 +41,7 @@
   margin-top: 0.5rem;
   border: 1px solid var(--divider-card);
   border-radius: 0.5rem;
-  background-color: var(--white);
+  background-color: #ffffff33;
   font-size: 1rem;
   color: var(--black);
   transition: border-color 0.3s ease;
@@ -52,6 +52,11 @@
 .contact-page-form-textarea:focus {
   border-color: var(--purple);
   outline: none;
+}
+
+.contact-page-form-input::placeholder,
+.contact-page-form-textarea::placeholder {
+  color: var(--accent-black);
 }
 
 .contact-page-form-textarea {
@@ -86,6 +91,7 @@
   left: 0px;
   bottom: 0px;
   z-index: 1;
+  width: 300px;
 }
 
 .contact-mails-img-2-teach {
@@ -96,8 +102,27 @@
   transform: rotate(70deg);
 }
 
+.contact-page-form-bg {
+  background: url("../assets/Vector Smart Object-1.png");
+  background-position: center;
+  background-size: cover;
+}
+
+@media (max-width: 1100px) {
+  .contact-mails-img-2-teach {
+    left: 400px;
+    bottom: -100px;
+    width: 500px;
+  }
+}
+
 @media (max-width: 768px) {
   .contact-page-form {
     max-width: 350px;
+  }
+
+  .contact-mails-img-2-teach {
+    left: 600px;
+    bottom: 0px;
   }
 }

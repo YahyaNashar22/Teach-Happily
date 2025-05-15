@@ -1,17 +1,17 @@
 .contact-hero {
-  padding: 200px 150px 0px 150px;
+  padding: 150px 50px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   gap: 40px;
   min-height: 100dvh;
-  /* background: linear-gradient(to right, #fedefc, #fcb0fa); */
   background-color: transparent;
   position: relative;
 }
 
 .contact-magnifier {
   z-index: 2;
+  width: 500px;
 }
 
 .contact-title {
@@ -49,19 +49,24 @@
   .contact-hero {
     flex-direction: column;
   }
+
+  .contact-magnifier {
+    width: 350px;
+  }
 }
 
 @media (max-width: 768px) {
   .contact-hero {
     padding: 100px;
   }
+
+  .contact-magnifier {
+    width: 300px;
+  }
 }
 
 @media (max-width: 600px) {
   .contact-hero {
     padding: 100px 20px;
-  }
-  .contact-magnifier {
-    width: 300px;
   }
 }

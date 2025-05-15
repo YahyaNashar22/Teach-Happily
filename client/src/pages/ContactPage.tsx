@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import ContactUsHero from "../components/ContactUsHero";
 import axios from "axios";
 
-import mails from "../assets/Vector Smart Object-1.png";
+// import mails from "../assets/Vector Smart Object-1.png";
 
 const ContactPage = () => {
   const backend = import.meta.env.VITE_BACKEND;
@@ -54,55 +54,56 @@ const ContactPage = () => {
   };
   return (
     <main className="contact-from-page-wrapper">
-      <img
+      {/* <img
         src={mails}
-        width={300}
         alt="messages"
         loading="lazy"
         className="contact-mails-img"
-      />
+      /> */}
 
       <ContactUsHero />
       <div className="contact-page-form-container">
         <form className="contact-page-form" onSubmit={handleSubmit}>
-          <h2 className="contact-page-form-title">نرغب بسماع ارائك</h2>
-          <label className="contact-page-form-label">
-            البريد الإلكتروني
-            <input
-              className="contact-page-form-input"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="بريدك الإلكتروني"
-              required
-            />
-          </label>
+          <div className="contact-page-form-bg">
+            <h2 className="contact-page-form-title">نرغب بسماع ارائك</h2>
+            <label className="contact-page-form-label">
+              البريد الإلكتروني
+              <input
+                className="contact-page-form-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="بريدك الإلكتروني"
+                required
+              />
+            </label>
 
-          <label className="contact-page-form-label">
-            الرسالة
-            <textarea
-              className="contact-page-form-textarea"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="اكتب رسالتك هنا"
-              required
-            />
-          </label>
+            <label className="contact-page-form-label">
+              الرسالة
+              <textarea
+                className="contact-page-form-textarea"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="اكتب رسالتك هنا"
+                required
+              />
+            </label>
 
-          <button
-            disabled={loading}
-            className="contact-page-form-button"
-            type="submit"
-          >
-            إرسال
-          </button>
+            <button
+              disabled={loading}
+              className="contact-page-form-button"
+              type="submit"
+            >
+              إرسال
+            </button>
+          </div>
         </form>
-        <img
+        {/* <img
           src={mails}
           alt="messages"
           loading="lazy"
           className="contact-mails-img-2-teach"
-        />
+        /> */}
       </div>
     </main>
   );
