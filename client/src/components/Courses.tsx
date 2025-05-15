@@ -1,5 +1,7 @@
-import { useState } from "react";
 import "../css/Courses.css";
+
+import { useState } from "react";
+
 import CategorySelector from "./CategorySelector";
 import CourseSelector from "./CourseSelector";
 

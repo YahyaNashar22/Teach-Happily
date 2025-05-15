@@ -1,11 +1,10 @@
 .courses-hero {
-  padding: 200px 150px 150px 150px;
+  padding: 150px 50px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   gap: 40px;
   min-height: 100dvh;
-  /* background: linear-gradient(to right, #fedefc, #fcb0fa); */
   background-color: transparent;
   position: relative;
 }
@@ -13,6 +12,7 @@
 .courses-magnifier {
   z-index: 2;
   transform: rotateZ(-20deg);
+  width: 500px;
 }
 
 .courses-title {
@@ -49,6 +49,11 @@
 @media (max-width: 1200px) {
   .courses-hero {
     flex-direction: column;
+    padding: 100px 20px;
+  }
+
+  .courses-magnifier {
+    width: 350px;
   }
 }
 
@@ -56,13 +61,14 @@
   .courses-hero {
     padding: 100px;
   }
+
+  .courses-magnifier {
+    width: 300px;
+  }
 }
 
 @media (max-width: 600px) {
   .courses-hero {
     padding: 100px 20px;
-  }
-  .courses-magnifier {
-    width: 300px;
   }
 }

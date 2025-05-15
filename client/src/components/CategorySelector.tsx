@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import "../css/CategorySelector.css";
+
+import { useEffect, useState } from "react";
 import ICategory from "../interfaces/ICategory";
 import axios from "axios";
 import Loading from "./Loading";

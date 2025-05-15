@@ -23,7 +23,6 @@ const DigitalProductsHero = () => {
         alt="magnifier"
         loading="lazy"
         className="digital-products-magnifier"
-        width={500}
       />
     </section>
   );

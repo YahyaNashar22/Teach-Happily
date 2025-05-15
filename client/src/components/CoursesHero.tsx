@@ -21,7 +21,6 @@ const CoursesHero = () => {
         alt="magnifier"
         loading="lazy"
         className="courses-magnifier"
-        width={500}
       />
     </section>
   );
