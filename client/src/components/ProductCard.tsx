@@ -158,15 +158,28 @@ const ProductCard = ({ product }: { product: IProduct }) => {
         {purchaseModal && (
           <div className="modal-overlay">
             <div className="modal">
-              <h2 className="modal-title">تأكيد الشراء</h2>
-              <p className="modal-text">
-                هل أنت متأكد أنك تريد شراء المنتج{" "}
-                <strong>{product?.title}</strong> مقابل{" "}
-                <span className="modal-price">
-                  $ {product?.price.toFixed(2)}
-                </span>
-                ؟
-              </p>
+              { isUserEnrolled ?
+<>
+                  <h2 className="modal-title">تأكيد التحميل</h2>
+
+                  <p className="modal-text">
+                    هل تريد تحميل الملف حقا؟
+                  </p>
+</>
+
+:
+                <>
+                  <h2 className="modal-title">تأكيد الشراء</h2>
+                  <p className="modal-text">
+                    هل أنت متأكد أنك تريد شراء المنتج{" "}
+                    <strong>{product?.title}</strong> مقابل{" "}
+                    <span className="modal-price">
+                      $ {product?.price.toFixed(2)}
+                    </span>
+                    ؟
+                  </p>
+                </>
+              }
               <div className="modal-actions">
                 <button
                   className="btn btn-confirm"
