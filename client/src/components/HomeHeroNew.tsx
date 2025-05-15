@@ -12,7 +12,6 @@ const HomeHeroNew = () => {
           alt="trophy"
           loading="lazy"
           className="new-home-trophy"
-          width={200}
         />
 
         <h1 className="new-home-title">علّم بسعادة</h1>
@@ -30,7 +29,6 @@ const HomeHeroNew = () => {
         alt="emoji"
         loading="lazy"
         className="new-home-emoji"
-        width={500}
       />
     </section>
   );

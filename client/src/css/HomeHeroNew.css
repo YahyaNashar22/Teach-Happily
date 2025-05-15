@@ -10,10 +10,6 @@
   position: relative;
 }
 
-.new-home-emoji {
-  z-index: 2;
-}
-
 .new-home-title {
   color: var(--white);
   font-size: 4rem;
@@ -45,10 +41,16 @@
   text-align: right;
 }
 
+.new-home-emoji {
+  z-index: 2;
+  width: 500px;
+}
+
 .new-home-trophy {
   position: absolute;
   left: 10px;
   bottom: -50px;
+  width: 200px;
 }
 
 @media (max-width: 1200px) {
@@ -70,5 +72,9 @@
   .new-home-emoji,
   .new-home-logo {
     width: 300px;
+  }
+
+  .new-home-trophy {
+    width: 100px;
   }
 }
