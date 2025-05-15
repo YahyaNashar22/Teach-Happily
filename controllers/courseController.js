@@ -8,7 +8,7 @@ import removeFile from "../utils/removeFile.js";
 
 export const createCourse = async (req, res) => {
     try {
-        const {
+        let {
             title,
             description,
             level,
@@ -31,15 +31,18 @@ export const createCourse = async (req, res) => {
 
         const image = req.files?.image ? req.files.image[0].filename : null;
 
+        // Normalize videoTitles to always be an array
+        const normalizedVideoTitles = Array.isArray(videoTitles) ? videoTitles : [videoTitles];
+
         // Ensure it's always an array
-        if (videoTitles && !Array.isArray(videoTitles)) {
-            videoTitles = [videoTitles];
-        }
+        // if (videoTitles && !Array.isArray(videoTitles)) {
+        //     videoTitles = [videoTitles];
+        // }
 
         // Handle file uploads (videos)
         const content = req.files?.videos
             ? req.files.videos.map((file, index) => ({
-                title: videoTitles?.[index] || file.originalname,
+                title: normalizedVideoTitles?.[index] || file.originalname,
                 url: file.filename,
             }))
             : [];
@@ -187,8 +190,6 @@ export const deleteCourse = async (req, res) => {
         if (course.enrolledStudents.length > 0) {
             return res.status(400).json({ message: "لا يمكن حذف دورة يوجد فيها متدربين" })
         }
-
-        console.log(course)
 
         if (course.image) {
             removeFile(course.image)

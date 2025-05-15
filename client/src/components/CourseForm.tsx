@@ -23,6 +23,9 @@ const CourseUploadForm = ({
   const [teachers, setTeachers] = useState<ITeacher[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
 
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [showProgressModal, setShowProgressModal] = useState(false);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -146,8 +149,16 @@ const CourseUploadForm = ({
     });
 
     try {
+      setShowProgressModal(true);
+
       const res = await axios.post(`${backend}/course/create-course`, data, {
         headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            progressEvent.loaded / 100 / (progressEvent.total || 1)
+          );
+          setUploadProgress(percentCompleted);
+        },
       });
       setSuccess(res.data.message);
       setFormData({
@@ -170,6 +181,8 @@ const CourseUploadForm = ({
       setError("حدث خطأ أثناء رفع الدورة");
     } finally {
       setLoading(false);
+      setShowProgressModal(false);
+      setUploadProgress(0);
     }
   };
 
@@ -324,7 +337,7 @@ const CourseUploadForm = ({
                 e.target.files &&
                 handleVideoChange(index, "file", e.target.files[0])
               }
-              style={{margin:"10px 0px"}}
+              style={{ margin: "10px 0px" }}
               required
             />
             <button type="button" onClick={() => removeVideoField(index)}>
@@ -351,6 +364,22 @@ const CourseUploadForm = ({
         {error && <p className="course-form-error">{error}</p>}
         {success && <p className="course-form-success">{success}</p>}
       </form>
+
+      {showProgressModal && (
+        <div className="progress-bar-modal-overlay">
+          <div className="progress-bar-modal-content">
+            <h2>جاري رفع الدورة</h2>
+            <p>يرجى عدم إغلاق هذه النافذة حتى انتهاء عملية الرفع</p>
+            <div className="progress-bar">
+              <div
+                className="progress-bar-fill"
+                style={{ width: `${uploadProgress}%` }}
+              ></div>
+            </div>
+            <p>{uploadProgress}%</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
