@@ -180,7 +180,10 @@ const ProductCard = ({ product }: { product: IProduct }) => {
                 <button
                   className="btn btn-cancel"
                   disabled={loading}
-                  onClick={togglePurchaseModal}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    togglePurchaseModal();
+                  }}
                 >
                   إلغاء
                 </button>

@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import ICourse from "../interfaces/ICourse";
 import axios from "axios";
 import Loading from "../components/Loading";
-import { useNavigate } from "react-router-dom";
+import IProduct from "../interfaces/IProduct";
+import CourseCard from "../components/CourseCard";
+import ProductCard from "../components/ProductCard";
 
 const ProfilePage = () => {
   const backend = import.meta.env.VITE_BACKEND;
   const { user } = useUserStore();
-  const navigate = useNavigate();
 
   const [courses, setCourses] = useState<ICourse[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [favorites, setFavorites] = useState<ICourse[]>([]);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,6 +27,21 @@ const ProfilePage = () => {
         );
 
         setCourses(res.data.payload);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchPurchasedProducts = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          `${backend}/digital-product/get-products-enrolled/${user?._id}`
+        );
+
+        setProducts(res.data.payload);
       } catch (error) {
         console.log(error);
       } finally {
@@ -46,7 +63,6 @@ const ProfilePage = () => {
             },
           }
         );
-        console.log(res);
 
         setFavorites(res.data.payload.courseWishlist);
       } catch (error) {
@@ -57,6 +73,7 @@ const ProfilePage = () => {
     };
 
     fetchCoursesEnrolled();
+    fetchPurchasedProducts();
     fetchFavoriteCourses();
   }, [backend, user]);
 
@@ -69,24 +86,27 @@ const ProfilePage = () => {
           <ul className="profile-course-list">
             {courses.length > 0 ? (
               courses.map((course) => {
-                return (
-                  <li
-                    key={course._id}
-                    className="profile-course-item"
-                    onClick={() => navigate(`/course/${course.slug}`)}
-                  >
-                    <p className="profile-course-title">{course.title}</p>
-                    <img
-                      src={`${backend}/${course.image}`}
-                      className="profile-course-image"
-                      loading="lazy"
-                      alt={course.title}
-                    />
-                  </li>
-                );
+                return <CourseCard key={course._id} course={course} />;
               })
             ) : (
               <li>لا توجد دورات مسجلة</li>
+            )}
+          </ul>
+        ) : (
+          <Loading />
+        )}
+      </section>
+
+      <section className="profile-courses">
+        <h2 className="enrolled-courses-title">المنتجات الرقمية</h2>
+        {!loading ? (
+          <ul className="profile-course-list">
+            {products?.length > 0 ? (
+              products.map((product) => {
+                return <ProductCard key={product._id} product={product} />;
+              })
+            ) : (
+              <li>لا توجد منتجات رقمية</li>
             )}
           </ul>
         ) : (
@@ -100,21 +120,7 @@ const ProfilePage = () => {
           <ul className="profile-course-list">
             {favorites.length > 0 ? (
               favorites.map((course) => {
-                return (
-                  <li
-                    key={course._id}
-                    className="profile-course-item"
-                    onClick={() => navigate(`/course/${course.slug}`)}
-                  >
-                    <p className="profile-course-title">{course.title}</p>
-                    <img
-                      src={`${backend}/${course.image}`}
-                      className="profile-course-image"
-                      loading="lazy"
-                      alt={course.title}
-                    />
-                  </li>
-                );
+                return <CourseCard key={course._id} course={course} />;
               })
             ) : (
               <li>لا توجد دورات مفضلة</li>
@@ -124,12 +130,6 @@ const ProfilePage = () => {
           <Loading />
         )}
       </section>
-
-      {/* <section className="profile-buttons">
-        <Link to="/" onClick={clearUser} className="profile-signout">
-          تسجيل الخروج
-        </Link>
-      </section> */}
     </main>
   );
 };

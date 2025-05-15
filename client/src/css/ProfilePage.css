@@ -2,8 +2,7 @@
 .profile-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 100px 20px;
-  background-color: var(--white);
+  padding: 150px 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -20,7 +19,7 @@
 
 /* Enrolled Courses Section */
 .profile-courses {
-  margin-bottom: 40px;
+  margin: 40px auto;
   width: 100%;
 }
 
@@ -33,13 +32,11 @@
 
 /* Course List */
 .profile-course-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Course Card */
@@ -127,7 +124,7 @@
 
 @media (max-width: 768px) {
   .profile-wrapper {
-    padding: 80px 40px;
+    padding: 150px 40px;
   }
 
   .profile-course-list {
@@ -147,7 +144,7 @@
 
 @media (max-width: 480px) {
   .profile-wrapper {
-    padding: 60px 20px;
+    padding: 150px 40px;
   }
 
   .profile-course-list {

@@ -9,6 +9,7 @@ import axios from "axios";
 import IFeedback from "../interfaces/IFeedback";
 import StarRating from "./StarRating";
 
+// TODO: IF FAVORITED AND NOT ENROLLED NAVIGATE TO COURSE SHOWCASE
 const CourseCard = ({ course }: { course: ICourse }) => {
   const backend = import.meta.env.VITE_BACKEND;
 
