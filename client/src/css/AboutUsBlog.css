@@ -31,7 +31,6 @@
 
 .about-us-blog-header {
   color: var(--purple);
-  line-height: 20px;
 }
 
 .about-us-blog-white-header {
@@ -192,6 +191,19 @@
   right: 80px;
 }
 
+@media (max-width: 900px) {
+  .about-us-goal-container,
+  .about-us-what-we-provide,
+  .about-us-blog-why {
+    flex-direction: column;
+  }
+
+  .about-us-what-we-provide .about-us-blog-text,
+  .about-us-blog-why .about-us-blog-text {
+    width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .about-us-blog-wrapper {
     padding: 50px 15px;
@@ -221,17 +233,6 @@
 
   .about-us-blog-text li {
     padding-left: 25px;
-  }
-
-  .about-us-goal-container,
-  .about-us-what-we-provide,
-  .about-us-blog-why {
-    flex-direction: column;
-  }
-
-  .about-us-what-we-provide .about-us-blog-text,
-  .about-us-blog-why .about-us-blog-text {
-    width: 100%;
   }
 
   .about-us-blog-hand {
