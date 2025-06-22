@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-around;
   background-color: transparent;
-  padding: 150px 20px; /* Adjust for padding on mobile */
+  padding: 250px 20px; /* Adjust for padding on mobile */
   width: 100%;
   flex-wrap: wrap; /* Allows items to wrap on smaller screens */
   position: relative;

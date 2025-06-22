@@ -43,14 +43,14 @@
 
 .new-home-emoji {
   z-index: 2;
-  width: 500px;
+  width: 400px;
 }
 
 .new-home-trophy {
   position: absolute;
   left: 10px;
   bottom: -50px;
-  width: 200px;
+  width: 150px;
 }
 
 @media (max-width: 1200px) {
@@ -61,17 +61,29 @@
 
 @media (max-width: 768px) {
   .new-home-hero {
-    padding: 100px;
+    padding: 150px 50px;
+  }
+
+  .new-home-emoji {
+    width: 300px;
+  }
+
+  .new-home-trophy {
+    width: 120px;
   }
 }
 
 @media (max-width: 600px) {
   .new-home-hero {
-    padding: 100px 20px;
+    padding: 150px 20px;
   }
-  .new-home-emoji,
+
   .new-home-logo {
     width: 300px;
+  }
+
+  .new-home-emoji {
+    width: 200px;
   }
 
   .new-home-trophy {
