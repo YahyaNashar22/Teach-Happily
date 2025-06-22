@@ -29,6 +29,9 @@ const ListCourses = () => {
   const [selectedCourse, setSelectedCourse] = useState<ICourse | null>(null);
   const [newCourseForm, setNewCourseForm] = useState<boolean>(false);
 
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [showProgressModal, setShowProgressModal] = useState(false);
+
   useEffect(() => {
     const fetchCourses = async () => {
       setLoading(true);
@@ -57,6 +60,8 @@ const ListCourses = () => {
   const handleUpdate = async () => {
     if (!selectedCourse) return;
     try {
+      setShowProgressModal(true);
+
       const formData = new FormData();
 
       // Append all text fields
@@ -89,6 +94,12 @@ const ListCourses = () => {
 
       await axios.patch(`${backend}/course/${selectedCourse._id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / (progressEvent.total || 1)
+          );
+          setUploadProgress(percentCompleted);
+        },
       });
 
       setCourses(
@@ -99,6 +110,9 @@ const ListCourses = () => {
       handleClose();
     } catch (error) {
       console.log(error);
+    } finally {
+      setShowProgressModal(false);
+      setUploadProgress(0);
     }
   };
 
@@ -501,6 +515,22 @@ const ListCourses = () => {
             </Button>
           </DialogActions>
         </Dialog>
+      )}
+
+      {showProgressModal && (
+        <div className="progress-bar-modal-overlay">
+          <div className="progress-bar-modal-content">
+            <h2>جاري تعديل الدورة</h2>
+            <p>يرجى عدم إغلاق هذه النافذة حتى انتهاء عملية التعديل</p>
+            <div className="progress-bar">
+              <div
+                className="progress-bar-fill"
+                style={{ width: `${uploadProgress}%` }}
+              ></div>
+            </div>
+            <p>{uploadProgress}%</p>
+          </div>
+        </div>
       )}
     </div>
   );
