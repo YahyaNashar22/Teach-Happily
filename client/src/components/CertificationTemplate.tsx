@@ -3,20 +3,34 @@ import "../css/CertificationTemplate.css";
 import { useEffect, useState } from "react";
 
 import ICertification from "../interfaces/ICertification";
+import axios from "axios";
+import Loading from "./Loading";
 
-const CertificationTemplate = () => {
+const CertificationTemplate = ({ id }: { id: string }) => {
+  const backend = import.meta.env.VITE_BACKEND;
+
+  const [loading, setLoading] = useState<boolean>(true);
   const [certification, setCertification] = useState<ICertification | null>(
     null
   );
 
   useEffect(() => {
-    setCertification({
-      _id: "12",
-      student: { fullName: "asd", _id: "12" },
-      course: { _id: "2", title: " 23" },
-      created_at: "123",
-    });
-  }, []);
+    const fetchCertificate = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`${backend}/certification/${id}`);
+        setCertification(res.data.payload);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCertificate();
+  }, [backend, id]);
+
+  if (loading) return <Loading />;
 
   return (
     <div className="certificate">
