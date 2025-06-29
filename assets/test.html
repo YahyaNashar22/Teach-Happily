@@ -1,0 +1,45 @@
+<form id="certificationForm">
+  <input type="text" value="67ce094a6aad115a95a369b9" name="studentId" />
+  <input type="text" value="67ce4edfc39bc6b1c651b4f4" name="courseId" />
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  document
+    .getElementById("certificationForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault(); // Prevent default form submit
+
+      const form = e.target;
+      const studentId = form.studentId.value;
+      const courseId = form.courseId.value;
+
+      try {
+        const response = await fetch(
+          "http://localhost:5000/certification/generate",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              studentId,
+              courseId,
+            }),
+          }
+        );
+
+        // If response is a file (PDF), trigger download
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "certificate.pdf";
+        link.click();
+        window.URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Failed to generate certificate.");
+      }
+    });
+</script>

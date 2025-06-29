@@ -28,6 +28,27 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "mediaPro";
+  src: url("/fonts/rtl-mediapro-light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "mediaPro";
+  src: url("/fonts/rtl-mediapro-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "mediaPro";
+  src: url("/fonts/rtl-mediapro-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
 * {
   margin: 0px;
   padding: 0px;

@@ -1,0 +1,44 @@
+.certificate {
+  position: relative;
+  width: 1123px; /* A4 width at 96 DPI */
+  height: 794px; /* A4 height at 96 DPI */
+  background: url("../assets/certification.png") no-repeat center center;
+  background-size: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  direction: rtl;
+  word-spacing: 6px;
+}
+
+/* Example of data positioning */
+.certificate-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: "mediaPro", sans-serif;
+  color: #000;
+}
+
+.certificate-content h1 {
+  font-size: 72px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.certificate-content h2 {
+  font-size: 72px;
+  font-weight: 400;
+  margin: 12px auto;
+}
+
+.certificate-content p {
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.certificate-content span {
+  font-weight: 400;
+  font-size: 24px;
+  padding-right: 24px;
+}
