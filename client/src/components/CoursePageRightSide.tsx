@@ -3,7 +3,7 @@ import "../css/CoursePageRightSide.css";
 import ICourse from "../interfaces/ICourse";
 
 import { GiGraduateCap, GiNetworkBars } from "react-icons/gi";
-import { FaClock, FaSync } from "react-icons/fa";
+import { FaClock, FaSync, FaLock } from "react-icons/fa";
 import IContent from "../interfaces/IContent";
 
 const CoursePageRightSide = ({
@@ -33,18 +33,21 @@ const CoursePageRightSide = ({
         <h2 className="course-viewer-playlist-title">المحتوى</h2>
         <ul className="course-viewer-playlist">
           {course?.content?.map((video, index) => {
+            const isUnlocked = unlockedVideos.includes(index);
             return (
               <li
                 key={index}
-                onClick={() => handleSelectVideo(video, index)}
-                className="course-viewer-playlist-item"
+                onClick={() => isUnlocked && handleSelectVideo(video, index)}
+                className={`course-viewer-playlist-item${isUnlocked ? "" : " locked"}`}
                 style={{
-                  cursor: unlockedVideos.includes(index)
-                    ? "pointer"
-                    : "not-allowed",
-                  opacity: unlockedVideos.includes(index) ? 1 : 0.5,
+                  cursor: isUnlocked ? "pointer" : "not-allowed",
+                  opacity: isUnlocked ? 1 : 0.5,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
                 }}
               >
+                {!isUnlocked && <FaLock style={{ marginLeft: 6, color: "#888" }} />}
                 {removeFileExtension(video.title)}
               </li>
             );

@@ -67,6 +67,15 @@ const courseSchema = new Schema(
             {
                 title: { type: String, required: true },
                 url: { type: String, required: true },
+                quiz: {
+                    questions: [
+                        {
+                            question: { type: String, required: true },
+                            options: [{ type: String, required: true }],
+                            correctIndex: { type: Number, required: true }
+                        }
+                    ]
+                }
             }
         ],
         slug: {

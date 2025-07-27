@@ -1,4 +1,5 @@
 import Course from "../models/courseModel.js";
+import User from "../models/userModel.js";
 
 import removeFile from "../utils/removeFile.js";
 
@@ -319,3 +320,55 @@ export const getCoursesByTeacherId = async (req, res) => {
         res.status(500).json({ error: error });
     }
 }
+
+// Add or update a quiz for a specific video in a course
+export const addOrUpdateQuiz = async (req, res) => {
+    try {
+        const { courseId, videoIndex, questions } = req.body;
+        const course = await Course.findById(courseId);
+        if (!course) return res.status(404).json({ message: "Course not found" });
+        if (!course.content[videoIndex]) return res.status(404).json({ message: "Video not found" });
+        course.content[videoIndex].quiz = { questions };
+        await course.save();
+        res.status(200).json({ message: "Quiz updated", payload: course.content[videoIndex].quiz });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error });
+    }
+};
+
+// Student submits quiz answers for a video
+export const submitQuizAnswers = async (req, res) => {
+    try {
+        const { userId, courseId, videoIndex, answers } = req.body;
+        const course = await Course.findById(courseId);
+        if (!course) return res.status(404).json({ message: "Course not found" });
+        const video = course.content[videoIndex];
+        if (!video || !video.quiz) return res.status(404).json({ message: "Quiz not found" });
+        const questions = video.quiz.questions;
+        // Validate answers
+        const allCorrect = questions.every((q, i) => answers[i] === q.correctIndex);
+        if (!allCorrect) {
+            return res.status(200).json({ passed: false, message: "Some answers are incorrect." });
+        }
+        // Mark quiz as passed in user
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: "User not found" });
+        let progress = user.quizProgress.find(
+            (p) => p.courseId.toString() === courseId && p.videoIndex === videoIndex
+        );
+        if (!progress) {
+            user.quizProgress.push({ courseId, videoIndex, passed: true });
+        } else {
+            progress.passed = true;
+        }
+        await user.save();
+        res.status(200).json({ passed: true, message: "Quiz passed!" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error });
+    }
+};
+
+// Update unlock logic: require quiz pass before unlocking next video
+// (This logic should be checked in the unlockVideo endpoint in userControllers.js)

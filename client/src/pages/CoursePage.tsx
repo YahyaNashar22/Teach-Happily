@@ -18,9 +18,8 @@ const CoursePage = () => {
 
   const [course, setCourse] = useState<ICourse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [unlockedVideos, setUnlockedVideos] = useState<number[]>([0]); // First video unlocked by default
-
   const [selectedVideo, setSelectedVideo] = useState<IContent | null>(null);
+  const [unlockedVideos, setUnlockedVideos] = useState<number[]>([0]); // First video unlocked by default
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -77,6 +76,7 @@ const CoursePage = () => {
               <CoursePageLeftSide
                 selectedVideo={selectedVideo}
                 course={course}
+                unlockedVideos={unlockedVideos}
                 setUnlockedVideos={setUnlockedVideos}
               />
             </div>

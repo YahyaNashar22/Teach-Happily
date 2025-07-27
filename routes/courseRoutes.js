@@ -1,6 +1,6 @@
 import express from "express";
 import { upload } from "../middlewares/multer.js";
-import { createCourse, deleteCourse, getAllCourses, getAllCoursesForUser, getAllLatestSimilarCourses, getCourseBySlug, getCoursesByTeacherId, getLatest, updateCourse } from "../controllers/courseController.js";
+import { createCourse, deleteCourse, getAllCourses, getAllCoursesForUser, getAllLatestSimilarCourses, getCourseBySlug, getCoursesByTeacherId, getLatest, updateCourse, addOrUpdateQuiz, submitQuizAnswers } from "../controllers/courseController.js";
 
 const courseRouter = express.Router();
 
@@ -29,9 +29,8 @@ courseRouter.patch("/:id", upload.fields([
 
 courseRouter.post("/get-teacher-courses", getCoursesByTeacherId);
 
-
-
-
+courseRouter.post("/add-or-update-quiz", addOrUpdateQuiz);
+courseRouter.post("/submit-quiz-answers", submitQuizAnswers);
 
 
 export default courseRouter;

@@ -58,6 +58,24 @@ const userSchema = new Schema(
             required: false,
             expires: 300 // 300 seconds = 5 minutes
         },
+
+        quizProgress: [
+            {
+                courseId: {
+                    type: Schema.Types.ObjectId,
+                    ref: "Course",
+                    required: true
+                },
+                videoIndex: {
+                    type: Number,
+                    required: true
+                },
+                passed: {
+                    type: Boolean,
+                    default: false
+                }
+            }
+        ],
     },
     {
         timestamps: true

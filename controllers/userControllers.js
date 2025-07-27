@@ -130,6 +130,19 @@ export const unlockVideo = async (req, res) => {
             return res.status(403).json({ message: "المتدربة ليست ملتحقة بهذه الدورة" });
         }
 
+        // Check if previous video has a quiz and if it was passed
+        if (videoIndex > 0) {
+            const prevVideo = course.content[videoIndex - 1];
+            if (prevVideo && prevVideo.quiz && prevVideo.quiz.questions && prevVideo.quiz.questions.length > 0) {
+                const quizPassed = user.quizProgress.some(
+                    (p) => p.courseId.toString() === courseId && p.videoIndex === videoIndex - 1 && p.passed
+                );
+                if (!quizPassed) {
+                    return res.status(403).json({ message: "يجب اجتياز اختبار الفيديو السابق قبل المتابعة." });
+                }
+            }
+        }
+
         // Find if there are any unlocked videos for the course already
         const existingRecord = user.unlockedVideos.find(
             (record) => record.courseId.toString() === courseId
@@ -140,7 +153,9 @@ export const unlockVideo = async (req, res) => {
             user.unlockedVideos.push({ courseId, videos: [videoIndex] });
         } else {
             // If the record exists, update it by adding the new unlocked video
-            existingRecord.videos.push(videoIndex);
+            if (!existingRecord.videos.includes(videoIndex)) {
+                existingRecord.videos.push(videoIndex);
+            }
         }
 
         await user.save();
