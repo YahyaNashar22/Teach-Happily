@@ -34,10 +34,6 @@ const Dashboard = lazy(() => import("../pages/Dashboard.tsx"));
 
 const TeachWithUs = lazy(() => import("../pages/TeachWithUs.tsx"));
 
-const ShowCaseDigitalProduct = lazy(
-  () => import("../pages/ShowCaseDigitalProduct.tsx")
-);
-
 const CourseShowCase = lazy(() => import("../pages/CourseShowCase.tsx"));
 const TeacherShowCase = lazy(() => import("../pages/TeacherShowCase.tsx"));
 
@@ -70,10 +66,6 @@ const AppRoutes = () => {
 
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/teach-with-us" element={<TeachWithUs />} />
-          <Route
-            path="/showcase-digital-product"
-            element={<ShowCaseDigitalProduct />}
-          />
         </Route>
 
         {/* Sign in/up routes */}

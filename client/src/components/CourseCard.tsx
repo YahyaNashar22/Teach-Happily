@@ -154,7 +154,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
               <p className="course-duration">
                 <FaClock /> {course.duration}
               </p>
-              <p className="price">$ {Number(course.price).toFixed(2)}</p>
+              <p className="price">QR {Number(course.price).toFixed(2)}</p>
             </div>
           )}
 

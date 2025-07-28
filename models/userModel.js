@@ -76,6 +76,22 @@ const userSchema = new Schema(
                 }
             }
         ],
+
+        // Enrolled courses (for regular courses)
+        enrolledCourses: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Course"
+            }
+        ],
+
+        // Purchased digital products
+        purchasedProducts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "DigitalProduct"
+            }
+        ],
     },
     {
         timestamps: true
