@@ -80,8 +80,40 @@ const ProductCard = ({ product }: { product: IProduct }) => {
     }
   };
 
-  const togglePurchaseModal = () => {
-    openModal();
+  const togglePurchaseModal = async () => {
+    if (!user) {
+      // Handle authentication - could redirect to sign in
+      return;
+    }
+
+    // If product is free, enroll directly without payment modal
+    if (product.price === 0) {
+      try {
+        const res = await axios.post(
+          `${backend}/user/enroll-product`,
+          {
+            userId: user._id,
+            productId: product._id,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        
+        if (res.status === 200) {
+          // Refresh the page or update the UI to show enrolled state
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
+        // Handle error - could show a toast notification here
+      }
+    } else {
+      // For paid products, show payment modal
+      openModal();
+    }
   };
 
   const handlePaymentSubmit = (e: React.FormEvent) => {
@@ -115,7 +147,9 @@ const ProductCard = ({ product }: { product: IProduct }) => {
         <div className="card-footer">
           {!isUserEnrolled && (
             <div className="not-purchased">
-              <p className="price">QR {Number(product.price).toFixed(2)}</p>
+              <p className="price">
+                {product.price === 0 ? "مجاني" : `QR ${Number(product.price).toFixed(2)}`}
+              </p>
             </div>
           )}
 

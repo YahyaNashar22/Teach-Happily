@@ -133,10 +133,38 @@ const CourseShowCase = () => {
     fetchSimilar();
   }, [backend, course, user]);
 
-  const handleEnrollClick = () => {
+  const handleEnrollClick = async () => {
     if (!user) {
       navigate("/sign-in");
+      return;
+    }
+
+    // If course is free, enroll directly without payment modal
+    if (course && course.price === 0) {
+      try {
+        const res = await axios.post(
+          `${backend}/user/enroll-course`,
+          {
+            userId: user._id,
+            courseId: course._id,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        
+        if (res.status === 200) {
+          // Redirect to course page after successful enrollment
+          navigate(`/course/${course.slug}`);
+        }
+      } catch (error) {
+        console.log(error);
+        // Handle error - could show a toast notification here
+      }
     } else {
+      // For paid courses, show payment modal
       openModal();
     }
   };
@@ -313,7 +341,7 @@ const CourseShowCase = () => {
                   onClick={handleEnrollClick}
                   className="btn enroll-btn course-showcase-buy"
                 >
-                  شراء الان
+                  {course?.price === 0 ? "سجل مجاناً" : "شراء الان"}
                 </button>
               </div>
             </div>
