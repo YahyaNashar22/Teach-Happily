@@ -17,6 +17,7 @@ import feedbackRouter from './routes/feedbackRoutes.js';
 import digitalProductRouter from './routes/digitalProductRoutes.js';
 import certificationRouter from './routes/certificationRoutes.js';
 import paymentRouter from './routes/paymentRoutes.js';
+import newsLetterRouter from './routes/newsLetterRoutes.js';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -50,7 +51,7 @@ app.use('/feedback', feedbackRouter);
 app.use('/digital-product', digitalProductRouter);
 app.use('/certification', certificationRouter);
 app.use('/payment', paymentRouter);
-
+app.use('/news-letter', newsLetterRouter);
 
 
 // test nodemailer

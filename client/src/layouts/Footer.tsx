@@ -2,6 +2,7 @@ import "../css/Footer.css";
 
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -14,7 +15,7 @@ import logo from "../assets/Logo_white.png";
 const Footer = () => {
   const [email, setEmail] = useState<string>("");
 
-  const newsLetter = (e: FormEvent) => {
+  const newsLetter = async (e: FormEvent) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -22,8 +23,19 @@ const Footer = () => {
       alert("يرجى إدخال بريد إلكتروني صالح.");
       return;
     }
-    alert("شكرا لاشتاركك!");
-    setEmail("");
+
+    try {
+      const backend = import.meta.env.VITE_BACKEND;
+      const response = await axios.post(`${backend}/news-letter/add-email`, { email });
+
+      if (response.status === 200) {
+        alert("شكرا لاشتراكك!");
+        setEmail("");
+      }
+    } catch (error) {
+      console.error('Error adding email:', error);
+      alert("حدث خطأ أثناء إضافة البريد الإلكتروني");
+    }
   };
   return (
     <footer className="footer-wrapper">
