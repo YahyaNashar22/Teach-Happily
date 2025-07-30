@@ -28,7 +28,7 @@ const app = express();
 
 // CORS Policies
 app.use(cors({
-    origin: ["http://127.0.0.1:5500", "http://localhost:5500", "http://localhost:5173", "https://teach-happily.onrender.com", "https://www.teachhappily.qa", "https://teachhappily.qa"],
+    origin: ["http://127.0.0.1:5500", "http://localhost:5500", "http://localhost:5173", "https://teach-happily.onrender.com", "https://www.teachhappily.qa", "https://teachhappily.qa", "http://174.142.205.14:3001", "http://174.142.205.14"],
     credentials: true,
     optionsSuccessStatus: 200,
 }
