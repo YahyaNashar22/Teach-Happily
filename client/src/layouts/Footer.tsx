@@ -61,7 +61,7 @@ const Footer = () => {
               أهلا بكم في <span>علم بسعادة</span>
             </p>
             <p className="footer-welcome-container-desc">
-              انضمي لمنصة علم بسعادة وكوني من اول المؤسسين لها حيث ننطلق معا
+              انضم لمنصة علم بسعادة وأصبح من أول المؤسسين لها حيث ننطلق معا
               لصناعة الفرق في التعليم
             </p>
             <div className="footer-welcome-container-icons">
@@ -85,7 +85,7 @@ const Footer = () => {
                 <Link to="/courses">لائحة الدروس</Link>
               </li>
               <li className="footer-links-container-link">
-                <Link to="/tutors">مدرباتنا</Link>
+                <Link to="/tutors">المدربون والمستشارون</Link>
               </li>
               <li className="footer-links-container-link">
                 <Link to="/contact">تواصل معنا</Link>

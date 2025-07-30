@@ -6,7 +6,7 @@ const TeacherShowCaseHero = () => {
   return (
     <section className="teacher-showcase-hero">
       <div className="teacher-showcase-content">
-        <h1 className="teacher-showcase-title">المدربات</h1>
+        <h1 className="teacher-showcase-title">المدربون</h1>
 
         <p className="teacher-showcase-purple-text">
           لأنّ التّعليم رحلة ممتعة، نقدّم لك منصّة و خبرة تعليميّة

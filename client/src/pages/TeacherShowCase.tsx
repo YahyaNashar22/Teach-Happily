@@ -121,17 +121,13 @@ const TeacherShowCase = () => {
                 <h2 className="teacher-viewer-info-container-title">
                   عن المدرب
                 </h2>
-                <h3 className="teacher-viewer-info-container-section-header">
-                  التعليم
-                </h3>
+
                 <p className="teacher-viewer-info-container-section-description">
                   {teacher?.description}
                 </p>
 
-                <h3 className="teacher-viewer-info-container-section-header">
-                  المهنة
-                </h3>
-                <ul className="teacher-viewer-info-container-section-description">
+                {/* TODO: For now only description is needed */}
+                {/* <ul className="teacher-viewer-info-container-section-description">
                   {teacher?.previousExperience.map((e, index) => {
                     return (
                       <li
@@ -142,7 +138,7 @@ const TeacherShowCase = () => {
                       </li>
                     );
                   })}
-                </ul>
+                </ul> */}
               </div>
             )}
 

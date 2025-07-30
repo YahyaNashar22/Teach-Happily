@@ -4,13 +4,14 @@ import removeFile from "../utils/removeFile.js";
 
 export const createTeacher = async (req, res) => {
     try {
-        const { name, profession } = req.body;
+        const { name, profession, description } = req.body;
         const image = req.file?.filename;
 
 
         const teacher = new Teacher({
             fullname: name,
             profession,
+            description,
             image,
         });
 
@@ -75,7 +76,7 @@ export const deleteTeacher = async (req, res) => {
 export const updateTeacher = async (req, res) => {
     try {
         const id = req.params.id;
-        const { name, profession } = req.body;
+        const { name, profession, description } = req.body;
         const image = req.file?.filename;
 
         const teacher = await Teacher.findById(id);
@@ -88,6 +89,7 @@ export const updateTeacher = async (req, res) => {
             $set: {
                 fullname: name ? name : teacher.fullname,
                 profession: profession ? profession : teacher.profession,
+                description: description ? description : teacher.description,
                 image: image ? image : teacher.image
             }
 

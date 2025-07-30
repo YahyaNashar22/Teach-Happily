@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogTitle,
   Button,
+  DialogActions,
 } from "@mui/material";
 import CourseForm from "./CourseForm";
 import ICourse from "../interfaces/ICourse";
@@ -59,6 +60,27 @@ const ListCourses = () => {
   const handleClose = () => {
     setOpen(false);
     setSelectedCourse(null);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedCourse) return;
+    
+    if (window.confirm("هل أنت متأكد من حذف هذه الدورة؟")) {
+      setLoading(true);
+      try {
+        await axios.delete(`${backend}/course/${selectedCourse._id}`);
+        setOpen(false);
+        setSelectedCourse(null);
+        // Refresh the courses list
+        const res = await axios.post(`${backend}/course/get-all`);
+        setCourses(res.data.payload);
+      } catch (error) {
+        console.log(error);
+        alert("حدث خطأ أثناء حذف الدورة");
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -254,6 +276,19 @@ const ListCourses = () => {
           <DialogContent>
             <CourseForm setNewCourseForm={setOpen} course={selectedCourse} />
           </DialogContent>
+          <DialogActions>
+            <Button 
+              onClick={handleDelete} 
+              color="error" 
+              variant="contained"
+              disabled={loading}
+            >
+              حذف الدورة
+            </Button>
+            <Button onClick={handleClose} disabled={loading}>
+              إغلاق
+            </Button>
+          </DialogActions>
         </Dialog>
       )}
     </div>

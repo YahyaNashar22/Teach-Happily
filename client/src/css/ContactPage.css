@@ -17,9 +17,9 @@
   z-index: 3;
 
   position: relative;
-  background: url("../assets/Vector Smart Object-1.png");
-  background-position: center;
-  background-size: cover;
+  /* background: url("../assets/Vector Smart Object-1.png"); */
+  /* background-position: center;
+  background-size: cover; */
   z-index: 0;
   overflow: hidden;
 }

@@ -11,6 +11,7 @@ const TeacherForm = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [profession, setProfession] = useState("");
+  const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [message, setMessage] = useState("");
 
@@ -28,6 +29,7 @@ const TeacherForm = ({
     const formData = new FormData();
     formData.append("name", name);
     formData.append("profession", profession);
+    formData.append("description", description);
     formData.append("image", image!);
 
     try {
@@ -43,6 +45,7 @@ const TeacherForm = ({
       setImage(null);
       setName("");
       setProfession("");
+      setDescription("");
       setMessage(response.data.message);
       setNewTeacherForm(false);
     } catch (error) {
@@ -80,6 +83,18 @@ const TeacherForm = ({
           required
           placeholder="أدخل اختصاص المدربة"
           className="dash-cat-inp"
+        />
+
+        <label htmlFor="description" className="dash-cat-label">
+          وصف المدربة
+        </label>
+        <textarea
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="أدخل وصف المدربة"
+          className="dash-cat-inp"
+          rows={4}
         />
 
         <label htmlFor="image" className="dash-cat-label">

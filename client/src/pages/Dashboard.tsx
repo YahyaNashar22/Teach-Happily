@@ -45,7 +45,7 @@ const Dashboard = () => {
                 }`}
                 onClick={() => setActiveForm("teacher")}
               >
-                المدربات
+                المدربون
               </button>
             </li>
             <li>

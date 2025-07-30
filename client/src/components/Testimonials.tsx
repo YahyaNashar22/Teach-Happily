@@ -58,7 +58,7 @@ const Testimonials = () => {
           </div>
         </div>
         <p className="testimonials-left-title">
-          <span className="testimonials-left-title-1">آراء الطلاب</span>
+          <span className="testimonials-left-title-1">آراء المتدربون</span>
           <br /> شهادات العملاء{" "}
         </p>
       </div>

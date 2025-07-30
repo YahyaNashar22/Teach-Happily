@@ -92,7 +92,7 @@ const Footer = () => {
         <div className="footer-col">
           <img src={logo} alt="logo" width={120} loading="lazy" />
           <Link to="/about" className="footer-col-text">
-            انضمي لمنصة علم بسعادة وكوني من اول المؤسسين لها
+            انضم لمنصة علم بسعادة وأصبح من أول المؤسسين لها
             <br /> حيث ننطلق معا لصناعة الفرق في التعليم
           </Link>
         </div>
