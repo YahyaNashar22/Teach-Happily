@@ -17,7 +17,7 @@ export const sendContactEmail = async (req, res) => {
 
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
-            to: "yahyanashar22@gmail.com",
+            to: "teachhappily@outlook.com",
             subject: 'نرغب بسماع ارائك',
             html: `
       <html dir='rtl' lang='ar'>
@@ -70,7 +70,7 @@ export const sendDigitalProductEmail = async (req, res) => {
         // Prepare mail options
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
-            to: "yahyanashar22@gmail.com",
+            to: "teachhappily@outlook.com",
             subject: " أرغب بعرض منتج رقمي",
             html: `
    <html dir="rtl" lang="ar">
@@ -148,7 +148,7 @@ export const sendTeachWithUsEmail = async (req, res) => {
         // Create the email options
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
-            to: "yahyanashar22@gmail.com",
+            to: "teachhappily@outlook.com",
             subject: " أرغب بالانضمام  ",
             html: `
                 <html dir="rtl" lang="ar">
