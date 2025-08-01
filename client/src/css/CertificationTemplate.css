@@ -2,7 +2,7 @@
   position: relative;
   width: 1123px; /* A4 width at 96 DPI */
   height: 794px; /* A4 height at 96 DPI */
-  background: url("../assets/certification.png") no-repeat center center;
+  background: url("../assets/certification-2.png") no-repeat center center;
   background-size: cover;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   direction: rtl;
@@ -35,10 +35,21 @@
 .certificate-content p {
   font-weight: 400;
   font-size: 24px;
+  text-align: right;
 }
 
 .certificate-content span {
   font-weight: 400;
   font-size: 24px;
   padding-right: 24px;
+}
+
+#teacher {
+  position: absolute;
+  bottom: 150px;
+  right: 250px;
+
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
 }

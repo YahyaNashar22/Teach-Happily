@@ -7,6 +7,9 @@ interface ICertification {
   course: {
     _id: string;
     title: string;
+    teacher: {
+      fullname: string;
+    }
   };
   created_at: string;
 }

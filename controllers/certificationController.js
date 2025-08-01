@@ -45,7 +45,14 @@ export const getCertificationById = async (req, res) => {
 
         const certification = await Certification.findById(id)
             .populate({ path: 'studentId', select: 'fullName email' })
-            .populate({ path: 'courseId', select: 'title' });
+            .populate({
+                path: 'courseId',
+                select: 'title teacher',
+                populate: {
+                    path: 'teacher',
+                    select: 'fullname'
+                }
+            });
 
         if (!certification) return res.status(404).json({ message: 'Certificate not found' });
 
