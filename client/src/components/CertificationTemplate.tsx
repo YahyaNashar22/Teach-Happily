@@ -140,7 +140,7 @@ const CertificationTemplate = ({
       {!hideButton && !thumbnail && (
         <button
           className="get-certificate-btn"
-          style={{ marginTop: 24 }}
+          style={{ marginTop: 24, marginRight: 324 }}
           onClick={handleDownloadPDF}
         >
           تحميل الشهادة PDF
