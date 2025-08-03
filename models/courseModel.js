@@ -67,6 +67,7 @@ const courseSchema = new Schema(
             {
                 title: { type: String, required: true },
                 url: { type: String, required: true },
+                material: { type: String },
                 quiz: {
                     questions: [
                         {
@@ -78,6 +79,10 @@ const courseSchema = new Schema(
                 }
             }
         ],
+        clickCount: {
+            type: Number,
+            default: 0
+        },
         slug: {
             type: String,
             unique: true,

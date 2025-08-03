@@ -15,6 +15,7 @@ const CoursePageRightSide = ({
   unlockedVideos: number[];
   setSelectedVideo: (video: IContent) => void;
 }) => {
+  const backend = import.meta.env.VITE_BACKEND;
   const removeFileExtension = (filename: string | undefined) => {
     return filename?.split(".").slice(0, -1).join(".") || filename;
   };
@@ -38,17 +39,35 @@ const CoursePageRightSide = ({
               <li
                 key={index}
                 onClick={() => isUnlocked && handleSelectVideo(video, index)}
-                className={`course-viewer-playlist-item${isUnlocked ? "" : " locked"}`}
+                className={`course-viewer-playlist-item${
+                  isUnlocked ? "" : " locked"
+                }`}
                 style={{
                   cursor: isUnlocked ? "pointer" : "not-allowed",
                   opacity: isUnlocked ? 1 : 0.5,
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
                   gap: 8,
                 }}
               >
-                {!isUnlocked && <FaLock style={{ marginLeft: 6, color: "#888" }} />}
-                {removeFileExtension(video.title)}
+                {!isUnlocked && (
+                  <FaLock style={{ marginLeft: 6, color: "#888" }} />
+                )}
+                <span style={{ display: "block", width: "100%" }}>
+                 📽️ {removeFileExtension(video.title)}
+                </span>
+                <span style={{ display: "block", width: "100%" }}>
+                  {video.material && (
+                    <a
+                      href={`${backend}/${video.material}`}
+                      download
+                      className="material-link"
+                    >
+                      📦 تحميل المواد الإضافية
+                    </a>
+                  )}
+                </span>
               </li>
             );
           })}

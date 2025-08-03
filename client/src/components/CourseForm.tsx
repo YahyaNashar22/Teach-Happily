@@ -1,4 +1,3 @@
-
 import "../css/CourseForm.css";
 
 import { useEffect, useState } from "react";
@@ -19,7 +18,15 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
   const isEditMode = !!course;
 
   const [image, setImage] = useState<File | null>(null);
-  const [videos, setVideos] = useState<{ title: string; file: File | null; url?: string }[]>([]);
+  const [videos, setVideos] = useState<
+    {
+      title: string;
+      file: File | null;
+      url?: string;
+      material?: File | null;
+      materialName?: string; // For edit mode (existing filename)
+    }[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -111,6 +118,8 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
           title: c.title,
           file: null,
           url: typeof c.url === "string" ? c.url : undefined,
+          material: null,
+          materialName: c.material || undefined, // load old material name
         }))
       );
       setQuizzes(
@@ -172,7 +181,12 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
   };
 
   // Quiz editing handlers
-  const handleQuizQuestionChange = (videoIdx: number, qIdx: number, field: keyof IQuizQuestion, value: string) => {
+  const handleQuizQuestionChange = (
+    videoIdx: number,
+    qIdx: number,
+    field: keyof IQuizQuestion,
+    value: string
+  ) => {
     const updated = quizzes.map((quiz, vIdx) => {
       if (vIdx !== videoIdx) return quiz;
       const questions = quiz.questions.map((q, idx) =>
@@ -183,7 +197,12 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
     setQuizzes(updated);
   };
 
-  const handleQuizOptionChange = (videoIdx: number, qIdx: number, optIdx: number, value: string) => {
+  const handleQuizOptionChange = (
+    videoIdx: number,
+    qIdx: number,
+    optIdx: number,
+    value: string
+  ) => {
     const updated = quizzes.map((quiz, vIdx) => {
       if (vIdx !== videoIdx) return quiz;
       const questions = quiz.questions.map((q, idx) => {
@@ -221,7 +240,11 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
     setQuizzes(updated);
   };
 
-  const handleCorrectOptionChange = (videoIdx: number, qIdx: number, correctIndex: number) => {
+  const handleCorrectOptionChange = (
+    videoIdx: number,
+    qIdx: number,
+    correctIndex: number
+  ) => {
     const updated = quizzes.map((quiz, vIdx) => {
       if (vIdx !== videoIdx) return quiz;
       const questions = quiz.questions.map((q, idx) =>
@@ -251,6 +274,11 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
           data.append("videos", video.file);
           data.append("videoTitles", video.title); // send titles too
         }
+
+        if (video.material) {
+          data.append("materials", video.material); // Append zip file
+        }
+
         // Add quiz for this video
         if (quizzes[idx] && quizzes[idx].questions.length > 0) {
           data.append(`quizzes`, JSON.stringify(quizzes[idx]));
@@ -299,7 +327,13 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
         return {
           title: video.title,
           url: video.file ? (video.file as File).name : video.url, // send original name for new files, filename for existing
-          quiz: quizzes[idx] && quizzes[idx].questions.length > 0 ? quizzes[idx] : undefined,
+          material: video.material
+            ? (video.material as File).name
+            : video.materialName || null,
+          quiz:
+            quizzes[idx] && quizzes[idx].questions.length > 0
+              ? quizzes[idx]
+              : undefined,
         };
       });
       data.append("content", JSON.stringify(updatedContent));
@@ -307,6 +341,9 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
       videos.forEach((video) => {
         if (video.file) {
           data.append("videos", video.file);
+        }
+        if (video.material) {
+          data.append("materials", video.material);
         }
       });
       try {
@@ -336,13 +373,19 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
   return (
     <div className="category-form-container">
       <form onSubmit={handleSubmit} className="course-form">
-        <h1 className="form-title">{isEditMode ? "تعديل الدورة" : "إضافة دورة جديدة"}</h1>
+        <h1 className="form-title">
+          {isEditMode ? "تعديل الدورة" : "إضافة دورة جديدة"}
+        </h1>
 
         {/* Show current image in edit mode */}
         {isEditMode && course?.image && typeof course.image === "string" && (
           <div style={{ marginBottom: 8 }}>
             <span>الصورة الحالية:</span>
-            <img src={`${backend}/${course.image}`} alt="Current Thumbnail" style={{ width: 120, margin: 8 }} />
+            <img
+              src={`${backend}/${course.image}`}
+              alt="Current Thumbnail"
+              style={{ width: 120, margin: 8 }}
+            />
           </div>
         )}
         <label>
@@ -414,7 +457,11 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
 
         <label>
           المدربة
-          <select name="teacher" onChange={handleChange} value={formData.teacher}>
+          <select
+            name="teacher"
+            onChange={handleChange}
+            value={formData.teacher}
+          >
             {teachers.map((teacher) => {
               return (
                 <option key={teacher._id} value={teacher._id}>
@@ -427,7 +474,11 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
 
         <label>
           الفئة
-          <select name="category" onChange={handleChange} value={formData.category}>
+          <select
+            name="category"
+            onChange={handleChange}
+            value={formData.category}
+          >
             {categories.map((category) => {
               return (
                 <option key={category._id} value={category._id}>
@@ -479,7 +530,9 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
               <input
                 type="text"
                 value={video.title}
-                onChange={(e) => handleVideoChange(vIdx, "title", e.target.value)}
+                onChange={(e) =>
+                  handleVideoChange(vIdx, "title", e.target.value)
+                }
                 required
               />
             </label>
@@ -487,7 +540,11 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
             {isEditMode && video.url && (
               <div style={{ marginBottom: 8 }}>
                 <span>الفيديو الحالي:</span>
-                <a href={`${backend}/${video.url}`} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={`${backend}/${video.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {video.url}
                 </a>
               </div>
@@ -505,43 +562,97 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
                 required={!isEditMode}
               />
             </label>
+
+            <label>
+              ملف المواد (ZIP)
+              <input
+                type="file"
+                accept=".zip"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    if (!file.name.endsWith(".zip")) {
+                      alert("يرجى رفع ملف ZIP فقط");
+                      return;
+                    }
+                    const updated = [...videos];
+                    updated[vIdx].material = file;
+                    setVideos(updated);
+                  }
+                }}
+              />
+            </label>
+            {isEditMode && video.materialName && (
+              <div>
+                <span>الملف الحالي:</span>
+                <a
+                  href={`${backend}/${video.materialName}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {video.materialName}
+                </a>
+              </div>
+            )}
+
             {/* Quiz UI */}
             <div className="quiz-editor">
               <h4>أسئلة الاختبار لهذا الفيديو</h4>
-              {quizzes[vIdx]?.questions.map((q: IQuizQuestion, qIdx: number) => (
-                <div key={qIdx} className="quiz-question-block">
-                  <input
-                    type="text"
-                    placeholder="نص السؤال"
-                    value={q.question}
-                    onChange={(e) => handleQuizQuestionChange(vIdx, qIdx, "question", e.target.value)}
-                    required
-                  />
-                  <div className="quiz-options">
-                    {q.options.map((opt: string, oIdx: number) => (
-                      <div key={oIdx} className="quiz-option-block">
-                        <input
-                          type="text"
-                          placeholder={`خيار ${oIdx + 1}`}
-                          value={opt}
-                          onChange={(e) => handleQuizOptionChange(vIdx, qIdx, oIdx, e.target.value)}
-                          required
-                        />
-                        <input
-                          type="radio"
-                          name={`correct-${vIdx}-${qIdx}`}
-                          checked={q.correctIndex === oIdx}
-                          onChange={() => handleCorrectOptionChange(vIdx, qIdx, oIdx)}
-                        />
-                        <span>صحيح</span>
-                      </div>
-                    ))}
+              {quizzes[vIdx]?.questions.map(
+                (q: IQuizQuestion, qIdx: number) => (
+                  <div key={qIdx} className="quiz-question-block">
+                    <input
+                      type="text"
+                      placeholder="نص السؤال"
+                      value={q.question}
+                      onChange={(e) =>
+                        handleQuizQuestionChange(
+                          vIdx,
+                          qIdx,
+                          "question",
+                          e.target.value
+                        )
+                      }
+                      required
+                    />
+                    <div className="quiz-options">
+                      {q.options.map((opt: string, oIdx: number) => (
+                        <div key={oIdx} className="quiz-option-block">
+                          <input
+                            type="text"
+                            placeholder={`خيار ${oIdx + 1}`}
+                            value={opt}
+                            onChange={(e) =>
+                              handleQuizOptionChange(
+                                vIdx,
+                                qIdx,
+                                oIdx,
+                                e.target.value
+                              )
+                            }
+                            required
+                          />
+                          <input
+                            type="radio"
+                            name={`correct-${vIdx}-${qIdx}`}
+                            checked={q.correctIndex === oIdx}
+                            onChange={() =>
+                              handleCorrectOptionChange(vIdx, qIdx, oIdx)
+                            }
+                          />
+                          <span>صحيح</span>
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeQuizQuestion(vIdx, qIdx)}
+                    >
+                      حذف السؤال
+                    </button>
                   </div>
-                  <button type="button" onClick={() => removeQuizQuestion(vIdx, qIdx)}>
-                    حذف السؤال
-                  </button>
-                </div>
-              ))}
+                )
+              )}
               <button type="button" onClick={() => addQuizQuestion(vIdx)}>
                 إضافة سؤال جديد
               </button>

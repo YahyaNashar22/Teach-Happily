@@ -29,6 +29,7 @@ export const generateCertification = async (req, res) => {
 
         const certification = new Certification({ studentId, courseId });
         await certification.save();
+        await User.findByIdAndUpdate(studentId, { $addToSet: { certificates: certification._id } });
 
         return res.status(200).json({ payload: certification })
 

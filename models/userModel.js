@@ -92,6 +92,13 @@ const userSchema = new Schema(
                 ref: "DigitalProduct"
             }
         ],
+
+        certificates: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Certification'
+            }
+        ],
     },
     {
         timestamps: true

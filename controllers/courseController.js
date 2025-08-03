@@ -5,6 +5,16 @@ import removeFile from "../utils/removeFile.js";
 
 
 // TODO: ADD DEMO
+export const trackCourseClick = async (req, res) => {
+    try {
+        const { courseId } = req.body
+        await Course.findByIdAndUpdate(courseId, { $inc: { clickCount: 1 } });
+        res.status(200).json({ message: 'course tracked' })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}
 
 
 export const createCourse = async (req, res) => {
@@ -45,6 +55,7 @@ export const createCourse = async (req, res) => {
             ? req.files.videos.map((file, index) => ({
                 title: normalizedVideoTitles?.[index] || file.originalname,
                 url: file.filename,
+                material: req.files?.materials?.[index]?.filename || null,
             }))
             : [];
 
@@ -201,6 +212,13 @@ export const deleteCourse = async (req, res) => {
             course.content.map(video => removeFile(video.url));
         }
 
+        const updatedMaterialNames = updatedContent.map(v => v.material);
+        course.content.forEach(v => {
+            if (v.material && !updatedMaterialNames.includes(v.material)) {
+                removeFile(v.material);
+            }
+        });
+
         await Course.findByIdAndDelete(id);
 
         res.status(200).json({
@@ -252,6 +270,14 @@ export const updateCourse = async (req, res) => {
         uploadedVideos.forEach((file) => {
             const match = updatedContent.find(v => v.url === file.originalname);
             if (match) match.url = file.filename;
+        });
+
+        // Handle newly uploaded materials
+        const uploadedMaterials = req.files?.materials || [];
+
+        uploadedMaterials.forEach((file) => {
+            const match = updatedContent.find(v => v.material === file.originalname);
+            if (match) match.material = file.filename;
         });
 
         const updatedCourse = await Course.findByIdAndUpdate(

@@ -11,6 +11,7 @@ interface IQuiz {
 interface IContent {
   title: string;
   url: string | File;
+  material?: string;
   quiz?: IQuiz;
 }
 

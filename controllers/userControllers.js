@@ -5,6 +5,7 @@ import Course from "../models/courseModel.js";
 import generateOTP from "../utils/generateOTP.js";
 import transporter from "../utils/nodemailerTransporter.js";
 import DigitalProduct from "../models/digitalProductModel.js";
+import Certification from "../models/certificationModel.js";
 
 
 export const createStudent = async (req, res) => {
@@ -218,6 +219,7 @@ export const enrollCourse = async (req, res) => {
         // Add the user to the course's enrolledStudents array
         course.enrolledStudents.push(userId);
         await course.save();
+        await User.findByIdAndUpdate(userId, { $addToSet: { enrolledCourses: courseId } });
 
         // Add the first video to the user's unlockedVideos array (for this specific course)
         const userUnlockedVideos = user.unlockedVideos.find(
@@ -407,6 +409,42 @@ export const getFavoriteCourses = async (req, res) => {
     } catch (error) {
         console.error("Wishlist fetch error:", error);
         return res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+export const getAdminStats = async (req, res) => {
+    try {
+        const totalUsers = await User.countDocuments();
+        const totalCertificates = await Certification.countDocuments();
+
+        const courses = await Course.find().select('title clickCount enrolledStudents');
+        const products = await DigitalProduct.find().select('title students');
+
+        // Use Promise.all for async mapping
+        const courseStats = await Promise.all(
+            courses.map(async (course) => ({
+                title: course.title,
+                clicks: course.clickCount,
+                purchases: course.enrolledStudents.length,
+                certificateCount: await Certification.countDocuments({ course: course._id }),
+            }))
+        );
+
+        const productStats = products.map(product => ({
+            title: product.title,
+            purchases: product.students.length,
+        }));
+
+        res.json({
+            totalUsers,
+            totalCertificates,
+            courseStats,
+            productStats,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
     }
 };
 
