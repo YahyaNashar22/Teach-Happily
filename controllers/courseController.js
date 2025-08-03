@@ -210,14 +210,8 @@ export const deleteCourse = async (req, res) => {
 
         if (course.content.length > 0) {
             course.content.map(video => removeFile(video.url));
+            course.content.map(video => removeFile(video.material));
         }
-
-        const updatedMaterialNames = updatedContent.map(v => v.material);
-        course.content.forEach(v => {
-            if (v.material && !updatedMaterialNames.includes(v.material)) {
-                removeFile(v.material);
-            }
-        });
 
         await Course.findByIdAndDelete(id);
 
