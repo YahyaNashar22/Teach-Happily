@@ -7,10 +7,11 @@ import ListCourses from "../components/ListCourses";
 import ListTeachers from "../components/ListTeachers";
 import ListProducts from "../components/ListProducts";
 import ListEmails from "../components/ListEmails";
+import Stats from "../components/Stats";
 
 const Dashboard = () => {
   const { clearUser } = useUserStore();
-  const [activeForm, setActiveForm] = useState("course");
+  const [activeForm, setActiveForm] = useState("stats");
 
   return (
     <div className="dashboard-container">
@@ -19,6 +20,16 @@ const Dashboard = () => {
         <div>
           <h2 className="dashboard-title">لوحة التحكم</h2>
           <ul className="dashboard-menu">
+            <li>
+              <button
+                className={`dashboard-menu-item ${
+                  activeForm === "stats" ? "active" : ""
+                }`}
+                onClick={() => setActiveForm("stats")}
+              >
+                الاحصائيات
+              </button>
+            </li>
             <li>
               <button
                 className={`dashboard-menu-item ${
@@ -88,6 +99,7 @@ const Dashboard = () => {
         {activeForm === "course" && <ListCourses />}
         {activeForm === "products" && <ListProducts />}
         {activeForm === "emails" && <ListEmails />}
+        {activeForm === "stats" && <Stats />}
       </main>
     </div>
   );

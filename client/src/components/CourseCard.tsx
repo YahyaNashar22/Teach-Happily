@@ -20,10 +20,19 @@ const CourseCard = ({ course }: { course: ICourse }) => {
   const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
   const [feedbackLoader, setFeedbackLoader] = useState<boolean>(false);
 
+  const courseTrackAndShowCase = async (course: ICourse) => {
+    try {
+      // await axios.post(`${backend}/course/track`, { courseId: course._id });
+      navigate(`/course-showcase/${course.slug}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleCourseNavigation = () => {
     return isUserEnrolled
       ? navigate(`/course/${course.slug}`)
-      : navigate(`/course-showcase/${course.slug}`);
+      : courseTrackAndShowCase(course);
   };
 
   useEffect(() => {
@@ -155,7 +164,9 @@ const CourseCard = ({ course }: { course: ICourse }) => {
                 <FaClock /> {course.duration}
               </p>
               <p className="price">
-                {course.price === 0 ? "مجاني" : `QR ${Number(course.price).toFixed(2)}`}
+                {course.price === 0
+                  ? "مجاني"
+                  : `QR ${Number(course.price).toFixed(2)}`}
               </p>
             </div>
           )}
