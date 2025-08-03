@@ -73,10 +73,7 @@ const CoursePageLeftSide = ({
   // Modified handleVideoEnd
   const handleVideoEnd = async () => {
     const currentIndex = getCurrentIndex();
-    console.log('handleVideoEnd called');
-    console.log('selectedVideo:', selectedVideo);
-    console.log('course.content:', course?.content);
-    console.log('currentIndex:', currentIndex);
+
     if (course && currentIndex >= 0) {
       console.log('current video:', course.content[currentIndex]);
       console.log('quiz:', course.content[currentIndex]?.quiz);

@@ -22,7 +22,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
 
   const courseTrackAndShowCase = async (course: ICourse) => {
     try {
-      // await axios.post(`${backend}/course/track`, { courseId: course._id });
+      await axios.post(`${backend}/course/track`, { courseId: course._id });
       navigate(`/course-showcase/${course.slug}`);
     } catch (error) {
       console.log(error);
