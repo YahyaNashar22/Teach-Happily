@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import "../css/Stats.css";
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
@@ -14,6 +12,7 @@ import {
   ArcElement,
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
+import "../css/Stats.css";
 
 ChartJS.register(
   CategoryScale,
@@ -37,7 +36,7 @@ const Stats = () => {
         const res = await axios.get(backend + "/user/stats");
         setStats(res.data);
       } catch (error) {
-        console.error("Error fetching stats:", error);
+        console.error("حدث خطأ أثناء جلب الإحصائيات:", error);
       } finally {
         setLoading(false);
       }
@@ -46,7 +45,7 @@ const Stats = () => {
   }, [backend]);
 
   if (loading || !stats)
-    return <div className="stats-container">Loading stats...</div>;
+    return <div className="stats-container">جاري تحميل الإحصائيات...</div>;
 
   const courseTitles = stats.courseStats.map((c: any) => c.title);
 
@@ -54,7 +53,7 @@ const Stats = () => {
     labels: courseTitles,
     datasets: [
       {
-        label: "Clicks",
+        label: "عدد النقرات",
         data: stats.courseStats.map((c: any) => c.clicks),
         backgroundColor: "rgba(54, 162, 235, 0.6)",
       },
@@ -65,7 +64,7 @@ const Stats = () => {
     labels: courseTitles,
     datasets: [
       {
-        label: "Purchases",
+        label: "عدد المشترين",
         data: stats.courseStats.map((c: any) => c.purchases),
         backgroundColor: "rgba(255, 99, 132, 0.6)",
       },
@@ -76,7 +75,7 @@ const Stats = () => {
     labels: courseTitles,
     datasets: [
       {
-        label: "Certificates",
+        label: "الشهادات الصادرة",
         data: stats.courseStats.map((c: any) => c.certificateCount),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
       },
@@ -87,7 +86,7 @@ const Stats = () => {
     labels: stats.productStats.map((p: any) => p.title),
     datasets: [
       {
-        label: "Product Purchases",
+        label: "عدد المشترين",
         data: stats.productStats.map((p: any) => p.purchases),
         backgroundColor: "rgba(153, 102, 255, 0.6)",
       },
@@ -95,7 +94,7 @@ const Stats = () => {
   };
 
   const generalStatsData = {
-    labels: ["Total Users", "Total Certificates"],
+    labels: ["إجمالي المستخدمين", "إجمالي الشهادات"],
     datasets: [
       {
         data: [stats.totalUsers, stats.totalCertificates],
@@ -106,30 +105,30 @@ const Stats = () => {
 
   return (
     <div className="stats-container">
-      <h2 className="stats-title">Dashboard Statistics</h2>
+      <h2 className="stats-title">إحصائيات لوحة التحكم</h2>
 
       <div className="chart-section">
-        <h3>General Stats</h3>
+        <h3>إحصائيات عامة</h3>
         <Doughnut data={generalStatsData} />
       </div>
 
       <div className="chart-section">
-        <h3>Course Clicks</h3>
+        <h3>عدد النقرات على الدورات</h3>
         <Bar data={courseClicksData} />
       </div>
 
       <div className="chart-section">
-        <h3>Course Purchases</h3>
+        <h3>عدد المشترين لكل دورة</h3>
         <Bar data={coursePurchasesData} />
       </div>
 
       <div className="chart-section">
-        <h3>Course Certificates</h3>
+        <h3>عدد الشهادات لكل دورة</h3>
         <Bar data={courseCertificatesData} />
       </div>
 
       <div className="chart-section">
-        <h3>Digital Product Purchases</h3>
+        <h3>عدد المشترين للمنتجات الرقمية</h3>
         <Bar data={productPurchasesData} />
       </div>
     </div>
