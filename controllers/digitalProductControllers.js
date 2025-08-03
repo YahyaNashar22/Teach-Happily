@@ -130,14 +130,16 @@ export const deleteProduct = async (req, res) => {
 
         const product = await DigitalProduct.findById(id);
 
-        if (product.students.length > 0) {
-            return res.status(400).json({ message: "لا يمكن حذف المنتج يوجد فيها متدربين" })
-        }
+        // TODO: remember to turn this back on
+        // if (product.students.length > 0) {
+        //     return res.status(400).json({ message: "لا يمكن حذف المنتج يوجد فيها متدربين" })
+        // }
 
 
         if (product.image) {
             removeFile(product.image)
         }
+        removeFile(product.product);
 
         await DigitalProduct.findByIdAndDelete(id);
 
