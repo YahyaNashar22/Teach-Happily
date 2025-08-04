@@ -253,24 +253,24 @@ export const updateCourse = async (req, res) => {
         const updatedContent = JSON.parse(contentJSON);
 
         // Remove deleted videos
-        const updatedUrls = updatedContent.map(v => v.url);
+        const updatedUrls = updatedContent.map(v => v.url.replace(/^__NEW__/, ""));
         course.content.forEach(v => {
-            if (!updatedUrls.includes(v.url)) removeFile(v.url);
+            if (!updatedUrls.includes(v.url)) {
+                removeFile(v.url); // Safe to delete old file
+            }
         });
-
         // Handle newly uploaded videos
         const uploadedVideos = req.files?.videos || [];
 
+
         uploadedVideos.forEach((file) => {
             const match = updatedContent.find(v =>
-                v.url?.startsWith("__NEW__") && v.url?.slice(7) === file.originalname
+                v.url?.startsWith("__NEW__") && v.url.slice(7) === file.originalname
             );
-
             if (match) {
                 match.url = file.filename;
             }
         });
-
         // Handle newly uploaded materials
         const uploadedMaterials = req.files?.materials || [];
 
