@@ -28,6 +28,7 @@ const CoursePageLeftSide = ({
   const [videoLoading, setVideoLoading] = useState<boolean>(true);
   const [videoBufferPercent, setVideoBufferPercent] = useState(0);
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const bufferIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const [certificate, setCertificate] = useState<ICertification | null>(null);
   const [certLoading, setCertLoading] = useState(false);
@@ -49,20 +50,25 @@ const CoursePageLeftSide = ({
   const [quizError, setQuizError] = useState<string>("");
   const [quizSubmitting, setQuizSubmitting] = useState(false);
 
-  const updateBufferedProgress = () => {
-    const video = videoRef.current;
-    if (!video || !video.duration) return;
+  const startBufferPolling = () => {
+    bufferIntervalRef.current = setInterval(() => {
+      const video = videoRef.current;
+      if (!video || !video.duration) return;
 
-    const buffered = video.buffered;
-    const duration = video.duration;
-    let bufferedEnd = 0;
+      const buffered = video.buffered;
+      let bufferedEnd = 0;
+      if (buffered.length) {
+        bufferedEnd = buffered.end(buffered.length - 1);
+      }
 
-    if (buffered.length > 0) {
-      bufferedEnd = buffered.end(buffered.length - 1);
-    }
+      const percent = Math.min((bufferedEnd / video.duration) * 100, 100);
+      setVideoBufferPercent(Math.floor(percent));
 
-    const percent = Math.min((bufferedEnd / duration) * 100, 100);
-    setVideoBufferPercent(Math.floor(percent));
+      if (percent >= 100) {
+        setVideoLoading(false);
+        clearInterval(bufferIntervalRef.current!);
+      }
+    }, 300); // Poll every 300ms
   };
 
   // Handle video progress tracking
@@ -318,6 +324,21 @@ const CoursePageLeftSide = ({
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (bufferIntervalRef.current) {
+        clearInterval(bufferIntervalRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    setVideoLoading(true);
+    setVideoBufferPercent(0);
+    if (bufferIntervalRef.current) clearInterval(bufferIntervalRef.current);
+    startBufferPolling();
+  }, [selectedVideo]);
+
   return (
     <div className="course-viewer-left-side-wrapper">
       {/* Quiz Modal */}
@@ -485,12 +506,13 @@ const CoursePageLeftSide = ({
           onLoadStart={() => {
             setVideoLoading(true);
             setVideoBufferPercent(0);
+            startBufferPolling();
           }}
           onCanPlayThrough={() => {
             setVideoLoading(false);
             setVideoBufferPercent(100);
+            clearInterval(bufferIntervalRef.current!);
           }}
-          onProgress={updateBufferedProgress}
         >
           {selectedVideo?.url && (
             <source src={`${backend}/${selectedVideo.url}`} type="video/mp4" />
