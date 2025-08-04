@@ -25,6 +25,8 @@ const CoursePageLeftSide = ({
 
   const { user } = useUserStore();
 
+  const [videoLoading, setVideoLoading] = useState<boolean>(true);
+
   const [certificate, setCertificate] = useState<ICertification | null>(null);
   const [certLoading, setCertLoading] = useState(false);
   const [certError, setCertError] = useState("");
@@ -57,7 +59,8 @@ const CoursePageLeftSide = ({
 
   // Helper: get current video index
   const getCurrentIndex = () =>
-    course?.content.findIndex((video) => video.url === selectedVideo?.url) ?? -1;
+    course?.content.findIndex((video) => video.url === selectedVideo?.url) ??
+    -1;
 
   // Helper: check if quiz is already passed (from backend logic)
   // (quizPassed state removed, not used)
@@ -75,14 +78,17 @@ const CoursePageLeftSide = ({
     const currentIndex = getCurrentIndex();
 
     if (course && currentIndex >= 0) {
-      console.log('current video:', course.content[currentIndex]);
-      console.log('quiz:', course.content[currentIndex]?.quiz);
+      console.log("current video:", course.content[currentIndex]);
+      console.log("quiz:", course.content[currentIndex]?.quiz);
       if (currentIndex === course.content.length - 1) {
-        console.log('This is the last video.');
+        console.log("This is the last video.");
         if (course.content[currentIndex]?.quiz) {
-          console.log('Last video has a quiz:', course.content[currentIndex].quiz);
+          console.log(
+            "Last video has a quiz:",
+            course.content[currentIndex].quiz
+          );
         } else {
-          console.log('Last video has NO quiz.');
+          console.log("Last video has NO quiz.");
         }
       }
     }
@@ -92,7 +98,11 @@ const CoursePageLeftSide = ({
     ) {
       // Check if current video has a quiz
       const video = course?.content[currentIndex];
-      if (video?.quiz && video.quiz.questions && video.quiz.questions.length > 0) {
+      if (
+        video?.quiz &&
+        video.quiz.questions &&
+        video.quiz.questions.length > 0
+      ) {
         // Show quiz modal
         setQuizQuestions(video.quiz.questions);
         setQuizAnswers(Array(video.quiz.questions.length).fill(-1));
@@ -165,7 +175,9 @@ const CoursePageLeftSide = ({
           setQuizError("تم اجتياز الاختبار لكن حدث خطأ في فتح الفيديو التالي.");
         }
       } else {
-        setQuizError(res.data.message || "بعض الإجابات غير صحيحة. حاول مرة أخرى.");
+        setQuizError(
+          res.data.message || "بعض الإجابات غير صحيحة. حاول مرة أخرى."
+        );
       }
     } catch {
       setQuizError("حدث خطأ أثناء إرسال الإجابات. حاول مرة أخرى.");
@@ -235,9 +247,9 @@ const CoursePageLeftSide = ({
     !!course && unlockedVideos.length === course.content.length;
 
   // Debug info for certificate/quiz issues
-  console.log('unlockedVideos:', unlockedVideos);
-  console.log('course.content.length:', course?.content?.length);
-  console.log('isCourseCompleted:', isCourseCompleted);
+  console.log("unlockedVideos:", unlockedVideos);
+  console.log("course.content.length:", course?.content?.length);
+  console.log("isCourseCompleted:", isCourseCompleted);
 
   // Handler: Generate Certificate
   const handleGenerateCertificate = async () => {
@@ -292,39 +304,45 @@ const CoursePageLeftSide = ({
     <div className="course-viewer-left-side-wrapper">
       {/* Quiz Modal */}
       {showQuizModal && (
-        <div className="quiz-modal-overlay" style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          background: 'rgba(0,0,0,0.5)',
-          zIndex: 1000,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div className="quiz-modal-content" style={{
-            background: 'var(--white, #fff)',
-            borderRadius: 16,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-            padding: 32,
-            minWidth: 320,
-            maxWidth: 420,
-            width: '90%',
-            color: 'var(--purple, #8f438c)',
-            position: 'relative',
-          }}>
+        <div
+          className="quiz-modal-overlay"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.5)",
+            zIndex: 1000,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            className="quiz-modal-content"
+            style={{
+              background: "var(--white, #fff)",
+              borderRadius: 16,
+              boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+              padding: 32,
+              minWidth: 320,
+              maxWidth: 420,
+              width: "90%",
+              color: "var(--purple, #8f438c)",
+              position: "relative",
+            }}
+          >
             <button
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 12,
                 left: 12,
-                background: 'transparent',
-                border: 'none',
+                background: "transparent",
+                border: "none",
                 fontSize: 24,
-                color: '#888',
-                cursor: quizSubmitting ? 'not-allowed' : 'pointer',
+                color: "#888",
+                cursor: quizSubmitting ? "not-allowed" : "pointer",
                 zIndex: 2,
               }}
               onClick={() => setShowQuizModal(false)}
@@ -333,20 +351,53 @@ const CoursePageLeftSide = ({
             >
               ×
             </button>
-            <h3 style={{ textAlign: 'center', marginBottom: 24, color: 'var(--purple, #8f438c)' }}>أسئلة الاختبار لهذا الفيديو</h3>
+            <h3
+              style={{
+                textAlign: "center",
+                marginBottom: 24,
+                color: "var(--purple, #8f438c)",
+              }}
+            >
+              أسئلة الاختبار لهذا الفيديو
+            </h3>
             {quizQuestions.map((q, qIdx) => (
-              <div key={qIdx} className="quiz-modal-question-block" style={{ marginBottom: 24 }}>
-                <div className="quiz-modal-question-text" style={{ fontWeight: 600, marginBottom: 12 }}>{q.question}</div>
-                <div className="quiz-modal-options" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div
+                key={qIdx}
+                className="quiz-modal-question-block"
+                style={{ marginBottom: 24 }}
+              >
+                <div
+                  className="quiz-modal-question-text"
+                  style={{ fontWeight: 600, marginBottom: 12 }}
+                >
+                  {q.question}
+                </div>
+                <div
+                  className="quiz-modal-options"
+                  style={{ display: "flex", flexDirection: "column", gap: 12 }}
+                >
                   {q.options.map((opt: string, oIdx: number) => (
-                    <label key={oIdx} className="quiz-modal-option-label" style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 18 }}>
+                    <label
+                      key={oIdx}
+                      className="quiz-modal-option-label"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                        fontSize: 18,
+                      }}
+                    >
                       <input
                         type="radio"
                         name={`quiz-q${qIdx}`}
                         checked={quizAnswers[qIdx] === oIdx}
                         onChange={() => handleQuizOptionChange(qIdx, oIdx)}
                         disabled={quizSubmitting}
-                        style={{ width: 22, height: 22, accentColor: 'var(--purple, #8f438c)' }}
+                        style={{
+                          width: 22,
+                          height: 22,
+                          accentColor: "var(--purple, #8f438c)",
+                        }}
                       />
                       {opt}
                     </label>
@@ -354,23 +405,37 @@ const CoursePageLeftSide = ({
                 </div>
               </div>
             ))}
-            {quizError && <div className="quiz-modal-error" style={{ color: 'var(--red, #d32f2f)', marginBottom: 16, textAlign: 'center' }}>{quizError}</div>}
+            {quizError && (
+              <div
+                className="quiz-modal-error"
+                style={{
+                  color: "var(--red, #d32f2f)",
+                  marginBottom: 16,
+                  textAlign: "center",
+                }}
+              >
+                {quizError}
+              </div>
+            )}
             <button
               className="quiz-modal-submit-btn"
               onClick={handleQuizSubmit}
               disabled={quizSubmitting || quizAnswers.includes(-1)}
               style={{
-                width: '100%',
-                padding: '12px 0',
-                background: 'var(--purple, #8f438c)',
-                color: '#fff',
-                border: 'none',
+                width: "100%",
+                padding: "12px 0",
+                background: "var(--purple, #8f438c)",
+                color: "#fff",
+                border: "none",
                 borderRadius: 8,
                 fontSize: 18,
                 fontWeight: 600,
-                cursor: quizSubmitting || quizAnswers.includes(-1) ? 'not-allowed' : 'pointer',
+                cursor:
+                  quizSubmitting || quizAnswers.includes(-1)
+                    ? "not-allowed"
+                    : "pointer",
                 marginTop: 8,
-                boxShadow: '0 2px 8px rgba(143,67,140,0.08)'
+                boxShadow: "0 2px 8px rgba(143,67,140,0.08)",
               }}
             >
               {quizSubmitting ? "جارٍ التحقق..." : "إرسال الإجابات"}
@@ -379,6 +444,11 @@ const CoursePageLeftSide = ({
         </div>
       )}
       <div className="course-video-container">
+        {videoLoading && (
+          <div className="video-loader-overlay">
+            <div className="spinner" />
+          </div>
+        )}
         <video
           key={selectedVideo?.url?.toString()} // Force re-render when the video changes
           className="video-player"
@@ -392,6 +462,8 @@ const CoursePageLeftSide = ({
           disablePictureInPicture
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleVideoEnd}
+          onLoadStart={() => setVideoLoading(true)} // start loading
+          onCanPlayThrough={() => setVideoLoading(false)} // ready to play
         >
           {selectedVideo?.url && (
             <source src={`${backend}/${selectedVideo.url}`} type="video/mp4" />
