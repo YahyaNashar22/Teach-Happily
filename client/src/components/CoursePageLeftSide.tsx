@@ -50,27 +50,6 @@ const CoursePageLeftSide = ({
   const [quizError, setQuizError] = useState<string>("");
   const [quizSubmitting, setQuizSubmitting] = useState(false);
 
-  const startBufferPolling = () => {
-    bufferIntervalRef.current = setInterval(() => {
-      const video = videoRef.current;
-      if (!video || !video.duration) return;
-
-      const buffered = video.buffered;
-      let bufferedEnd = 0;
-      if (buffered.length) {
-        bufferedEnd = buffered.end(buffered.length - 1);
-      }
-
-      const percent = Math.min((bufferedEnd / video.duration) * 100, 100);
-      setVideoBufferPercent(Math.floor(percent));
-
-      if (percent >= 100) {
-        setVideoLoading(false);
-        clearInterval(bufferIntervalRef.current!);
-      }
-    }, 300); // Poll every 300ms
-  };
-
   // Handle video progress tracking
   const handleTimeUpdate = (event: React.SyntheticEvent<HTMLVideoElement>) => {
     const videoElement = event.currentTarget;
@@ -325,18 +304,58 @@ const CoursePageLeftSide = ({
   };
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const updateBufferPercent = () => {
+      if (!video || isNaN(video.duration) || video.duration === 0) return;
+
+      const buffered = video.buffered;
+      let bufferedEnd = 0;
+
+      try {
+        if (buffered.length > 0) {
+          bufferedEnd = buffered.end(buffered.length - 1);
+        }
+      } catch (error) {
+        console.warn("Buffer read error:", error);
+        return;
+      }
+
+      const percent = Math.min((bufferedEnd / video.duration) * 100, 100);
+      setVideoBufferPercent(Math.floor(percent));
+
+      if (percent >= 100) {
+        setVideoLoading(false);
+        if (bufferIntervalRef.current) {
+          clearInterval(bufferIntervalRef.current);
+        }
+      }
+    };
+
+    const onMetadata = () => {
+      setVideoLoading(true);
+      setVideoBufferPercent(0);
+      updateBufferPercent();
+      bufferIntervalRef.current = setInterval(updateBufferPercent, 300);
+    };
+
+    const onCanPlay = () => {
+      updateBufferPercent();
+    };
+
+    video.addEventListener("loadedmetadata", onMetadata);
+    video.addEventListener("progress", updateBufferPercent);
+    video.addEventListener("canplaythrough", onCanPlay);
+
     return () => {
+      video.removeEventListener("loadedmetadata", onMetadata);
+      video.removeEventListener("progress", updateBufferPercent);
+      video.removeEventListener("canplaythrough", onCanPlay);
       if (bufferIntervalRef.current) {
         clearInterval(bufferIntervalRef.current);
       }
     };
-  }, []);
-
-  useEffect(() => {
-    setVideoLoading(true);
-    setVideoBufferPercent(0);
-    if (bufferIntervalRef.current) clearInterval(bufferIntervalRef.current);
-    startBufferPolling();
   }, [selectedVideo]);
 
   return (
@@ -503,16 +522,6 @@ const CoursePageLeftSide = ({
           disablePictureInPicture
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleVideoEnd}
-          onLoadStart={() => {
-            setVideoLoading(true);
-            setVideoBufferPercent(0);
-            startBufferPolling();
-          }}
-          onCanPlayThrough={() => {
-            setVideoLoading(false);
-            setVideoBufferPercent(100);
-            clearInterval(bufferIntervalRef.current!);
-          }}
         >
           {selectedVideo?.url && (
             <source src={`${backend}/${selectedVideo.url}`} type="video/mp4" />
