@@ -796,7 +796,7 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
         {success && <p className="course-form-success">{success}</p>}
       </form>
 
-       {showProgressModal && (
+      {showProgressModal && (
         <div className="progress-bar-modal-overlay">
           <div className="progress-bar-modal-content">
             <h2>جاري رفع الدورة</h2>
@@ -806,14 +806,14 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
                 className="progress-bar-fill"
                 style={{ width: `${uploadProgress}%` }}
               ></div>
-              <p>السرعة: ${uploadSpeed}</p>
-              <p>الوقت المتبقي: ${estimatedTime}</p>
-              <p>عدد المحاولات: ${retryCount}</p>
             </div>
             <p>{uploadProgress}%</p>
+            <p>السرعة: ${uploadSpeed}</p>
+            <p>الوقت المتبقي: ${estimatedTime}</p>
+            <p>عدد المحاولات: ${retryCount}</p>
           </div>
         </div>
-      )} 
+      )}
 
       {/* {showProgressModal && (
         <div className="upload-status">
