@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import "../css/CourseForm.css";
 
 import { useEffect, useState } from "react";
@@ -10,6 +11,24 @@ import ICourse from "../interfaces/ICourse";
 interface CourseFormProps {
   setNewCourseForm: (bool: boolean) => void;
   course?: ICourse | null;
+}
+
+// Utility function
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+function formatBytes(bytes, decimals = 2) {
+  if (!+bytes) return "0 Bytes";
+  const k = 1024;
+  const dm = decimals;
+  const sizes = ["Bytes", "KB", "MB", "GB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
+
+function formatTime(seconds: number) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}m ${secs}s`;
 }
 
 const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
@@ -35,6 +54,9 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
 
   const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [uploadSpeed, setUploadSpeed] = useState("");
+  const [estimatedTime, setEstimatedTime] = useState("");
+  const [retryCount, setRetryCount] = useState(0);
   const [showProgressModal, setShowProgressModal] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -287,30 +309,60 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
       try {
         setShowProgressModal(true);
         let retries = 3;
+        const maxRetries = 3;
         let res;
+        const startTime = Date.now();
         while (retries > 0) {
           try {
+            setRetryCount(maxRetries - retries);
+            console.log(`🚀 Starting upload attempt ${4 - retries}...`);
+
             res = await axios.post(`${backend}/course/create-course`, data, {
               headers: { "Content-Type": "multipart/form-data" },
               timeout: 10 * 60 * 1000, // 10 minutes
               maxContentLength: Infinity,
               maxBodyLength: Infinity,
               onUploadProgress: (progressEvent) => {
+                const { loaded, total } = progressEvent;
                 const percentCompleted = Math.round(
-                  (progressEvent.loaded * 100) / (progressEvent.total || 1)
+                  (loaded * 100) / (total || 1)
+                );
+
+                const elapsedTime = (Date.now() - startTime) / 1000; // seconds
+                const speed = loaded / elapsedTime; // bytes per sec
+                // @ts-ignore
+                const remaining = total - loaded;
+                const estimatedTime = speed > 0 ? remaining / speed : 0;
+
+                setUploadProgress(percentCompleted);
+                setUploadSpeed(formatBytes(speed) + "/s");
+                setEstimatedTime(formatTime(estimatedTime));
+
+                console.log(
+                  `📦 Uploaded: ${formatBytes(loaded)} / ${formatBytes(
+                    total || 0
+                  )}`
+                );
+                console.log(`📊 Progress: ${percentCompleted}%`);
+                console.log(`⚡ Speed: ${formatBytes(speed)}/s`);
+                console.log(
+                  `⏱️ Estimated time left: ${estimatedTime.toFixed(2)} sec`
                 );
                 setUploadProgress(percentCompleted);
               },
             });
             break; // success
           } catch (error) {
+            console.error(
+              `❌ Upload failed (Attempt ${4 - retries})`,
+              // @ts-ignore
+              error.message
+            );
             if (--retries === 0) throw error;
-            console.warn(`Upload failed, retrying... (${3 - retries}/3)`);
             await new Promise((res) => setTimeout(res, 2000));
           }
         }
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         setSuccess(res.data.message);
         setFormData({
@@ -366,24 +418,55 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
       try {
         setShowProgressModal(true);
         let retries = 3;
+        const maxRetries = 3;
+        const startTime = Date.now();
         while (retries > 0) {
           try {
+            setRetryCount(maxRetries - retries);
+            console.log(`🚀 Starting upload attempt ${4 - retries}...`);
             await axios.patch(`${backend}/course/${course?._id}`, data, {
               headers: { "Content-Type": "multipart/form-data" },
               timeout: 10 * 60 * 1000,
               maxContentLength: Infinity,
               maxBodyLength: Infinity,
               onUploadProgress: (progressEvent) => {
+                const { loaded, total } = progressEvent;
                 const percentCompleted = Math.round(
-                  (progressEvent.loaded * 100) / (progressEvent.total || 1)
+                  (loaded * 100) / (total || 1)
                 );
+
+                const elapsedTime = (Date.now() - startTime) / 1000; // seconds
+                const speed = loaded / elapsedTime; // bytes per sec
+                // @ts-ignore
+                const remaining = total - loaded;
+                const estimatedTime = speed > 0 ? remaining / speed : 0;
+
+                setUploadProgress(percentCompleted);
+                setUploadSpeed(formatBytes(speed) + "/s");
+                setEstimatedTime(formatTime(estimatedTime));
+
+                console.log(
+                  `📦 Uploaded: ${formatBytes(loaded)} / ${formatBytes(
+                    total || 0
+                  )}`
+                );
+                console.log(`📊 Progress: ${percentCompleted}%`);
+                console.log(`⚡ Speed: ${formatBytes(speed)}/s`);
+                console.log(
+                  `⏱️ Estimated time left: ${estimatedTime.toFixed(2)} sec`
+                );
+
                 setUploadProgress(percentCompleted);
               },
             });
             break; // success
           } catch (error) {
+            console.error(
+              `❌ Upload failed (Attempt ${4 - retries})`,
+              // @ts-ignore
+              error.message
+            );
             if (--retries === 0) throw error;
-            console.warn(`Update failed, retrying... (${3 - retries}/3)`);
             await new Promise((res) => setTimeout(res, 2000));
           }
         }
@@ -713,7 +796,7 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
         {success && <p className="course-form-success">{success}</p>}
       </form>
 
-      {showProgressModal && (
+      {/* {showProgressModal && (
         <div className="progress-bar-modal-overlay">
           <div className="progress-bar-modal-content">
             <h2>جاري رفع الدورة</h2>
@@ -726,6 +809,15 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
             </div>
             <p>{uploadProgress}%</p>
           </div>
+        </div>
+      )} */}
+
+      {showProgressModal && (
+        <div className="upload-status">
+          <p>📦 Upload Progress: {uploadProgress}%</p>
+          <p>⚡ Speed: {uploadSpeed}</p>
+          <p>⏳ Estimated Time Left: {estimatedTime}</p>
+          <p>🔁 Retry Attempt: {retryCount}</p>
         </div>
       )}
     </div>
