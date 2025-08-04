@@ -262,15 +262,20 @@ export const updateCourse = async (req, res) => {
         // Handle newly uploaded videos
         const uploadedVideos = req.files?.videos || [];
 
-
         uploadedVideos.forEach((file) => {
+            const originalName = decodeURIComponent(file.originalname.trim());
             const match = updatedContent.find(v =>
-                v.url?.startsWith("__NEW__") && v.url.slice(7) === file.originalname
+                v.url?.startsWith("__NEW__") &&
+                decodeURIComponent(v.url.slice(7).trim()) === originalName
             );
             if (match) {
                 match.url = file.filename;
             }
         });
+
+        console.log("Comparing:", decodeURIComponent(v.url.slice(7).trim()), "vs", originalName);
+
+
         // Handle newly uploaded materials
         const uploadedMaterials = req.files?.materials || [];
 
