@@ -319,7 +319,7 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
 
             res = await axios.post(`${backend}/course/create-course`, data, {
               headers: { "Content-Type": "multipart/form-data" },
-              timeout: 10 * 60 * 1000, // 10 minutes
+              timeout: 15 * 60 * 1000, // 10 minutes
               maxContentLength: Infinity,
               maxBodyLength: Infinity,
               onUploadProgress: (progressEvent) => {
@@ -426,7 +426,7 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
             console.log(`🚀 Starting upload attempt ${4 - retries}...`);
             await axios.patch(`${backend}/course/${course?._id}`, data, {
               headers: { "Content-Type": "multipart/form-data" },
-              timeout: 10 * 60 * 1000,
+              timeout: 15 * 60 * 1000,
               maxContentLength: Infinity,
               maxBodyLength: Infinity,
               onUploadProgress: (progressEvent) => {

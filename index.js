@@ -1,4 +1,5 @@
 import express from 'express';
+import http from 'http';
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -96,12 +97,24 @@ app.use((err, req, res, next) => {
 
 
 // Connect to server
-app.listen(process.env.PORT, (error) => {
+const server = http.createServer(app);
+
+server.setTimeout(15 * 60 * 1000); // ⏱️ 15 minutes timeout in milliseconds
+
+server.listen(process.env.PORT, (error) => {
     if (!error) {
-        console.log(`Server Running On Port: ${process.env.PORT}`);
+        console.log(`✅ Server Running On Port: ${process.env.PORT}`);
     } else {
-        console.log("Couldn't Connect To Server!");
+        console.log("❌ Couldn't Connect To Server!");
         console.error(`Error: ${error}`);
     }
 });
+// app.listen(process.env.PORT, (error) => {
+//     if (!error) {
+//         console.log(`Server Running On Port: ${process.env.PORT}`);
+//     } else {
+//         console.log("Couldn't Connect To Server!");
+//         console.error(`Error: ${error}`);
+//     }
+// });
 databaseConnection();
