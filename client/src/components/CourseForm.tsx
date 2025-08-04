@@ -814,15 +814,6 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
           </div>
         </div>
       )}
-
-      {/* {showProgressModal && (
-        <div className="upload-status">
-          <p>📦 Upload Progress: {uploadProgress}%</p>
-          <p>⚡ Speed: {uploadSpeed}</p>
-          <p>⏳ Estimated Time Left: {estimatedTime}</p>
-          <p>🔁 Retry Attempt: {retryCount}</p>
-        </div>
-      )} */}
     </div>
   );
 };
