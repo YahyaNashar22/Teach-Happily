@@ -14,7 +14,6 @@ interface CourseFormProps {
 }
 
 // Utility function
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 function formatBytes(bytes, decimals = 2) {
   if (!+bytes) return "0 Bytes";
@@ -44,6 +43,8 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
       url?: string;
       material?: File | null;
       materialName?: string; // For edit mode (existing filename)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      quiz?: any;
     }[]
   >([]);
   const [loading, setLoading] = useState(false);
@@ -291,21 +292,36 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
 
     if (!isEditMode) {
       // ADD MODE
-      videos.forEach((video, idx) => {
+
+      // Build structured content array like in edit mode
+      const content = videos.map((video, idx) => ({
+        title: video.title,
+        url: video.file ? `__NEW__${(video.file as File).name}` : video.url,
+        material: video.material
+          ? (video.material as File).name
+          : video.materialName || null,
+        quiz:
+          quizzes[idx] && quizzes[idx].questions.length > 0
+            ? quizzes[idx]
+            : undefined,
+      }));
+
+      // Append structured data
+      data.append("content", JSON.stringify(content));
+
+      console.log("content: ", content);
+
+      videos.forEach((video) => {
         if (video.file) {
           data.append("videos", video.file);
-          data.append("videoTitles", video.title); // send titles too
         }
-
         if (video.material) {
-          data.append("materials", video.material); // Append zip file
+          data.append("materials", video.material);
         }
 
-        // Add quiz for this video
-        if (quizzes[idx] && quizzes[idx].questions.length > 0) {
-          data.append(`quizzes`, JSON.stringify(quizzes[idx]));
-        }
+        console.log("video on the frontend: ", video);
       });
+
       try {
         setShowProgressModal(true);
         let retries = 3;

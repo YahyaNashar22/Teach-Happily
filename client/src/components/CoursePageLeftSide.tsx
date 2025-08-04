@@ -128,8 +128,9 @@ const CoursePageLeftSide = ({
             }
           );
           setUnlockedVideos((prev: number[]) => [...prev, currentIndex + 1]);
-        } catch {
+        } catch (error: any) {
           // error handling already done above
+          console.log(error);
         }
       }
     }
@@ -267,6 +268,7 @@ const CoursePageLeftSide = ({
       setCertificate(res.data.payload);
       setCertError("تم إصدار الشهادة بنجاح! يمكنك الآن تحميلها.");
     } catch (err: any) {
+      console.log("can't get cert error: ", err);
       if (
         err.response &&
         err.response.data &&
@@ -279,8 +281,10 @@ const CoursePageLeftSide = ({
             { studentId: user._id }
           );
           const certs: ICertification[] = certRes.data.payload || [];
-          const cert = certs.find((c) => c.course._id === course?._id);
+          console.log('user certs: ', certs);
+          const cert = certs.find((c) => c.course?._id === course?._id);
           if (cert) {
+            console.log('found cert: ', cert);
             setCertificate(cert);
             setCertError("لقد حصلت بالفعل على الشهادة. يمكنك تحميلها.");
           } else {

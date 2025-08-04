@@ -51,13 +51,25 @@ export const createCourse = async (req, res) => {
         // }
 
         // Handle file uploads (videos)
-        const content = req.files?.videos
-            ? req.files.videos.map((file, index) => ({
-                title: normalizedVideoTitles?.[index] || file.originalname,
-                url: file.filename,
+        // const content = req.files?.videos
+        //     ? req.files.videos.map((file, index) => ({
+        //         title: normalizedVideoTitles?.[index] || file.originalname,
+        //         url: file.filename,
+        //         material: req.files?.materials?.[index]?.filename || null,
+        //     }))
+        //     : [];
+
+        const contentData = JSON.parse(req.body.content || "[]");
+
+        const content = contentData.map((item, index) => {
+            console.log('video item: ', item);
+            return {
+                title: item.title,
+                url: req.files?.videos?.[index]?.filename || null,
                 material: req.files?.materials?.[index]?.filename || null,
-            }))
-            : [];
+                quiz: item.quiz || undefined,
+            };
+        });
 
         const course = new Course({
             title,
