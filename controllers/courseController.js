@@ -262,8 +262,9 @@ export const updateCourse = async (req, res) => {
         const uploadedVideos = req.files?.videos || [];
 
         uploadedVideos.forEach((file) => {
-            console.log('video file: ', file);
-            const match = updatedContent.find(v => v.url === file.originalname);
+            const match = updatedContent.find(v =>
+                file.originalname && v.url && v.url === file.originalname
+            );
             if (match) {
                 match.url = file.filename;
             }
