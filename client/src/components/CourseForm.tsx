@@ -395,7 +395,7 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
         // If a new file is uploaded, url will be replaced by backend
         return {
           title: video.title,
-          url: video.file ? (video.file as File).name : video.url, // send original name for new files, filename for existing
+          url: video.file ? `__NEW__${(video.file as File).name}` : video.url,
           material: video.material
             ? (video.material as File).name
             : video.materialName || null,

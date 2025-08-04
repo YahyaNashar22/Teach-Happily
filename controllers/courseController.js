@@ -263,8 +263,9 @@ export const updateCourse = async (req, res) => {
 
         uploadedVideos.forEach((file) => {
             const match = updatedContent.find(v =>
-                file.originalname && v.url && v.url === file.originalname
+                v.url?.startsWith("__NEW__") && v.url?.slice(7) === file.originalname
             );
+
             if (match) {
                 match.url = file.filename;
             }
@@ -280,7 +281,7 @@ export const updateCourse = async (req, res) => {
             }
         });
 
-        console.log('updated Content: ', updatedContent);
+        console.log("Final content to save:", updatedContent);
 
         const updatedCourse = await Course.findByIdAndUpdate(
             id,
