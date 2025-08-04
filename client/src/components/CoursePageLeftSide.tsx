@@ -26,6 +26,8 @@ const CoursePageLeftSide = ({
   const { user } = useUserStore();
 
   const [videoLoading, setVideoLoading] = useState<boolean>(true);
+  const [videoBufferPercent, setVideoBufferPercent] = useState(0);
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
 
   const [certificate, setCertificate] = useState<ICertification | null>(null);
   const [certLoading, setCertLoading] = useState(false);
@@ -46,6 +48,22 @@ const CoursePageLeftSide = ({
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [quizError, setQuizError] = useState<string>("");
   const [quizSubmitting, setQuizSubmitting] = useState(false);
+
+  const updateBufferedProgress = () => {
+    const video = videoRef.current;
+    if (!video || !video.duration) return;
+
+    const buffered = video.buffered;
+    const duration = video.duration;
+    let bufferedEnd = 0;
+
+    if (buffered.length > 0) {
+      bufferedEnd = buffered.end(buffered.length - 1);
+    }
+
+    const percent = Math.min((bufferedEnd / duration) * 100, 100);
+    setVideoBufferPercent(Math.floor(percent));
+  };
 
   // Handle video progress tracking
   const handleTimeUpdate = (event: React.SyntheticEvent<HTMLVideoElement>) => {
@@ -443,13 +461,15 @@ const CoursePageLeftSide = ({
           </div>
         </div>
       )}
-      <div className="course-video-container">
+      <div className="course-video-container" style={{ position: "relative" }}>
         {videoLoading && (
           <div className="video-loader-overlay">
             <div className="spinner" />
+            <p className="video-loader-percentage">{videoBufferPercent}%</p>
           </div>
         )}
         <video
+          ref={videoRef}
           key={selectedVideo?.url?.toString()} // Force re-render when the video changes
           className="video-player"
           controls
@@ -462,8 +482,15 @@ const CoursePageLeftSide = ({
           disablePictureInPicture
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleVideoEnd}
-          onLoadStart={() => setVideoLoading(true)} // start loading
-          onCanPlayThrough={() => setVideoLoading(false)} // ready to play
+          onLoadStart={() => {
+            setVideoLoading(true);
+            setVideoBufferPercent(0);
+          }}
+          onCanPlayThrough={() => {
+            setVideoLoading(false);
+            setVideoBufferPercent(100);
+          }}
+          onProgress={updateBufferedProgress}
         >
           {selectedVideo?.url && (
             <source src={`${backend}/${selectedVideo.url}`} type="video/mp4" />
