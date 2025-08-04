@@ -262,6 +262,7 @@ export const updateCourse = async (req, res) => {
         const uploadedVideos = req.files?.videos || [];
 
         uploadedVideos.forEach((file, index) => {
+            console.log('video file: ', file);
             // Match by index instead of originalname
             if (updatedContent[index]) {
                 updatedContent[index].url = file.filename;
@@ -276,6 +277,8 @@ export const updateCourse = async (req, res) => {
                 updatedContent[index].material = file.filename;
             }
         });
+
+        console.log('updated Content: ', updatedContent);
 
         const updatedCourse = await Course.findByIdAndUpdate(
             id,
