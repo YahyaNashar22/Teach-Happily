@@ -808,9 +808,9 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
               ></div>
             </div>
             <p>{uploadProgress}%</p>
-            <p>السرعة: ${uploadSpeed}</p>
-            <p>الوقت المتبقي: ${estimatedTime}</p>
-            <p>عدد المحاولات: ${retryCount}</p>
+            <p>السرعة: {uploadSpeed}</p>
+            <p>الوقت المتبقي: {estimatedTime}</p>
+            <p>عدد المحاولات: {retryCount}</p>
           </div>
         </div>
       )}
