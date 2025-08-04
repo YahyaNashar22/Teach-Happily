@@ -246,19 +246,20 @@ export const updateCourse = async (req, res) => {
         // Handle new image
         const imageFile = req.files?.image?.[0];
         if (imageFile && course.image) removeFile(course.image);
-
         const image = imageFile?.filename || course.image;
 
-        // Parse incoming content list
+        // Parse updated content from client
         const updatedContent = JSON.parse(contentJSON);
 
-        // Remove deleted videos
-        const updatedUrls = updatedContent.map(v => v.url.replace(/^__NEW__/, ""));
+        // Clean up deleted video files (skip __NEW__ placeholders)
+        const updatedUrls = updatedContent.map(v => v.url.replace(/^__NEW__/, "").trim());
         course.content.forEach(v => {
-            if (!updatedUrls.includes(v.url)) {
-                removeFile(v.url); // Safe to delete old file
+            const cleanedUrl = v.url.replace(/^__NEW__/, "").trim();
+            if (!v.url.startsWith("__NEW__") && !updatedUrls.includes(cleanedUrl)) {
+                removeFile(cleanedUrl); // Delete only if it's not new and not included anymore
             }
         });
+
         // Handle newly uploaded videos
         const uploadedVideos = req.files?.videos || [];
 
@@ -269,25 +270,29 @@ export const updateCourse = async (req, res) => {
                 decodeURIComponent(v.url.slice(7).trim()) === originalName
             );
             if (match) {
+                console.log("Replacing video:", match.url, "→", file.filename);
                 match.url = file.filename;
             }
         });
-
-        console.log("Comparing:", decodeURIComponent(v.url.slice(7).trim()), "vs", originalName);
-
 
         // Handle newly uploaded materials
         const uploadedMaterials = req.files?.materials || [];
 
         uploadedMaterials.forEach((file) => {
-            const match = updatedContent.find(v => v.material === file.originalname);
+            const originalName = decodeURIComponent(file.originalname.trim());
+            const match = updatedContent.find(v =>
+                v.material &&
+                decodeURIComponent(v.material.trim()) === originalName
+            );
             if (match) {
+                console.log("Replacing material:", match.material, "→", file.filename);
                 match.material = file.filename;
             }
         });
 
-        console.log("Final content to save:", updatedContent);
+        console.log("✅ Final content to save:", updatedContent);
 
+        // Save updated course
         const updatedCourse = await Course.findByIdAndUpdate(
             id,
             {
@@ -308,13 +313,12 @@ export const updateCourse = async (req, res) => {
         );
 
         res.status(200).json({ payload: updatedCourse });
+
     } catch (error) {
-        console.error(error);
+        console.error("❌ Error in updateCourse:", error);
         res.status(500).json({ error: "Failed to update course" });
     }
 };
-
-
 
 
 export const getAllLatestSimilarCourses = async (req, res) => {
