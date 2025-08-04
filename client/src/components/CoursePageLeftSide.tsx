@@ -25,10 +25,10 @@ const CoursePageLeftSide = ({
 
   const { user } = useUserStore();
 
-  const [videoLoading, setVideoLoading] = useState<boolean>(true);
-  const [videoBufferPercent, setVideoBufferPercent] = useState(0);
-  const videoRef = React.useRef<HTMLVideoElement | null>(null);
-  const bufferIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
+  // const [videoLoading, setVideoLoading] = useState<boolean>(true);
+  // const [videoBufferPercent, setVideoBufferPercent] = useState(0);
+  // const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  // const bufferIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const [certificate, setCertificate] = useState<ICertification | null>(null);
   const [certLoading, setCertLoading] = useState(false);
@@ -303,60 +303,60 @@ const CoursePageLeftSide = ({
     }
   };
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+  // useEffect(() => {
+  //   const video = videoRef.current;
+  //   if (!video) return;
 
-    const updateBufferPercent = () => {
-      if (!video || isNaN(video.duration) || video.duration === 0) return;
+  //   const updateBufferPercent = () => {
+  //     if (!video || isNaN(video.duration) || video.duration === 0) return;
 
-      const buffered = video.buffered;
-      let bufferedEnd = 0;
+  //     const buffered = video.buffered;
+  //     let bufferedEnd = 0;
 
-      try {
-        if (buffered.length > 0) {
-          bufferedEnd = buffered.end(buffered.length - 1);
-        }
-      } catch (error) {
-        console.warn("Buffer read error:", error);
-        return;
-      }
+  //     try {
+  //       if (buffered.length > 0) {
+  //         bufferedEnd = buffered.end(buffered.length - 1);
+  //       }
+  //     } catch (error) {
+  //       console.warn("Buffer read error:", error);
+  //       return;
+  //     }
 
-      const percent = Math.min((bufferedEnd / video.duration) * 100, 100);
-      setVideoBufferPercent(Math.floor(percent));
+  //     const percent = Math.min((bufferedEnd / video.duration) * 100, 100);
+  //     setVideoBufferPercent(Math.floor(percent));
 
-      if (percent >= 100) {
-        setVideoLoading(false);
-        if (bufferIntervalRef.current) {
-          clearInterval(bufferIntervalRef.current);
-        }
-      }
-    };
+  //     if (percent >= 100) {
+  //       setVideoLoading(false);
+  //       if (bufferIntervalRef.current) {
+  //         clearInterval(bufferIntervalRef.current);
+  //       }
+  //     }
+  //   };
 
-    const onMetadata = () => {
-      setVideoLoading(true);
-      setVideoBufferPercent(0);
-      updateBufferPercent();
-      bufferIntervalRef.current = setInterval(updateBufferPercent, 300);
-    };
+  //   const onMetadata = () => {
+  //     setVideoLoading(true);
+  //     setVideoBufferPercent(0);
+  //     updateBufferPercent();
+  //     bufferIntervalRef.current = setInterval(updateBufferPercent, 300);
+  //   };
 
-    const onCanPlay = () => {
-      updateBufferPercent();
-    };
+  //   const onCanPlay = () => {
+  //     updateBufferPercent();
+  //   };
 
-    video.addEventListener("loadedmetadata", onMetadata);
-    video.addEventListener("progress", updateBufferPercent);
-    video.addEventListener("canplaythrough", onCanPlay);
+  //   video.addEventListener("loadedmetadata", onMetadata);
+  //   video.addEventListener("progress", updateBufferPercent);
+  //   video.addEventListener("canplaythrough", onCanPlay);
 
-    return () => {
-      video.removeEventListener("loadedmetadata", onMetadata);
-      video.removeEventListener("progress", updateBufferPercent);
-      video.removeEventListener("canplaythrough", onCanPlay);
-      if (bufferIntervalRef.current) {
-        clearInterval(bufferIntervalRef.current);
-      }
-    };
-  }, [selectedVideo]);
+  //   return () => {
+  //     video.removeEventListener("loadedmetadata", onMetadata);
+  //     video.removeEventListener("progress", updateBufferPercent);
+  //     video.removeEventListener("canplaythrough", onCanPlay);
+  //     if (bufferIntervalRef.current) {
+  //       clearInterval(bufferIntervalRef.current);
+  //     }
+  //   };
+  // }, [selectedVideo]);
 
   return (
     <div className="course-viewer-left-side-wrapper">
@@ -502,14 +502,14 @@ const CoursePageLeftSide = ({
         </div>
       )}
       <div className="course-video-container" style={{ position: "relative" }}>
-        {videoLoading && (
+        {/* {videoLoading && (
           <div className="video-loader-overlay">
             <div className="spinner" />
             <p className="video-loader-percentage">{videoBufferPercent}%</p>
           </div>
-        )}
+        )} */}
         <video
-          ref={videoRef}
+          // ref={videoRef}
           key={selectedVideo?.url?.toString()} // Force re-render when the video changes
           className="video-player"
           controls
