@@ -261,17 +261,20 @@ export const updateCourse = async (req, res) => {
         // Handle newly uploaded videos
         const uploadedVideos = req.files?.videos || [];
 
-        uploadedVideos.forEach((file) => {
-            const match = updatedContent.find(v => v.url === file.originalname);
-            if (match) match.url = file.filename;
+        uploadedVideos.forEach((file, index) => {
+            // Match by index instead of originalname
+            if (updatedContent[index]) {
+                updatedContent[index].url = file.filename;
+            }
         });
 
         // Handle newly uploaded materials
         const uploadedMaterials = req.files?.materials || [];
 
-        uploadedMaterials.forEach((file) => {
-            const match = updatedContent.find(v => v.material === file.originalname);
-            if (match) match.material = file.filename;
+        uploadedMaterials.forEach((file, index) => {
+            if (updatedContent[index]) {
+                updatedContent[index].material = file.filename;
+            }
         });
 
         const updatedCourse = await Course.findByIdAndUpdate(
