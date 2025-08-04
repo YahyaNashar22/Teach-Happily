@@ -286,15 +286,32 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
       });
       try {
         setShowProgressModal(true);
-        const res = await axios.post(`${backend}/course/create-course`, data, {
-          headers: { "Content-Type": "multipart/form-data" },
-          onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / (progressEvent.total || 1)
-            );
-            setUploadProgress(percentCompleted);
-          },
-        });
+        let retries = 3;
+        let res;
+        while (retries > 0) {
+          try {
+            res = await axios.post(`${backend}/course/create-course`, data, {
+              headers: { "Content-Type": "multipart/form-data" },
+              timeout: 10 * 60 * 1000, // 10 minutes
+              maxContentLength: Infinity,
+              maxBodyLength: Infinity,
+              onUploadProgress: (progressEvent) => {
+                const percentCompleted = Math.round(
+                  (progressEvent.loaded * 100) / (progressEvent.total || 1)
+                );
+                setUploadProgress(percentCompleted);
+              },
+            });
+            break; // success
+          } catch (error) {
+            if (--retries === 0) throw error;
+            console.warn(`Upload failed, retrying... (${3 - retries}/3)`);
+            await new Promise((res) => setTimeout(res, 2000));
+          }
+        }
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         setSuccess(res.data.message);
         setFormData({
           title: "",
@@ -348,15 +365,29 @@ const CourseUploadForm = ({ setNewCourseForm, course }: CourseFormProps) => {
       });
       try {
         setShowProgressModal(true);
-        await axios.patch(`${backend}/course/${course?._id}`, data, {
-          headers: { "Content-Type": "multipart/form-data" },
-          onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / (progressEvent.total || 1)
-            );
-            setUploadProgress(percentCompleted);
-          },
-        });
+        let retries = 3;
+        while (retries > 0) {
+          try {
+            await axios.patch(`${backend}/course/${course?._id}`, data, {
+              headers: { "Content-Type": "multipart/form-data" },
+              timeout: 10 * 60 * 1000,
+              maxContentLength: Infinity,
+              maxBodyLength: Infinity,
+              onUploadProgress: (progressEvent) => {
+                const percentCompleted = Math.round(
+                  (progressEvent.loaded * 100) / (progressEvent.total || 1)
+                );
+                setUploadProgress(percentCompleted);
+              },
+            });
+            break; // success
+          } catch (error) {
+            if (--retries === 0) throw error;
+            console.warn(`Update failed, retrying... (${3 - retries}/3)`);
+            await new Promise((res) => setTimeout(res, 2000));
+          }
+        }
+
         setSuccess("تم تحديث الدورة بنجاح");
         setNewCourseForm(false);
       } catch (error) {

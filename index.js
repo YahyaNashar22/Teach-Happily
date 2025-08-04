@@ -36,9 +36,9 @@ app.use(cors({
 ));
 
 // Configuration Middlewares
-app.use(express.json());
+app.use(express.json({ limit: '1gb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '1gb' }));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("uploads"));
 
 // Routes / APIs
@@ -82,6 +82,17 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
+// ✅ Multer file size/type error handling middleware
+app.use((err, req, res, next) => {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(413).json({ error: "الملف كبير جدًا، الحد الأقصى هو 1GB" });
+    }
+    if (err.message === "نوع الملف غير مدعوم") {
+        return res.status(400).json({ error: err.message });
+    }
+    console.error("Unhandled error:", err);
+    res.status(500).json({ error: "حدث خطأ في الخادم أثناء الرفع" });
+});
 
 
 // Connect to server
