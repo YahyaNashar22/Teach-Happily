@@ -51,8 +51,8 @@ app.use('/email', emailRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/digital-product', digitalProductRouter);
 app.use('/certification', certificationRouter);
-app.use('/payment', paymentRouter);
 app.use('/news-letter', newsLetterRouter);
+app.use('/payment', paymentRouter);
 
 
 // test nodemailer
@@ -109,12 +109,5 @@ server.listen(process.env.PORT, (error) => {
         console.error(`Error: ${error}`);
     }
 });
-// app.listen(process.env.PORT, (error) => {
-//     if (!error) {
-//         console.log(`Server Running On Port: ${process.env.PORT}`);
-//     } else {
-//         console.log("Couldn't Connect To Server!");
-//         console.error(`Error: ${error}`);
-//     }
-// });
+
 databaseConnection();

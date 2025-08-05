@@ -14,7 +14,7 @@ const MYFATOORAH_CONFIG = {
   },
   // Production Environment
   production: {
-    baseURL: 'https://api.myfatoorah.com/v2',
+    baseURL: 'https://api-qa.myfatoorah.com/',
     apiKey: process.env.MYFATOORAH_PROD_TOKEN
   }
 };
