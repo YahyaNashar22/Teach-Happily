@@ -81,7 +81,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   onSuccess,
 }) => {
   const backend = import.meta.env.VITE_BACKEND;
-  
 
   console.log("user: ", user);
 
@@ -122,15 +121,14 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
     try {
       // 1. initiate session from backend
-      //   const sessionRes = await axios.post(
-      //     backend + "/api/payments/initiate-session"
-      //   );
-      //   const data = sessionRes.data?.Data || sessionRes.data;
-      // const sessionId = data?.SessionId || data?.sessionId;
-      // console.log('sessionId: ', sessionId);
-      const sessionId = "bd9e58e1-80a9-4225-a8a1-4ae4ba11d529";
-      //   const countryCode = data?.CountryCode || data?.countryCode;
-      const countryCode = "QAT";
+      const sessionRes = await axios.post(
+        backend + "/api/payments/initiate-session"
+      );
+      const data = sessionRes.data?.Data || sessionRes.data;
+      const sessionId = data?.SessionId || data?.sessionId;
+      const countryCode = data?.CountryCode || data?.countryCode;
+      console.log("sessionId: ", sessionId);
+      console.log("countryCode: ", countryCode);
 
       if (!sessionId || !countryCode) {
         throw new Error("فشل الحصول على SessionId أو CountryCode من الخادم.");
@@ -148,8 +146,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       const amountStr = item.price.toFixed(2);
 
       (window as any).myfatoorah.init({
-        sessionId: "bd9e58e1-80a9-4225-a8a1-4ae4ba11d529",
-        countryCode: "QAT",
+        sessionId,
+        countryCode,
         currencyCode: "QAR", // fixed for Qatar
         amount: amountStr,
         callback: async function (response: any) {
