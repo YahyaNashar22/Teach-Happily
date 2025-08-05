@@ -57,15 +57,17 @@ const CourseShowCase = () => {
     setCardNumber,
     setCardExpiry,
     setCardCVV,
-  } = usePayment({ 
-    item: course ? {
-      _id: course._id,
-      title: course.title,
-      price: course.price,
-      image: typeof course.image === 'string' ? course.image : '',
-      teacher: course.teacher
-    } : { _id: '', title: '', price: 0, image: '', teacher: { fullname: '' } },
-    itemType: 'course' 
+  } = usePayment({
+    item: course
+      ? {
+          _id: course._id,
+          title: course.title,
+          price: course.price,
+          image: typeof course.image === "string" ? course.image : "",
+          teacher: course.teacher,
+        }
+      : { _id: "", title: "", price: 0, image: "", teacher: { fullname: "" } },
+    itemType: "course",
   });
 
   useEffect(() => {
@@ -154,7 +156,7 @@ const CourseShowCase = () => {
             },
           }
         );
-        
+
         if (res.status === 200) {
           // Redirect to course page after successful enrollment
           navigate(`/course/${course.slug}`);
@@ -448,15 +450,34 @@ const CourseShowCase = () => {
             <PaymentModal
               isOpen={isModalOpen}
               onClose={closeModal}
-              item={course ? {
-                _id: course._id,
-                title: course.title,
-                price: course.price,
-                image: typeof course.image === 'string' ? course.image : '',
-                teacher: course.teacher
-              } : { _id: '', title: '', price: 0, image: '', teacher: { fullname: '' } }}
+              item={
+                course
+                  ? {
+                      _id: course._id,
+                      title: course.title,
+                      price: course.price,
+                      image:
+                        typeof course.image === "string" ? course.image : "",
+                      teacher: course.teacher,
+                    }
+                  : {
+                      _id: "",
+                      title: "",
+                      price: 0,
+                      image: "",
+                      teacher: { fullname: "" },
+                    }
+              }
               itemType="course"
-              user={user ? { fullName: user.fullName, email: user.email || '' } : null}
+              user={
+                user
+                  ? {
+                      fullName: user.fullName,
+                      email: user.email || "",
+                      userId: user._id,
+                    }
+                  : null
+              }
               backend={backend}
               loading={loading}
               error={error}

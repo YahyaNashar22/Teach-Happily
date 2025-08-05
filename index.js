@@ -19,6 +19,7 @@ import digitalProductRouter from './routes/digitalProductRoutes.js';
 import certificationRouter from './routes/certificationRoutes.js';
 import paymentRouter from './routes/paymentRoutes.js';
 import newsLetterRouter from './routes/newsLetterRoutes.js';
+import axios from 'axios';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -73,6 +74,72 @@ app.post("/send-test-email", async (req, res) => {
     }
 });
 
+
+// Helper axios instance with auth
+const mfClient = axios.create({
+    baseURL: process.env.MYFATOORAH_BASE_URL,
+    headers: {
+        Authorization: `Bearer ${process.env.MYFATOORAH_TOKEN}`,
+        'Content-Type': 'application/json',
+    },
+});
+
+// 1. Initiate Session (to get SessionId + CountryCode)
+app.post('/api/payments/initiate-session', async (req, res) => {
+    try {
+        // you can pass optional body data if required by your flow
+        const response = await mfClient.post('/v2/InitiateSession', {
+            // If there are any required body parameters, add here. 
+            // According to docs, this endpoint has an empty body.
+        });
+        return res.json(response.data);
+    } catch (err) {
+        console.error('InitiateSession error', err.response?.data || err.message);
+        return res.status(500).json({ error: 'Failed to initiate session' });
+    }
+});
+
+// 2. Execute Payment (after frontend gets session and calls callback)
+app.post('/api/payments/execute', async (req, res) => {
+    try {
+        const { sessionId, invoiceValue, customerReference, userDefinedField } = req.body;
+        if (!sessionId || !invoiceValue) {
+            return res.status(400).json({ error: 'sessionId and invoiceValue required' });
+        }
+
+        // Build request payload (customize per your use-case)
+        const payload = {
+            SessionId: sessionId,
+            InvoiceValue: invoiceValue, // amount to charge
+            // Optional:
+            CustomerReference: customerReference || '',
+            UserDefinedField: userDefinedField || '',
+            CallBackUrl: process.env.CALLBACK_URL,
+            ErrorUrl: process.env.ERROR_URL,
+            // CurrencyIso can be provided if needed; otherwise uses defaults from account
+        };
+
+        const response = await mfClient.post('/v2/ExecutePayment', payload);
+        return res.json(response.data);
+    } catch (err) {
+        console.error('ExecutePayment error', err.response?.data || err.message);
+        return res.status(500).json({ error: 'Failed to execute payment' });
+    }
+});
+
+// 3. (Optional) GetPaymentStatus
+app.get('/api/payments/status/:paymentId', async (req, res) => {
+    try {
+        const paymentId = req.params.paymentId;
+        const response = await mfClient.get(`/v2/GetPaymentStatus`, {
+            params: { Key: paymentId },
+        });
+        return res.json(response.data);
+    } catch (err) {
+        console.error('GetPaymentStatus error', err.response?.data || err.message);
+        return res.status(500).json({ error: 'Failed to get payment status' });
+    }
+});
 
 
 // Serve static files from the React app

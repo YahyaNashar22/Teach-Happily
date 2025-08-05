@@ -174,7 +174,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           teacher: product.teacher 
         }}
         itemType="product"
-        user={user ? { fullName: user.fullName, email: user.email || '' } : null}
+        user={user ? { fullName: user.fullName, email: user.email || '', userId: user._id } : null}
         backend={backend}
         loading={loading}
         error={error}

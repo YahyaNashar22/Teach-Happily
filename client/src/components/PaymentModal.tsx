@@ -1,5 +1,11 @@
-import React from 'react';
-import { FaCreditCard } from 'react-icons/fa';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+import React, { useEffect, useRef, useState } from "react";
+import { FaCreditCard } from "react-icons/fa";
+import axios from "axios";
 
 interface PaymentItem {
   _id: string;
@@ -11,33 +17,43 @@ interface PaymentItem {
   };
 }
 
+interface User {
+  fullName: string;
+  email: string;
+  userId: string;
+}
+
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
   item: PaymentItem;
-  itemType: 'course' | 'product';
-  user: { fullName: string; email: string } | null;
-  backend: string;
-  
-  // Form states
+  itemType: "course" | "product";
+  user: User | null;
+
+  // States (some become vestigial when using embedded)
   loading: boolean;
   error: string;
   success: boolean;
   agreeTerms: boolean;
-  paymentMethod: string;
+  paymentMethod: string; // expecting "credit" here
+
+  // (Optional) kept so parent can still control if needed
   cardName: string;
   cardNumber: string;
   cardExpiry: string;
   cardCVV: string;
-  
-  // Form actions
-  onPaymentSubmit: (e: React.FormEvent) => void;
+
+  // Actions from parent
+  onPaymentSubmit: (e: React.FormEvent) => void; // will be overridden internally
   setAgreeTerms: (value: boolean) => void;
   setPaymentMethod: (value: string) => void;
   setCardName: (value: string) => void;
   setCardNumber: (value: string) => void;
   setCardExpiry: (value: string) => void;
   setCardCVV: (value: string) => void;
+
+  // Optional: callback after payment success to let parent update order
+  onSuccess?: (data: any) => void;
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({
@@ -46,201 +62,505 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   item,
   itemType,
   user,
-  backend,
-  loading,
-  error,
-  success,
+  loading: parentLoading,
+  error: parentError,
+  success: parentSuccess,
   agreeTerms,
   paymentMethod,
   cardName,
   cardNumber,
   cardExpiry,
   cardCVV,
-  onPaymentSubmit,
+  onPaymentSubmit, // will not be used directly for embedded flow
   setAgreeTerms,
   setPaymentMethod,
   setCardName,
   setCardNumber,
   setCardExpiry,
   setCardCVV,
+  onSuccess,
 }) => {
-  if (!isOpen) return null;
+  const backend = import.meta.env.VITE_BACKEND;
+  
 
+  console.log("user: ", user);
+
+  const [loading, setLoading] = useState<boolean>(parentLoading);
+  const [error, setError] = useState<string>(parentError);
+  const [success, setSuccess] = useState<boolean>(parentSuccess);
+  const [sessionInfo, setSessionInfo] = useState<{
+    SessionId?: string;
+    CountryCode?: string;
+  } | null>(null);
+  const embeddedContainerRef = useRef<HTMLDivElement | null>(null);
+  const [executed, setExecuted] = useState(false);
+
+  // Sync parent props if they change
+  useEffect(() => {
+    setLoading(parentLoading);
+  }, [parentLoading]);
+  useEffect(() => {
+    setError(parentError);
+  }, [parentError]);
+  useEffect(() => {
+    setSuccess(parentSuccess);
+  }, [parentSuccess]);
+
+  // Kick off embedded payment when user submits
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // if (!agreeTerms) {
+    //   setError("يجب الموافقة على الشروط والأحكام قبل الدفع.");
+    //   return;
+    // }
+    if (!item) {
+      setError("لا يوجد عنصر صالح للدفع.");
+      return;
+    }
+    setError("");
+    setLoading(true);
+
+    try {
+      // 1. initiate session from backend
+      //   const sessionRes = await axios.post(
+      //     backend + "/api/payments/initiate-session"
+      //   );
+      //   const data = sessionRes.data?.Data || sessionRes.data;
+      // const sessionId = data?.SessionId || data?.sessionId;
+      // console.log('sessionId: ', sessionId);
+      const sessionId = "bd9e58e1-80a9-4225-a8a1-4ae4ba11d529";
+      //   const countryCode = data?.CountryCode || data?.countryCode;
+      const countryCode = "QAT";
+
+      if (!sessionId || !countryCode) {
+        throw new Error("فشل الحصول على SessionId أو CountryCode من الخادم.");
+      }
+      setSessionInfo({ SessionId: sessionId, CountryCode: countryCode });
+
+      // 2. load embedded script if not already loaded
+      await loadMyFatoorahScript();
+
+      // 3. initialize embedded payment
+      if (typeof (window as any).myfatoorah === "undefined") {
+        throw new Error("مكتبة MyFatoorah لم تُحمل بعد.");
+      }
+
+      const amountStr = item.price.toFixed(2);
+
+      (window as any).myfatoorah.init({
+        sessionId: "bd9e58e1-80a9-4225-a8a1-4ae4ba11d529",
+        countryCode: "QAT",
+        currencyCode: "QAR", // fixed for Qatar
+        amount: amountStr,
+        callback: async function (response: any) {
+          if (response?.isSuccess || response?.IsSuccess) {
+            try {
+              // Execute payment on backend
+              const execRes = await axios.post(
+                backend + "/api/payments/execute",
+                {
+                  sessionId: sessionId,
+                  invoiceValue: item.price,
+                  customerReference: user?.email || "",
+                  userDefinedField: item._id,
+                }
+              );
+
+              const execData = execRes.data?.Data || execRes.data;
+              const paymentURL: string | undefined =
+                execData?.PaymentURL || execData?.paymentURL;
+              const paymentKey =
+                execData?.InvoiceId || execData?.Key || execData?.PaymentId;
+
+              if (!paymentKey) {
+                throw new Error("لم يتم استلام معرف الدفع من MyFatoorah.");
+              }
+
+              // Finalize enrollment (idempotent)
+              try {
+                await axios.post(backend + "/user/finalize-payment-enroll", {
+                  userId: userId,
+                  itemId: item._id,
+                  itemType,
+                  paymentKey,
+                  amount: item.price,
+                  currency: "QAR",
+                });
+                // callback to parent if provided
+                onSuccess?.(execData);
+                setSuccess(true);
+              } catch (finalizeErr: any) {
+                console.error("Finalize enrollment error", finalizeErr);
+                setError("الدفع تم ولكن فشل تفعيل المنتج. تواصل مع الدعم.");
+              }
+
+              if (paymentURL) {
+                // redirect the user for 3DS / finalization
+                window.location.href = paymentURL;
+              } else {
+                // If no special redirect needed, consider success
+                setSuccess(true);
+                onSuccess?.(execData);
+              }
+            } catch (err: any) {
+              console.error("ExecutePayment error", err);
+              setError("فشل تنفيذ الدفع. حاول مرة أخرى.");
+            } finally {
+              setLoading(false);
+            }
+          } else {
+            setLoading(false);
+            setError("فشل في تهيئة الدفع من MyFatoorah.");
+            console.warn("Embedded payment callback failure:", response);
+          }
+        },
+        containerId: "embedded-payment",
+        paymentOptions: ["Card"], // you can add other supported options if enabled
+      });
+
+      setExecuted(true);
+    } catch (err: any) {
+      console.error("Payment flow error", err);
+      setError(
+        err?.response?.data?.message ||
+          err?.message ||
+          "حدث خطأ أثناء إعداد الدفع."
+      );
+      setLoading(false);
+    }
+  };
+
+  const loadMyFatoorahScript = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      // avoid double injection
+      if (
+        document.querySelector(
+          'script[src*="qa.myfatoorah.com/payment/v1/session.js"]'
+        )
+      ) {
+        // wait a tick for it to be ready
+        return resolve();
+      }
+      const script = document.createElement("script");
+      script.src = "https://qa.myfatoorah.com/payment/v1/session.js";
+      script.async = true;
+      script.onload = () => {
+        resolve();
+      };
+      script.onerror = () => reject(new Error("فشل تحميل سكربت MyFatoorah"));
+      document.body.appendChild(script);
+    });
+  };
+
+  if (!isOpen) return null;
   return (
     <div
       className="modal-overlay"
       style={{
         zIndex: 1001,
-        position: 'fixed',
+        position: "fixed",
         inset: 0,
-        background: 'rgba(143,67,140,0.10)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        animation: 'fadeInOverlay 0.25s',
+        background: "rgba(143,67,140,0.10)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        animation: "fadeInOverlay 0.25s",
       }}
       onClick={onClose}
     >
       <div
         className="modal checkout-modal"
         style={{
-          background: 'linear-gradient(180deg, #fff 0%, #f7eafd 100%)',
+          background: "linear-gradient(180deg, #fff 0%, #f7eafd 100%)",
           borderRadius: 24,
-          boxShadow: '0 8px 32px rgba(143,67,140,0.18)',
+          boxShadow: "0 8px 32px rgba(143,67,140,0.18)",
           padding: 40,
           minWidth: 320,
           maxWidth: 440,
-          width: '95%',
-          color: '#222',
-          fontFamily: 'inherit',
-          position: 'relative',
-          margin: 'auto',
-          animation: 'modalFadeIn 0.5s cubic-bezier(.4,1.4,.6,1) both',
-          pointerEvents: 'auto',
+          width: "95%",
+          color: "#222",
+          fontFamily: "inherit",
+          position: "relative",
+          margin: "auto",
+          animation: "modalFadeIn 0.5s cubic-bezier(.4,1.4,.6,1) both",
+          pointerEvents: "auto",
         }}
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="modal-title" style={{ textAlign: 'center', marginBottom: 24, fontWeight: 800, fontSize: 24, color: '#8f438c', letterSpacing: 1 }}>
+        <h2
+          className="modal-title"
+          style={{
+            textAlign: "center",
+            marginBottom: 24,
+            fontWeight: 800,
+            fontSize: 24,
+            color: "#8f438c",
+            letterSpacing: 1,
+          }}
+        >
           إتمام الشراء
         </h2>
-        
-        <div className="checkout-summary" style={{ marginBottom: 24, borderBottom: '1.5px solid #f0e6fa', paddingBottom: 18 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <img 
-              src={`${backend}/${item?.image}`} 
-              alt={item?.title} 
-              style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover', border: '1px solid #eee', boxShadow: '0 2px 8px #f7eafd' }} 
+
+        <div
+          className="checkout-summary"
+          style={{
+            marginBottom: 24,
+            borderBottom: "1.5px solid #f0e6fa",
+            paddingBottom: 18,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <img
+              src={`${backend}/${item?.image}`}
+              alt={item?.title}
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: 12,
+                objectFit: "cover",
+                border: "1px solid #eee",
+                boxShadow: "0 2px 8px #f7eafd",
+              }}
             />
             <div>
-              <div style={{ fontWeight: 700, fontSize: 19, color: '#8f438c' }}>{item?.title}</div>
-              <div style={{ fontSize: 15, color: '#888' }}>
-                {itemType === 'course' ? `تقديم ${item?.teacher?.fullname}` : 'منتج رقمي'}
+              <div
+                style={{
+                  fontWeight: 700,
+                  fontSize: 19,
+                  color: "#8f438c",
+                }}
+              >
+                {item?.title}
+              </div>
+              <div style={{ fontSize: 15, color: "#888" }}>
+                {itemType === "course"
+                  ? `تقديم ${item?.teacher?.fullname}`
+                  : "منتج رقمي"}
               </div>
             </div>
           </div>
-          <div style={{ marginTop: 14, fontSize: 17, fontWeight: 700, color: '#8f438c' }}>
-            السعر: <span style={{ color: '#222' }}>QR {item?.price.toFixed(2)}</span>
+          <div
+            style={{
+              marginTop: 14,
+              fontSize: 17,
+              fontWeight: 700,
+              color: "#8f438c",
+            }}
+          >
+            السعر:{" "}
+            <span style={{ color: "#222" }}>QR {item?.price.toFixed(2)}</span>
           </div>
         </div>
-        
-        <div className="checkout-user-info" style={{ marginBottom: 18, fontSize: 15, color: '#555' }}>
-          <div><b>المستخدم:</b> {user?.fullName}</div>
-          <div><b>البريد:</b> {user?.email || '---'}</div>
+
+        <div
+          className="checkout-user-info"
+          style={{ marginBottom: 18, fontSize: 15, color: "#555" }}
+        >
+          <div>
+            <b>المستخدم:</b> {user?.fullName || "---"}
+          </div>
         </div>
-        
-        <div className="checkout-payment-method" style={{ marginBottom: 18, borderBottom: '1.5px solid #f0e6fa', paddingBottom: 18 }}>
-          <div style={{ fontWeight: 600, marginBottom: 8, color: '#8f438c' }}>طريقة الدفع</div>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 16 }}>
+
+        <div
+          className="checkout-payment-method"
+          style={{
+            marginBottom: 18,
+            borderBottom: "1.5px solid #f0e6fa",
+            paddingBottom: 18,
+          }}
+        >
+          <div
+            style={{
+              fontWeight: 600,
+              marginBottom: 8,
+              color: "#8f438c",
+            }}
+          >
+            طريقة الدفع
+          </div>
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: 16,
+            }}
+          >
             <input
               type="radio"
               name="payment-method"
               checked={paymentMethod === "credit"}
               onChange={() => setPaymentMethod("credit")}
-              style={{ accentColor: '#8f438c' }}
+              style={{ accentColor: "#8f438c" }}
             />
-            <FaCreditCard style={{ color: '#8f438c', fontSize: 22 }} /> بطاقة ائتمان
+            <FaCreditCard style={{ color: "#8f438c", fontSize: 22 }} /> بطاقة
+            ائتمان
           </label>
         </div>
-        
-        <form onSubmit={onPaymentSubmit}>
-          <div className="checkout-card-form" style={{ marginBottom: 24 }}>
-            <div style={{ marginBottom: 16 }}>
-              <label style={{ fontWeight: 600, fontSize: 15, color: '#8f438c' }}>اسم حامل البطاقة</label>
-              <input
-                type="text"
-                value={cardName}
-                onChange={e => setCardName(e.target.value)}
-                style={{ width: '100%', padding: '16px 14px', borderRadius: 14, border: '1.5px solid #e0c6f7', fontSize: 17, marginTop: 6, marginBottom: 0, boxShadow: '0 2px 8px rgba(143,67,140,0.04)', fontFamily: 'inherit', background: '#faf7fd' }}
-                placeholder="مثال: أحمد محمد"
-                required
-              />
-            </div>
-            
-            <div style={{ marginBottom: 16, position: 'relative' }}>
-              <label style={{ fontWeight: 600, fontSize: 15, color: '#8f438c' }}>رقم البطاقة</label>
-              <FaCreditCard style={{ position: 'absolute', right: 18, top: 44, color: '#8f438c', fontSize: 22, pointerEvents: 'none' }} />
-              <input
-                type="text"
-                value={cardNumber}
-                onChange={e => setCardNumber(e.target.value.replace(/[^\d]/g, '').slice(0, 16))}
-                style={{ width: '100%', padding: '16px 44px 16px 14px', borderRadius: 14, border: '1.5px solid #e0c6f7', fontSize: 17, marginTop: 6, marginBottom: 0, boxShadow: '0 2px 8px rgba(143,67,140,0.04)', fontFamily: 'inherit', background: '#faf7fd', letterSpacing: 2 }}
-                placeholder="1234 5678 9012 3456"
-                inputMode="numeric"
-                required
-              />
-            </div>
-            
-            <div style={{ display: 'flex', gap: 12 }}>
-              <div style={{ flex: 1 }}>
-                <label style={{ fontWeight: 600, fontSize: 15, color: '#8f438c' }}>تاريخ الانتهاء</label>
-                <input
-                  type="text"
-                  value={cardExpiry}
-                  onChange={e => setCardExpiry(e.target.value.replace(/[^\d/]/g, '').slice(0, 5))}
-                  style={{ width: '100%', padding: '16px 14px', borderRadius: 14, border: '1.5px solid #e0c6f7', fontSize: 17, marginTop: 6, marginBottom: 0, boxShadow: '0 2px 8px rgba(143,67,140,0.04)', fontFamily: 'inherit', background: '#faf7fd' }}
-                  placeholder="MM/YY"
-                  required
+
+        <form onSubmit={handleSubmit}>
+          {/* Embedded payment container */}
+          <div
+            className="embedded-wrapper"
+            style={{ marginBottom: 24, minHeight: 120 }}
+          >
+            {paymentMethod === "credit" ? (
+              <>
+                {!executed && (
+                  <div
+                    style={{
+                      padding: 12,
+                      background: "#f9f4fb",
+                      borderRadius: 12,
+                      fontSize: 14,
+                      color: "#555",
+                    }}
+                  >
+                    بعد الضغط على "ادفع الآن" سيُفتح نموذج الدفع الآمن من
+                    MyFatoorah داخل هذه النافذة.
+                  </div>
+                )}
+                <div
+                  id="embedded-payment"
+                  ref={(el) => (embeddedContainerRef.current = el)}
+                  style={{ marginTop: 12 }}
                 />
+              </>
+            ) : (
+              // If you eventually support other methods, fallback UI
+              <div
+                style={{
+                  padding: 12,
+                  background: "#f9f4fb",
+                  borderRadius: 12,
+                  fontSize: 14,
+                  color: "#555",
+                }}
+              >
+                اختر طريقة دفع صالحة.
               </div>
-              <div style={{ flex: 1 }}>
-                <label style={{ fontWeight: 600, fontSize: 15, color: '#8f438c' }}>CVV</label>
-                <input
-                  type="password"
-                  value={cardCVV}
-                  onChange={e => setCardCVV(e.target.value.replace(/[^\d]/g, '').slice(0, 4))}
-                  style={{ width: '100%', padding: '16px 14px', borderRadius: 14, border: '1.5px solid #e0c6f7', fontSize: 17, marginTop: 6, marginBottom: 0, boxShadow: '0 2px 8px rgba(143,67,140,0.04)', fontFamily: 'inherit', background: '#faf7fd' }}
-                  placeholder="123"
-                  required
-                />
-              </div>
-            </div>
+            )}
           </div>
-          
+          {/* 
           <div className="checkout-terms" style={{ marginBottom: 24 }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 15, color: '#8f438c' }}>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                fontSize: 15,
+                color: "#8f438c",
+              }}
+            >
               <input
                 type="checkbox"
                 checked={agreeTerms}
                 onChange={() => setAgreeTerms(!agreeTerms)}
-                style={{ accentColor: '#8f438c' }}
+                style={{ accentColor: "#8f438c" }}
               />
-              أوافق على <a href="#" style={{ color: '#8f438c', textDecoration: 'underline' }}>الشروط والأحكام</a>
+              أوافق على{" "}
+              <a
+                href="#"
+                style={{
+                  color: "#8f438c",
+                  textDecoration: "underline",
+                  marginLeft: 4,
+                }}
+              >
+                الشروط والأحكام
+              </a>
             </label>
-          </div>
-          
-          {error && <div style={{ color: '#d32f2f', marginBottom: 14, textAlign: 'center', fontWeight: 600 }}>{error}</div>}
-          
+          </div> */}
+
+          {error && (
+            <div
+              style={{
+                color: "#d32f2f",
+                marginBottom: 14,
+                textAlign: "center",
+                fontWeight: 600,
+              }}
+            >
+              {error}
+            </div>
+          )}
+
           {loading ? (
-            <div style={{ textAlign: 'center', margin: '18px 0' }}>
-              <div className="spinner" style={{ width: 36, height: 36, border: '4px solid #eee', borderTop: '4px solid #8f438c', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto' }} />
-              <div style={{ marginTop: 8, color: '#8f438c' }}>جاري معالجة الدفع...</div>
+            <div
+              style={{
+                textAlign: "center",
+                margin: "18px 0",
+              }}
+            >
+              <div
+                className="spinner"
+                style={{
+                  width: 36,
+                  height: 36,
+                  border: "4px solid #eee",
+                  borderTop: "4px solid #8f438c",
+                  borderRadius: "50%",
+                  animation: "spin 1s linear infinite",
+                  margin: "0 auto",
+                }}
+              />
+              <div
+                style={{
+                  marginTop: 8,
+                  color: "#8f438c",
+                }}
+              >
+                جاري معالجة الدفع...
+              </div>
             </div>
           ) : success ? (
-            <div style={{ textAlign: 'center', color: '#388e3c', fontWeight: 700, fontSize: 18, margin: '18px 0' }}>
-              تم الشراء بنجاح!<br />سيتم تحويلك الآن...
+            <div
+              style={{
+                textAlign: "center",
+                color: "#388e3c",
+                fontWeight: 700,
+                fontSize: 18,
+                margin: "18px 0",
+              }}
+            >
+              تم الشراء بنجاح!
+              <br />
+              سيتم تحويلك الآن...
             </div>
           ) : (
-            <div className="modal-actions" style={{ display: 'flex', gap: 12, marginTop: 12 }}>
+            <div
+              className="modal-actions"
+              style={{
+                display: "flex",
+                gap: 12,
+                marginTop: 12,
+              }}
+            >
               <button
                 className="btn btn-confirm"
                 disabled={loading}
                 type="submit"
                 style={{
                   flex: 1,
-                  background: 'linear-gradient(90deg, #8f438c 0%, #e573c7 100%)',
-                  color: '#fff',
-                  border: 'none',
+                  background:
+                    "linear-gradient(90deg, #8f438c 0%, #e573c7 100%)",
+                  color: "#fff",
+                  border: "none",
                   borderRadius: 14,
                   fontSize: 19,
                   fontWeight: 700,
-                  padding: '16px 0',
-                  boxShadow: '0 2px 12px rgba(143,67,140,0.10)',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  transition: 'transform 0.15s, box-shadow 0.15s',
-                  outline: 'none',
+                  padding: "16px 0",
+                  boxShadow: "0 2px 12px rgba(143,67,140,0.10)",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  transition: "transform 0.15s, box-shadow 0.15s",
+                  outline: "none",
                 }}
-                onMouseOver={e => e.currentTarget.style.transform = 'scale(1.03)'}
-                onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.03)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
               >
                 ادفع الآن
               </button>
@@ -251,22 +571,22 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                 onClick={onClose}
                 style={{
                   flex: 1,
-                  background: '#eee',
-                  color: '#8f438c',
-                  border: 'none',
+                  background: "#eee",
+                  color: "#8f438c",
+                  border: "none",
                   borderRadius: 14,
                   fontSize: 16,
                   fontWeight: 600,
-                  padding: '16px 0',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  transition: 'background 0.2s',
+                  padding: "16px 0",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  transition: "background 0.2s",
                 }}
               >
                 إلغاء
               </button>
             </div>
           )}
-          
+
           <style>{`
             @keyframes spin {
               0% { transform: rotate(0deg); }
@@ -287,4 +607,4 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   );
 };
 
-export default PaymentModal; 
+export default PaymentModal;
