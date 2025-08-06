@@ -84,6 +84,56 @@ const mfClient = axios.create({
     },
 });
 
+
+app.post("/api/payments/webhook", express.json(), async (req, res) => {
+    const payload = req.body;
+    try {
+        const payload = req.body;
+        console.log("🔔 Received webhook:", payload);
+
+        const invoiceStatus = payload?.InvoiceStatus?.toLowerCase() || "";
+        const paymentId = payload?.InvoiceId;
+        const userDefinedField = payload?.UserDefinedField; // e.g. userId/itemId ref
+
+        if (!paymentId || !userDefinedField) {
+            return res.status(400).send("Missing paymentId or userDefinedField");
+        }
+
+        if (invoiceStatus === "paid") {
+            // Get your Payment from DB using InvoiceId or UserDefinedField
+            const payment = await Payment.findOne({ paymentId });
+
+            if (!payment) {
+                console.warn("⚠️ No matching payment found for InvoiceId:", paymentId);
+                return res.status(404).send("Payment not found");
+            }
+
+            if (payment.status !== 'Paid') {
+                payment.status = 'Paid';
+                payment.raw = payload;
+                await payment.save();
+
+                // Enroll user
+                const { userId, itemId, itemType } = payment;
+
+                let enrollResult;
+                if (itemType === 'course') {
+                    enrollResult = await enrollInCourse(userId, itemId);
+                } else if (itemType === 'product') {
+                    enrollResult = await enrollInProduct(userId, itemId);
+                }
+
+                console.log(`✅ Payment ${paymentId} confirmed & user enrolled`);
+            }
+        }
+
+        res.status(200).send("OK");
+    } catch (err) {
+        console.error("❌ Webhook handler error:", err);
+        res.status(500).send("Error handling webhook");
+    }
+});
+
 // 1. Initiate Session (to get SessionId + CountryCode)
 app.post('/api/payments/initiate-session', async (req, res) => {
     try {
