@@ -270,6 +270,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
             setSuccess(true);
             onSuccess?.(finalizeRes.data);
           } catch (err: any) {
+            console.log(err);
             const msg =
               err?.response?.data?.message || err.message || "حدث خطأ";
             setError(`الدفع تم ولكن فشل تفعيل المنتج: ${msg}`);

@@ -26,6 +26,7 @@ export const finalizePaymentAndEnroll = async (req, res) => {
 
     // 2. Verify actual status from MyFatoorah
     const statusResp = await getPaymentStatus(paymentKey);
+    console.log('statusResp: ', statusResp);
     const paymentData = statusResp?.Data || statusResp;
     const invoiceStatus =
       paymentData?.InvoiceStatus || paymentData?.PaymentStatus || '';

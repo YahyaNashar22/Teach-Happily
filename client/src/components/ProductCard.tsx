@@ -134,7 +134,14 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           }
 
           if (isUserEnrolled) {
-            alert("Already enrolled");
+            const fileUrl = `${backend}/${product.product}`;
+            window.open(fileUrl, "_blank");
+            // const link = document.createElement("a");
+            // link.href = fileUrl;
+            // link.download = product.title; // Optional: specify filename here like "course.pdf"
+            // document.body.appendChild(link);
+            // link.click();
+            // document.body.removeChild(link);
           } else if (!isModalOpen) togglePurchaseModal();
         }}
         style={{
