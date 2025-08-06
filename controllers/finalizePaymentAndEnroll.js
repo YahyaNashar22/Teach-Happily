@@ -12,9 +12,13 @@ export const finalizePaymentAndEnroll = async (req, res) => {
     currency = 'QAR',
   } = req.body;
 
-  if (!userId || !itemId || !itemType || !paymentKey || !amount) {
+  console.log("Request body:", req.body);
+
+  if (!userId || !itemId || !itemType || !amount) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
+
+  if (!paymentKey) return res.status(400).json({ message: 'Missing paymentKey' });
 
   try {
     // 1. Idempotent payment record lookup or creation
@@ -53,7 +57,7 @@ export const finalizePaymentAndEnroll = async (req, res) => {
     if (!isPaid) {
       return res.status(400).json({
         message: 'Payment not completed yet',
-        paymentStatus: paymentRecord.status,
+        paymentStatus: invoiceStatus || 'Unknown',
       });
     }
 

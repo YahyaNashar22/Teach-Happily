@@ -82,8 +82,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 }) => {
   const backend = import.meta.env.VITE_BACKEND;
 
-  console.log("user: ", user);
-
   const [loading, setLoading] = useState<boolean>(parentLoading);
   const [error, setError] = useState<string>(parentError);
   const [success, setSuccess] = useState<boolean>(parentSuccess);
@@ -130,6 +128,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       console.log("sessionId: ", sessionId);
       console.log("countryCode: ", countryCode);
 
+      const { SessionId, CountryCode } = sessionRes.data.Data;
+      console.log("SessionId: ", SessionId);
+      console.log("CountryCode: ", CountryCode);
+
       if (!sessionId || !countryCode) {
         throw new Error("فشل الحصول على SessionId أو CountryCode من الخادم.");
       }
@@ -146,70 +148,133 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       const amountStr = item.price.toFixed(2);
 
       (window as any).myfatoorah.init({
-        sessionId,
-        countryCode,
+        sessionId: SessionId,
+        countryCode: CountryCode,
         currencyCode: "QAR", // fixed for Qatar
         amount: amountStr,
+        // callback: async function (response: any) {
+        //   if (response?.isSuccess || response?.IsSuccess) {
+        //     try {
+        //       // Execute payment on backend
+        //       // const execRes = await axios.post(
+        //       //   backend + "/api/payments/execute",
+        //       //   {
+        //       //     sessionId: SessionId,
+        //       //     invoiceValue: item.price,
+        //       //     customerReference: user?.email || "",
+        //       //     userDefinedField: item._id,
+        //       //   }
+        //       // );
+
+        //       // const execData = execRes.data?.Data || execRes.data;
+        //       // const paymentURL: string | undefined =
+        //       //   execData?.PaymentURL || execData?.paymentURL;
+        //       // const paymentKey =
+        //       //   execData?.InvoiceId || execData?.Key || execData?.PaymentId;
+
+        //       // if (!paymentKey) {
+        //       //   throw new Error("لم يتم استلام معرف الدفع من MyFatoorah.");
+        //       // }
+
+        //       // Finalize enrollment (idempotent)
+        //       try {
+        //         await axios.post(backend + "/user/finalize-payment-enroll", {
+        //           userId: user?.userId,
+        //           itemId: item._id,
+        //           itemType,
+        //           // paymentKey,
+        //           amount: item.price,
+        //           currency: "QAR",
+        //         });
+        //         // callback to parent if provided
+        //         onSuccess?.(execData);
+        //         setSuccess(true);
+        //       } catch (finalizeErr: any) {
+        //         console.error("Finalize enrollment error", finalizeErr);
+        //         setError("الدفع تم ولكن فشل تفعيل المنتج. تواصل مع الدعم.");
+        //       }
+
+        //       // if (paymentURL) {
+        //         // redirect the user for 3DS / finalization
+        //       //   window.location.href = paymentURL;
+        //       // } else {
+        //         // If no special redirect needed, consider success
+        //         setSuccess(true);
+        //         onSuccess?.(execData);
+        //       // }
+        //     } catch (err: any) {
+        //       console.error("ExecutePayment error", err);
+        //       setError("فشل تنفيذ الدفع. حاول مرة أخرى.");
+        //     } finally {
+        //       setLoading(false);
+        //     }
+        //   } else {
+        //     setLoading(false);
+        //     setError("فشل في تهيئة الدفع من MyFatoorah.");
+        //     console.warn("Embedded payment callback failure:", response);
+        //   }
+        // },
+
         callback: async function (response: any) {
-          if (response?.isSuccess || response?.IsSuccess) {
-            try {
-              // Execute payment on backend
-              const execRes = await axios.post(
-                backend + "/api/payments/execute",
-                {
-                  sessionId: sessionId,
-                  invoiceValue: item.price,
-                  customerReference: user?.email || "",
-                  userDefinedField: item._id,
-                }
-              );
+          console.log("MyFatoorah embedded callback:", response);
 
-              const execData = execRes.data?.Data || execRes.data;
-              const paymentURL: string | undefined =
-                execData?.PaymentURL || execData?.paymentURL;
-              const paymentKey =
-                execData?.InvoiceId || execData?.Key || execData?.PaymentId;
+          const sessionId = response?.sessionId;
+          if (!sessionId) {
+            setError("لم يتم استلام SessionId من MyFatoorah.");
+            return;
+          }
 
-              if (!paymentKey) {
-                throw new Error("لم يتم استلام معرف الدفع من MyFatoorah.");
+          try {
+            // Step 1: Execute the actual payment
+            const execRes = await axios.post(
+              backend + "/api/payments/execute",
+              {
+                sessionId: response?.sessionId,
+                invoiceValue: item.price,
+                customerReference: user?.email || "",
+                userDefinedField: item._id,
               }
+            );
 
-              // Finalize enrollment (idempotent)
-              try {
-                await axios.post(backend + "/user/finalize-payment-enroll", {
-                  userId: userId,
-                  itemId: item._id,
-                  itemType,
-                  paymentKey,
-                  amount: item.price,
-                  currency: "QAR",
-                });
-                // callback to parent if provided
-                onSuccess?.(execData);
-                setSuccess(true);
-              } catch (finalizeErr: any) {
-                console.error("Finalize enrollment error", finalizeErr);
-                setError("الدفع تم ولكن فشل تفعيل المنتج. تواصل مع الدعم.");
-              }
+            const execData = execRes.data?.Data || execRes.data;
+            console.log("Execute payment data:", execData);
 
-              if (paymentURL) {
-                // redirect the user for 3DS / finalization
-                window.location.href = paymentURL;
-              } else {
-                // If no special redirect needed, consider success
-                setSuccess(true);
-                onSuccess?.(execData);
-              }
-            } catch (err: any) {
-              console.error("ExecutePayment error", err);
-              setError("فشل تنفيذ الدفع. حاول مرة أخرى.");
-            } finally {
-              setLoading(false);
+            const paymentKey =
+              execData?.InvoiceId || execData?.Key || execData?.PaymentId;
+
+            if (!paymentKey) {
+              throw new Error("لم يتم استلام معرف الفاتورة من MyFatoorah.");
             }
-          } else {
+
+            console.log("Sending finalize-payment-enroll data:", {
+              userId: user?.userId,
+              itemId: item._id,
+              itemType,
+              paymentKey,
+              amount: item.price,
+              currency: "QAR",
+            });
+            // Step 2: Verify and enroll
+            const finalizeRes = await axios.post(
+              backend + "/user/finalize-payment-enroll",
+              {
+                userId: user?.userId,
+                itemId: item._id,
+                itemType,
+                paymentKey,
+                amount: item.price,
+                currency: "QAR",
+              }
+            );
+
+            setSuccess(true);
+            onSuccess?.(finalizeRes.data);
+          } catch (err: any) {
+            const msg =
+              err?.response?.data?.message || err.message || "حدث خطأ";
+            setError(`الدفع تم ولكن فشل تفعيل المنتج: ${msg}`);
+          } finally {
             setLoading(false);
-            setError("فشل في تهيئة الدفع من MyFatoorah.");
-            console.warn("Embedded payment callback failure:", response);
           }
         },
         containerId: "embedded-payment",

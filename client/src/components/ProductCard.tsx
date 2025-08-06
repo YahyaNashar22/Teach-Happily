@@ -7,9 +7,11 @@ import axios from "axios";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { usePayment } from "../hooks/usePayment";
 import PaymentModal from "./PaymentModal";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
   const backend = import.meta.env.VITE_BACKEND;
+  const navigate = useNavigate();
   const { user } = useUserStore();
 
   const [isUserEnrolled, setIsUserEnrolled] = useState<boolean>(false);
@@ -36,15 +38,15 @@ const ProductCard = ({ product }: { product: IProduct }) => {
     setCardNumber,
     setCardExpiry,
     setCardCVV,
-  } = usePayment({ 
-    item: { 
-      _id: product._id, 
-      title: product.title, 
-      price: product.price, 
-      image: typeof product.image === 'string' ? product.image : '', 
-      teacher: product.teacher 
-    }, 
-    itemType: 'product' 
+  } = usePayment({
+    item: {
+      _id: product._id,
+      title: product.title,
+      price: product.price,
+      image: typeof product.image === "string" ? product.image : "",
+      teacher: product.teacher,
+    },
+    itemType: "product",
   });
 
   useEffect(() => {
@@ -101,7 +103,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
             },
           }
         );
-        
+
         if (res.status === 200) {
           // Refresh the page or update the UI to show enrolled state
           window.location.reload();
@@ -126,7 +128,14 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       <li
         className="course-card"
         onClick={() => {
-          if (!isModalOpen) togglePurchaseModal();
+          if (!user?._id) {
+            navigate("/sign-in");
+            return;
+          }
+
+          if (isUserEnrolled) {
+            alert("Already enrolled");
+          } else if (!isModalOpen) togglePurchaseModal();
         }}
         style={{
           backgroundImage: `url(${backend}/${product.image})`,
@@ -148,7 +157,9 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           {!isUserEnrolled && (
             <div className="not-purchased">
               <p className="price">
-                {product.price === 0 ? "مجاني" : `QR ${Number(product.price).toFixed(2)}`}
+                {product.price === 0
+                  ? "مجاني"
+                  : `QR ${Number(product.price).toFixed(2)}`}
               </p>
             </div>
           )}
@@ -166,16 +177,23 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       <PaymentModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        item={{ 
-          _id: product._id, 
-          title: product.title, 
-          price: product.price, 
-          image: typeof product.image === 'string' ? product.image : '', 
-          teacher: product.teacher 
+        item={{
+          _id: product._id,
+          title: product.title,
+          price: product.price,
+          image: typeof product.image === "string" ? product.image : "",
+          teacher: product.teacher,
         }}
         itemType="product"
-        user={user ? { fullName: user.fullName, email: user.email || '', userId: user._id } : null}
-        backend={backend}
+        user={
+          user
+            ? {
+                fullName: user.fullName,
+                email: user.email || "",
+                userId: user._id,
+              }
+            : null
+        }
         loading={loading}
         error={error}
         success={success}

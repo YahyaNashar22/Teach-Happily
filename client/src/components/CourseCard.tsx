@@ -108,14 +108,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
             {inWishlist ? <FaHeart color="var(--yellow)" /> : <FaRegHeart />}
           </div>
         )}
-        {/* <img
-          src={`${backend}/${course.image}`}
-          width={320}
-          height={200}
-          alt={course.title}
-          loading="lazy"
-          className="course-card-image"
-        /> */}
+
         {!feedbackLoader && (
           <div className="card-rating-container">
             <StarRating rating={averageRating} />
@@ -123,43 +116,18 @@ const CourseCard = ({ course }: { course: ICourse }) => {
         )}
         <div className="upper">
           <h2 className="course-title">{course.title}</h2>
-          {/* <p className="course-duration">
-            <FaClock /> {course.duration}
-          </p> */}
-          {/* <div className="teacher-info">
-            <div className="teacher-initials">
-              {course.teacher.fullname?.split(" ")[0][0]}
-            </div>
-            <div className="teacher-divider">
-              <p className="teacher-category">
-                من
-                <span className="hovered"> {course.teacher.fullname} </span>
-                موجود في
-                <span className="hovered"> {course.category.name}</span>
-              </p>
-            </div>
-          </div> */}
+ 
         </div>
 
         <div className="card-footer">
           {isUserEnrolled ? (
-            // <Link
-            //   to={`/course/${course.slug}`}
-            //   className="btn enroll-btn enrolled "
-            // >
-            //   الالتحاق
-            // </Link>
+
             <p className="course-duration">
               <FaClock /> {course.duration}
             </p>
           ) : (
             <div className="not-purchased">
-              {/* <Link
-                to={`/course-showcase/${course.slug}`}
-                className="btn enroll-btn "
-              >
-                عرض المحتوى
-              </Link> */}
+      
               <p className="course-duration">
                 <FaClock /> {course.duration}
               </p>
@@ -174,8 +142,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
           <div className="hover-sheet">
             <div className="hover-sheet-small-border" />
             <p>تقديم {course.teacher.fullname}</p>
-            {/* <p>{course.category.name}</p>
-            <p>{course.description?.slice(0, 100)}...</p> */}
+     
           </div>
         </div>
       </li>

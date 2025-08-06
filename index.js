@@ -103,6 +103,7 @@ app.post('/api/payments/initiate-session', async (req, res) => {
 app.post('/api/payments/execute', async (req, res) => {
     try {
         const { sessionId, invoiceValue, customerReference, userDefinedField } = req.body;
+        console.log('req body in execute payment: ', req.body);
         if (!sessionId || !invoiceValue) {
             return res.status(400).json({ error: 'sessionId and invoiceValue required' });
         }

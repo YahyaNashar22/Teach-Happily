@@ -9,8 +9,9 @@ const mfClient = axios.create({
 });
 
 export async function getPaymentStatus(paymentKey) {
-  const res = await mfClient.get('/v2/GetPaymentStatus', {
-    params: { Key: paymentKey },
+  const res = await mfClient.post('/v2/GetPaymentStatus', {
+    Key: paymentKey,
+    KeyType: 'InvoiceId', // or 'InvoiceId'  || 'PaymentId'
   });
   return res.data;
 }
