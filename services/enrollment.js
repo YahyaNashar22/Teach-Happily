@@ -1,45 +1,108 @@
+import mongoose from 'mongoose';
 import Course from '../models/courseModel.js';
 import DigitalProduct from '../models/digitalProductModel.js';
 import User from '../models/userModel.js';
 
+// export async function enrollInCourse(userId, courseId) {
+//     const course = await Course.findById(courseId);
+//     if (!course) throw new Error('Course not found');
+
+//     const user = await User.findById(userId);
+//     if (!user) throw new Error('User not found');
+
+//     console.log('user to enroll in course: ', user);
+//     console.log('course to be enrolled in: ', course);
+
+//     const alreadyEnrolled = course.enrolledStudents.some(
+//         (u) => u.toString() === userId
+//     );
+//     if (alreadyEnrolled) return { already: true, course };
+
+//     course.enrolledStudents.push(userId);
+//     await course.save();
+
+//     await User.findByIdAndUpdate(userId, { $addToSet: { enrolledCourses: courseId } });
+
+//     // unlockedVideos logic
+//     const existing = user.unlockedVideos.find(
+//         (entry) => entry.courseId.toString() === courseId
+//     );
+
+//     if (existing) {
+//         if (!existing.videos.includes(0)) existing.videos.push(0);
+//     } else {
+//         user.unlockedVideos.push({
+//             courseId,
+//             videos: [0],
+//         });
+//     }
+//     await user.save();
+
+//     console.log('course and user after enrollement: ', { course, user })
+
+//     return { already: false, course };
+// }
+
 export async function enrollInCourse(userId, courseId) {
-    const course = await Course.findById(courseId);
-    if (!course) throw new Error('Course not found');
+    try {
+        const [course, user] = await Promise.all([
+            Course.findById(courseId),
+            User.findById(userId)
+        ]);
 
-    const user = await User.findById(userId);
-    if (!user) throw new Error('User not found');
+        if (!course || !user) {
+            throw new Error(course ? 'User not found' : 'Course not found');
+        }
 
-    console.log('user to enroll in course: ', user);
-    console.log('course to be enrolled in: ', course);
+        // Check if already enrolled
+        const alreadyEnrolled = course.enrolledStudents.some(
+            u => u.toString() === userId
+        );
 
-    const alreadyEnrolled = course.enrolledStudents.some(
-        (u) => u.toString() === userId
-    );
-    if (alreadyEnrolled) return { already: true, course };
+        if (alreadyEnrolled) {
+            return { already: true, course };
+        }
 
-    course.enrolledStudents.push(userId);
-    await course.save();
+        // Start transaction
+        const session = await mongoose.startSession();
+        session.startTransaction();
 
-    await User.findByIdAndUpdate(userId, { $addToSet: { enrolledCourses: courseId } });
+        try {
+            // Update course
+            await Course.findByIdAndUpdate(
+                courseId,
+                { $addToSet: { enrolledStudents: userId } },
+                { session }
+            );
 
-    // unlockedVideos logic
-    const existing = user.unlockedVideos.find(
-        (entry) => entry.courseId.toString() === courseId
-    );
+            // Update user
+            await User.findByIdAndUpdate(
+                userId,
+                {
+                    $addToSet: { enrolledCourses: courseId },
+                    $push: {
+                        unlockedVideos: {
+                            courseId,
+                            videos: [0] // First video unlocked by default
+                        }
+                    }
+                },
+                { session }
+            );
 
-    if (existing) {
-        if (!existing.videos.includes(0)) existing.videos.push(0);
-    } else {
-        user.unlockedVideos.push({
-            courseId,
-            videos: [0],
-        });
+            await session.commitTransaction();
+
+            return { already: false, course };
+        } catch (error) {
+            await session.abortTransaction();
+            throw error;
+        } finally {
+            session.endSession();
+        }
+    } catch (error) {
+        console.error('Enrollment error:', error);
+        throw error;
     }
-    await user.save();
-
-    console.log('course and user after enrollement: ', { course, user })
-
-    return { already: false, course };
 }
 
 export async function enrollInProduct(userId, productId) {

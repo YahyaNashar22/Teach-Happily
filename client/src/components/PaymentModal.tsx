@@ -104,12 +104,143 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   }, [parentSuccess]);
 
   // Kick off embedded payment when user submits
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   // if (!agreeTerms) {
+  //   //   setError("يجب الموافقة على الشروط والأحكام قبل الدفع.");
+  //   //   return;
+  //   // }
+  //   if (!item) {
+  //     setError("لا يوجد عنصر صالح للدفع.");
+  //     return;
+  //   }
+  //   setError("");
+  //   setLoading(true);
+
+  //   try {
+  //     // 1. initiate session from backend
+  //     const sessionRes = await axios.post(
+  //       backend + "/api/payments/initiate-session"
+  //     );
+  //     const data = sessionRes.data?.Data || sessionRes.data;
+  //     const sessionId = data?.SessionId || data?.sessionId;
+  //     const countryCode = data?.CountryCode || data?.countryCode;
+  //     console.log("sessionId: ", sessionId);
+  //     console.log("countryCode: ", countryCode);
+
+  //     const { SessionId, CountryCode } = sessionRes.data.Data;
+  //     console.log("SessionId: ", SessionId);
+  //     console.log("CountryCode: ", CountryCode);
+
+  //     if (!sessionId || !countryCode) {
+  //       throw new Error("فشل الحصول على SessionId أو CountryCode من الخادم.");
+  //     }
+  //     setSessionInfo({ SessionId: sessionId, CountryCode: countryCode });
+
+  //     // 2. load embedded script if not already loaded
+  //     await loadMyFatoorahScript();
+
+  //     // 3. initialize embedded payment
+  //     if (typeof (window as any).myfatoorah === "undefined") {
+  //       throw new Error("مكتبة MyFatoorah لم تُحمل بعد.");
+  //     }
+
+  //     const amountStr = item.price.toFixed(2);
+
+  //     (window as any).myfatoorah.init({
+  //       sessionId: SessionId,
+  //       countryCode: CountryCode,
+  //       currencyCode: "QAR", // fixed for Qatar
+  //       amount: amountStr,
+
+  //       callback: async function (response: any) {
+  //         console.log("MyFatoorah embedded callback:", response);
+
+  //         const sessionId = response?.sessionId;
+  //         if (!sessionId) {
+  //           setError("لم يتم استلام SessionId من MyFatoorah.");
+  //           return;
+  //         }
+
+  //         try {
+  //           // Step 1: Execute the actual payment
+  //           const execRes = await axios.post(
+  //             backend + "/api/payments/execute",
+  //             {
+  //               sessionId: response?.sessionId,
+  //               invoiceValue: item.price,
+  //               customerReference: user?.email || "",
+  //               userDefinedField: item._id,
+  //             }
+  //           );
+
+  //           if (execRes.data?.Data?.PaymentURL) {
+  //             window.location.href = execRes.data.Data.PaymentURL; // Critical redirect
+  //           } else {
+  //             // If no redirect URL (shouldn't happen)
+  //             throw new Error("Missing 3DS verification URL");
+  //           }
+
+  //           const execData = execRes.data?.Data || execRes.data;
+  //           console.log("Execute payment data:", execData);
+
+  //           const paymentKey =
+  //             execData?.InvoiceId || execData?.Key || execData?.PaymentId;
+
+  //           if (!paymentKey) {
+  //             throw new Error("لم يتم استلام معرف الفاتورة من MyFatoorah.");
+  //           }
+
+  //           console.log("Sending finalize-payment-enroll data:", {
+  //             userId: user?.userId,
+  //             itemId: item._id,
+  //             itemType,
+  //             paymentKey,
+  //             amount: item.price,
+  //             currency: "QAR",
+  //           });
+  //           // Step 2: Verify and enroll
+  //           const finalizeRes = await axios.post(
+  //             backend + "/user/finalize-payment-enroll",
+  //             {
+  //               userId: user?.userId,
+  //               itemId: item._id,
+  //               itemType,
+  //               paymentKey,
+  //               amount: item.price,
+  //               currency: "QAR",
+  //             }
+  //           );
+
+  //           setSuccess(true);
+  //           onSuccess?.(finalizeRes.data);
+  //         } catch (err: any) {
+  //           console.log(err);
+  //           const msg =
+  //             err?.response?.data?.message || err.message || "حدث خطأ";
+  //           setError(`الدفع تم ولكن فشل تفعيل المنتج: ${msg}`);
+  //         } finally {
+  //           setLoading(false);
+  //         }
+  //       },
+  //       containerId: "embedded-payment",
+  //       paymentOptions: ["Card"], // you can add other supported options if enabled
+  //     });
+
+  //     setExecuted(true);
+  //   } catch (err: any) {
+  //     console.error("Payment flow error", err);
+  //     setError(
+  //       err?.response?.data?.message ||
+  //         err?.message ||
+  //         "حدث خطأ أثناء إعداد الدفع."
+  //     );
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!agreeTerms) {
-    //   setError("يجب الموافقة على الشروط والأحكام قبل الدفع.");
-    //   return;
-    // }
     if (!item) {
       setError("لا يوجد عنصر صالح للدفع.");
       return;
@@ -118,54 +249,44 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     setLoading(true);
 
     try {
-      // 1. initiate session from backend
+      // 1. Initiate session
       const sessionRes = await axios.post(
-        backend + "/api/payments/initiate-session"
+        `${backend}/api/payments/initiate-session`
       );
-      const data = sessionRes.data?.Data || sessionRes.data;
-      const sessionId = data?.SessionId || data?.sessionId;
-      const countryCode = data?.CountryCode || data?.countryCode;
-      console.log("sessionId: ", sessionId);
-      console.log("countryCode: ", countryCode);
-
       const { SessionId, CountryCode } = sessionRes.data.Data;
-      console.log("SessionId: ", SessionId);
-      console.log("CountryCode: ", CountryCode);
 
-      if (!sessionId || !countryCode) {
-        throw new Error("فشل الحصول على SessionId أو CountryCode من الخادم.");
+      if (!SessionId || !CountryCode) {
+        throw new Error("Failed to get SessionId or CountryCode");
       }
-      setSessionInfo({ SessionId: sessionId, CountryCode: countryCode });
 
-      // 2. load embedded script if not already loaded
+      // 2. Load MyFatoorah script
       await loadMyFatoorahScript();
 
-      // 3. initialize embedded payment
-      if (typeof (window as any).myfatoorah === "undefined") {
-        throw new Error("مكتبة MyFatoorah لم تُحمل بعد.");
-      }
-
+      // 3. Initialize embedded payment
       const amountStr = item.price.toFixed(2);
 
       (window as any).myfatoorah.init({
         sessionId: SessionId,
         countryCode: CountryCode,
-        currencyCode: "QAR", // fixed for Qatar
+        currencyCode: "QAR",
         amount: amountStr,
-
-        callback: async function (response: any) {
-          console.log("MyFatoorah embedded callback:", response);
-
-          const sessionId = response?.sessionId;
-          if (!sessionId) {
-            setError("لم يتم استلام SessionId من MyFatoorah.");
-            return;
-          }
-
+        callback: async (response: any) => {
           try {
-            // Step 1: Execute the actual payment
+            // Store payment data in localStorage before redirect
+            localStorage.setItem(
+              "paymentData",
+              JSON.stringify({
+                userId: user?.userId,
+                itemId: item._id,
+                itemType,
+                amount: item.price,
+                email: user?.email,
+              })
+            );
+
+            // Execute payment to get PaymentURL
             const execRes = await axios.post(
-              backend + "/api/payments/execute",
+              `${backend}/api/payments/execute`,
               {
                 sessionId: response?.sessionId,
                 invoiceValue: item.price,
@@ -175,70 +296,73 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
             );
 
             if (execRes.data?.Data?.PaymentURL) {
-              window.location.href = execRes.data.Data.PaymentURL; // Critical redirect
-            } else {
-              // If no redirect URL (shouldn't happen)
-              throw new Error("Missing 3DS verification URL");
-            }
+              // Open in new tab to preserve state
+              const newWindow = window.open(
+                execRes.data.Data.PaymentURL,
+                "_blank"
+              );
 
-            const execData = execRes.data?.Data || execRes.data;
-            console.log("Execute payment data:", execData);
-
-            const paymentKey =
-              execData?.InvoiceId || execData?.Key || execData?.PaymentId;
-
-            if (!paymentKey) {
-              throw new Error("لم يتم استلام معرف الفاتورة من MyFatoorah.");
-            }
-
-            console.log("Sending finalize-payment-enroll data:", {
-              userId: user?.userId,
-              itemId: item._id,
-              itemType,
-              paymentKey,
-              amount: item.price,
-              currency: "QAR",
-            });
-            // Step 2: Verify and enroll
-            const finalizeRes = await axios.post(
-              backend + "/user/finalize-payment-enroll",
-              {
-                userId: user?.userId,
-                itemId: item._id,
-                itemType,
-                paymentKey,
-                amount: item.price,
-                currency: "QAR",
+              if (!newWindow) {
+                throw new Error("Please allow popups for payment processing");
               }
-            );
 
-            setSuccess(true);
-            onSuccess?.(finalizeRes.data);
+              // Poll for payment completion
+              const pollCompletion = async () => {
+                try {
+                  const paymentKey = execRes.data.Data.InvoiceId;
+                  const verifyRes = await axios.post(
+                    `${backend}/user/finalize-payment-enroll`,
+                    {
+                      paymentKey,
+                      userId: user?.userId,
+                      itemId: item._id,
+                      itemType,
+                      amount: item.price,
+                    }
+                  );
+
+                  if (verifyRes.data.payment?.status === "Paid") {
+                    setSuccess(true);
+                    onSuccess?.(verifyRes.data);
+                    newWindow.close();
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 2000);
+                  } else {
+                    setTimeout(pollCompletion, 2000); // Retry after 2 seconds
+                  }
+                } catch (error) {
+                  console.error("Verification error:", error);
+                  setError("Payment verification failed");
+                  newWindow.close();
+                }
+              };
+
+              // Start polling after 20 seconds (give time for payment)
+              setTimeout(pollCompletion, 20000);
+            } else {
+              throw new Error("Missing payment URL");
+            }
           } catch (err: any) {
-            console.log(err);
-            const msg =
-              err?.response?.data?.message || err.message || "حدث خطأ";
-            setError(`الدفع تم ولكن فشل تفعيل المنتج: ${msg}`);
+            console.error("Payment error:", err);
+            setError(
+              err.response?.data?.message || err.message || "Payment failed"
+            );
           } finally {
             setLoading(false);
           }
         },
         containerId: "embedded-payment",
-        paymentOptions: ["Card"], // you can add other supported options if enabled
+        paymentOptions: ["Card"],
       });
 
       setExecuted(true);
     } catch (err: any) {
-      console.error("Payment flow error", err);
-      setError(
-        err?.response?.data?.message ||
-          err?.message ||
-          "حدث خطأ أثناء إعداد الدفع."
-      );
+      console.error("Payment initiation error:", err);
+      setError(err.response?.data?.message || err.message || "Payment failed");
       setLoading(false);
     }
   };
-
   const loadMyFatoorahScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       // avoid double injection

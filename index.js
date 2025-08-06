@@ -162,8 +162,8 @@ app.post('/api/payments/execute', async (req, res) => {
             // Optional:
             CustomerReference: customerReference || '',
             UserDefinedField: userDefinedField || '',
-            CallBackUrl: process.env.CALLBACK_URL,
-            ErrorUrl: process.env.ERROR_URL,
+            CallBackUrl: `${process.env.FRONTEND_URL}/payment-complete`,
+            ErrorUrl: `${process.env.FRONTEND_URL}/payment-error`,
             // CurrencyIso can be provided if needed; otherwise uses defaults from account
         };
 
@@ -201,6 +201,16 @@ app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
+
+// Add this to your router
+app.get('/payment/success', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
+app.get('/payment/error', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
