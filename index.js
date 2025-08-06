@@ -17,7 +17,6 @@ import emailRouter from './routes/emailRoutes.js';
 import feedbackRouter from './routes/feedbackRoutes.js';
 import digitalProductRouter from './routes/digitalProductRoutes.js';
 import certificationRouter from './routes/certificationRoutes.js';
-import paymentRouter from './routes/paymentRoutes.js';
 import newsLetterRouter from './routes/newsLetterRoutes.js';
 import axios from 'axios';
 
@@ -53,7 +52,6 @@ app.use('/feedback', feedbackRouter);
 app.use('/digital-product', digitalProductRouter);
 app.use('/certification', certificationRouter);
 app.use('/news-letter', newsLetterRouter);
-app.use('/payment', paymentRouter);
 
 
 // test nodemailer
@@ -86,7 +84,6 @@ const mfClient = axios.create({
 
 
 app.post("/api/payments/webhook", express.json(), async (req, res) => {
-    const payload = req.body;
     try {
         const payload = req.body;
         console.log("🔔 Received webhook:", payload);
@@ -171,7 +168,13 @@ app.post('/api/payments/execute', async (req, res) => {
         };
 
         const response = await mfClient.post('/v2/ExecutePayment', payload);
-        return res.json(response.data);
+
+        console.log("response after ExecutePayment api: ", response);
+        // Return the payment URL for redirection
+        return res.json({
+            ...response.data,
+            paymentUrl: response.data.Data.PaymentURL // Contains 3DS URL
+        });
     } catch (err) {
         console.error('ExecutePayment error', err.response?.data || err.message);
         return res.status(500).json({ error: 'Failed to execute payment' });

@@ -9,6 +9,9 @@ export async function enrollInCourse(userId, courseId) {
     const user = await User.findById(userId);
     if (!user) throw new Error('User not found');
 
+    console.log('user to enroll in course: ', user);
+    console.log('course to be enrolled in: ', course);
+
     const alreadyEnrolled = course.enrolledStudents.some(
         (u) => u.toString() === userId
     );
@@ -33,6 +36,8 @@ export async function enrollInCourse(userId, courseId) {
         });
     }
     await user.save();
+
+    console.log('course and user after enrollement: ', { course, user })
 
     return { already: false, course };
 }
