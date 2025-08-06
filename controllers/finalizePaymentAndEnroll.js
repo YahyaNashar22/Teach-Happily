@@ -2,12 +2,16 @@ import { getPaymentStatus } from '../utils/myfatoorah.js';
 import Payment from '../models/Payment.js';
 import { enrollInCourse, enrollInProduct } from '../services/enrollment.js';
 
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const finalizePaymentAndEnroll = async (req, res) => {
   const {
     userId,
     itemId,
     itemType, // 'course' | 'product'
-    paymentKey, // MyFatoorah payment key (used in GetPaymentStatus)
+    paymentKey,
     amount,
     currency = 'QAR',
   } = req.body;
@@ -21,19 +25,31 @@ export const finalizePaymentAndEnroll = async (req, res) => {
   if (!paymentKey) return res.status(400).json({ message: 'Missing paymentKey' });
 
   try {
-    // 1. Idempotent payment record lookup or creation
     let paymentRecord = await Payment.findOne({ paymentId: paymentKey });
 
-    // 2. Verify actual status from MyFatoorah
-    const statusResp = await getPaymentStatus(paymentKey);
-    console.log('statusResp: ', statusResp);
-    const paymentData = statusResp?.Data || statusResp;
-    const invoiceStatus =
-      paymentData?.InvoiceStatus || paymentData?.PaymentStatus || '';
-    const isPaid =
-      typeof invoiceStatus === 'string'
+    let paymentData;
+    let invoiceStatus = '';
+    let isPaid = false;
+
+    // Retry up to 3 times, waiting 5 seconds each
+    for (let retry = 0; retry < 3; retry++) {
+      const statusResp = await getPaymentStatus(paymentKey);
+      paymentData = statusResp?.Data || statusResp;
+
+      invoiceStatus =
+        paymentData?.InvoiceStatus || paymentData?.PaymentStatus || '';
+
+      isPaid = typeof invoiceStatus === 'string'
         ? invoiceStatus.toLowerCase().includes('paid')
         : false;
+
+      if (isPaid) break;
+
+      await delay(5000); // wait 5 seconds before retrying
+    }
+
+    console.log('Final statusResp: ', paymentData);
+    console.log('invoiceStatus:', invoiceStatus);
 
     if (!paymentRecord) {
       paymentRecord = new Payment({
