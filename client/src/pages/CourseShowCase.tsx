@@ -478,7 +478,6 @@ const CourseShowCase = () => {
                     }
                   : null
               }
-              backend={backend}
               loading={loading}
               error={error}
               success={success}
