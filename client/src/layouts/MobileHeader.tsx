@@ -1,16 +1,23 @@
 import "../css/MobileHeader.css";
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/Logo_white.png";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useUserStore } from "../store";
 
 const MobileHeader = () => {
-  const { user } = useUserStore();
+  const { user, clearUser } = useUserStore();
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  const handleLogout = () => {
+    clearUser();
+    navigate("/");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,6 +93,8 @@ const MobileHeader = () => {
           >
             اعرض منتجك الرقمي لدينا
           </Link>
+
+          {user && <li  className="nav-link" onClick={() => handleLogout()}>تسجيل خروج</li>}
 
           {user ? (
             user.role === "admin" ? (
