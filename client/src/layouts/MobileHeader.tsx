@@ -16,6 +16,7 @@ const MobileHeader = () => {
 
   const handleLogout = () => {
     clearUser();
+    setMenuOpen(false);
     navigate("/");
   };
 
@@ -67,7 +68,11 @@ const MobileHeader = () => {
           >
             المدربون و المستشارون
           </Link>
-          <Link to="/digital-products" className="nav-link">
+          <Link
+            to="/digital-products"
+            onClick={() => setMenuOpen(false)}
+            className="nav-link"
+          >
             المنتجات الرقمية
           </Link>
           <Link
@@ -94,15 +99,27 @@ const MobileHeader = () => {
             اعرض منتجك الرقمي لدينا
           </Link>
 
-          {user && <li  className="nav-link" onClick={() => handleLogout()}>تسجيل خروج</li>}
+          {user && (
+            <li className="nav-link" onClick={() => handleLogout()}>
+              تسجيل خروج
+            </li>
+          )}
 
           {user ? (
             user.role === "admin" ? (
-              <Link to="/dashboard" className="mob-profile">
+              <Link
+                to="/dashboard"
+                className="mob-profile"
+                onClick={() => setMenuOpen(false)}
+              >
                 {user.fullName.split(" ")[0][0]}
               </Link>
             ) : (
-              <Link to="/profile" className="mob-profile">
+              <Link
+                to="/profile"
+                className="mob-profile"
+                onClick={() => setMenuOpen(false)}
+              >
                 {user.fullName.split(" ")[0][0]}
               </Link>
             )
