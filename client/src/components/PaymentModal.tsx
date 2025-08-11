@@ -262,6 +262,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       // 2. Load MyFatoorah script
       await loadMyFatoorahScript();
 
+      if (embeddedContainerRef.current) {
+        embeddedContainerRef.current.innerHTML = "";
+      }
+
       // 3. Initialize embedded payment
       const amountStr = item.price.toFixed(2);
 
@@ -417,6 +421,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           margin: "auto",
           animation: "modalFadeIn 0.5s cubic-bezier(.4,1.4,.6,1) both",
           pointerEvents: "auto",
+          maxHeight: "90vh",
+          overflowY: "auto",
         }}
         onClick={(e) => e.stopPropagation()}
       >
