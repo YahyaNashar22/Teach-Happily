@@ -122,7 +122,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       if (!SessionId || !CountryCode) {
         throw new Error("Failed to get SessionId or CountryCode");
       }
-
       // 2. Load MyFatoorah script
       await loadMyFatoorahScript();
 
@@ -138,6 +137,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         countryCode: CountryCode,
         currencyCode: "QAR",
         amount: amountStr,
+        containerId: "embedded-payment",
+        paymentOptions: ["ApplePay", "Card"],
         callback: async (response: any) => {
           try {
             // Store payment data in localStorage before redirect
@@ -152,6 +153,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
               })
             );
 
+            console.log("here");
+
             // Execute payment to get PaymentURL
             const execRes = await axios.post(
               `${backend}/api/payments/execute`,
@@ -163,51 +166,11 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
               }
             );
 
+            console.log("execRes: ", execRes);
+
             if (execRes.data?.Data?.PaymentURL) {
-              // Open in new tab to preserve state
-              const newWindow = window.open(
-                execRes.data.Data.PaymentURL,
-                "_blank"
-              );
-
-              if (!newWindow) {
-                throw new Error("Please allow popups for payment processing");
-              }
-
-              // Poll for payment completion
-              const pollCompletion = async () => {
-                try {
-                  const paymentKey = execRes.data.Data.InvoiceId;
-                  const verifyRes = await axios.post(
-                    `${backend}/user/finalize-payment-enroll`,
-                    {
-                      paymentKey,
-                      userId: user?.userId,
-                      itemId: item._id,
-                      itemType,
-                      amount: item.price,
-                    }
-                  );
-
-                  if (verifyRes.data.payment?.status === "Paid") {
-                    setSuccess(true);
-                    onSuccess?.(verifyRes.data);
-                    newWindow.close();
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 2000);
-                  } else {
-                    setTimeout(pollCompletion, 2000); // Retry after 2 seconds
-                  }
-                } catch (error) {
-                  console.error("Verification error:", error);
-                  setError("Payment verification failed");
-                  newWindow.close();
-                }
-              };
-
-              // Start polling after 20 seconds (give time for payment)
-              setTimeout(pollCompletion, 20000);
+              // Redirect in same tab
+              window.location.href = execRes.data.Data.PaymentURL;
             } else {
               throw new Error("Missing payment URL");
             }
@@ -220,8 +183,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
             setLoading(false);
           }
         },
-        containerId: "embedded-payment",
-        paymentOptions: ["ApplePay", "Card"],
       });
 
       setExecuted(true);

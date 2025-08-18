@@ -169,7 +169,7 @@ app.post('/api/payments/execute', async (req, res) => {
             // Optional:
             CustomerReference: customerReference || '',
             UserDefinedField: userDefinedField || '',
-            CallBackUrl: `${process.env.FRONTEND_URL}/payment-complete`,
+            CallBackUrl: `${process.env.FRONTEND_URL}/payment-callback`,
             ErrorUrl: `${process.env.FRONTEND_URL}/payment-error`,
             // CurrencyIso can be provided if needed; otherwise uses defaults from account
         };

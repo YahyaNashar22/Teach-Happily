@@ -4,8 +4,6 @@ import { Routes, Route } from "react-router-dom";
 import Loading from "../components/Loading.tsx";
 import MainLayout from "./MainLayout.tsx";
 import { useUserStore } from "../store.ts";
-import PaymentCallbackHandler from "../components/PaymentCallbackHandler.tsx";
-import PaymentError from "../components/PaymentError.tsx";
 
 const NotFound = lazy(() => import("../pages/NotFound.tsx"));
 
@@ -39,6 +37,8 @@ const TeachWithUs = lazy(() => import("../pages/TeachWithUs.tsx"));
 const CourseShowCase = lazy(() => import("../pages/CourseShowCase.tsx"));
 const TeacherShowCase = lazy(() => import("../pages/TeacherShowCase.tsx"));
 
+const PaymentCallback = lazy(() => import("../pages/PaymentCallback.tsx"));
+
 const AppRoutes = () => {
   const { user } = useUserStore();
   return (
@@ -68,12 +68,9 @@ const AppRoutes = () => {
 
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/teach-with-us" element={<TeachWithUs />} />
+          
+          <Route path="/payment-callback" element={<PaymentCallback />} />
 
-          <Route
-            path="/payment-complete"
-            element={<PaymentCallbackHandler />}
-          />
-          <Route path="/payment-error" element={<PaymentError />} />
         </Route>
 
         {/* Sign in/up routes */}
