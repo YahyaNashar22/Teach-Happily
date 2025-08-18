@@ -208,6 +208,9 @@ app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
+    if (req.path.startsWith('/.well-known/')) {
+        return next(); // let express.static handle it
+    }
     res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
