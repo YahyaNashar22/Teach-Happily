@@ -407,37 +407,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
               </div>
             )}
           </div>
-          {/* 
-          <div className="checkout-terms" style={{ marginBottom: 24 }}>
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                fontSize: 15,
-                color: "#8f438c",
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={agreeTerms}
-                onChange={() => setAgreeTerms(!agreeTerms)}
-                style={{ accentColor: "#8f438c" }}
-              />
-              أوافق على{" "}
-              <a
-                href="#"
-                style={{
-                  color: "#8f438c",
-                  textDecoration: "underline",
-                  marginLeft: 4,
-                }}
-              >
-                الشروط والأحكام
-              </a>
-            </label>
-          </div> */}
-
           {error && (
             <div
               style={{
