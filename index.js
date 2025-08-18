@@ -188,21 +188,6 @@ app.post('/api/payments/execute', async (req, res) => {
     }
 });
 
-// 3. (Optional) GetPaymentStatus
-app.get('/api/payments/status/:paymentId', async (req, res) => {
-    try {
-        const paymentId = req.params.paymentId;
-        const response = await mfClient.get(`/v2/GetPaymentStatus`, {
-            params: { Key: paymentId },
-        });
-        return res.json(response.data);
-    } catch (err) {
-        console.error('GetPaymentStatus error', err.response?.data || err.message);
-        return res.status(500).json({ error: 'Failed to get payment status' });
-    }
-});
-
-
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
@@ -214,15 +199,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
-
-// Add this to your router
-app.get('/payment/success', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-});
-
-app.get('/payment/error', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-});
 
 // ✅ Multer file size/type error handling middleware
 app.use((err, req, res, next) => {
