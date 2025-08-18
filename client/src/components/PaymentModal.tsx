@@ -364,43 +364,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           </div>
         </div>
 
-        {/* <div
-          className="checkout-payment-method"
-          style={{
-            marginBottom: 18,
-            borderBottom: "1.5px solid #f0e6fa",
-            paddingBottom: 18,
-          }}
-        >
-          <div
-            style={{
-              fontWeight: 600,
-              marginBottom: 8,
-              color: "#8f438c",
-            }}
-          >
-            طريقة الدفع
-          </div>
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              fontSize: 16,
-            }}
-          >
-            <input
-              type="radio"
-              name="payment-method"
-              checked={paymentMethod === "credit"}
-              onChange={() => setPaymentMethod("credit")}
-              style={{ accentColor: "#8f438c" }}
-            />
-            <FaCreditCard style={{ color: "#8f438c", fontSize: 22 }} /> بطاقة
-            ائتمان
-          </label>
-        </div> */}
-
         <form onSubmit={handleSubmit}>
           {/* Embedded payment container */}
           <div
