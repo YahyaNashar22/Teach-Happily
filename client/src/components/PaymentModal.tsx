@@ -103,142 +103,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     setSuccess(parentSuccess);
   }, [parentSuccess]);
 
-  // Kick off embedded payment when user submits
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   // if (!agreeTerms) {
-  //   //   setError("يجب الموافقة على الشروط والأحكام قبل الدفع.");
-  //   //   return;
-  //   // }
-  //   if (!item) {
-  //     setError("لا يوجد عنصر صالح للدفع.");
-  //     return;
-  //   }
-  //   setError("");
-  //   setLoading(true);
-
-  //   try {
-  //     // 1. initiate session from backend
-  //     const sessionRes = await axios.post(
-  //       backend + "/api/payments/initiate-session"
-  //     );
-  //     const data = sessionRes.data?.Data || sessionRes.data;
-  //     const sessionId = data?.SessionId || data?.sessionId;
-  //     const countryCode = data?.CountryCode || data?.countryCode;
-  //     console.log("sessionId: ", sessionId);
-  //     console.log("countryCode: ", countryCode);
-
-  //     const { SessionId, CountryCode } = sessionRes.data.Data;
-  //     console.log("SessionId: ", SessionId);
-  //     console.log("CountryCode: ", CountryCode);
-
-  //     if (!sessionId || !countryCode) {
-  //       throw new Error("فشل الحصول على SessionId أو CountryCode من الخادم.");
-  //     }
-  //     setSessionInfo({ SessionId: sessionId, CountryCode: countryCode });
-
-  //     // 2. load embedded script if not already loaded
-  //     await loadMyFatoorahScript();
-
-  //     // 3. initialize embedded payment
-  //     if (typeof (window as any).myfatoorah === "undefined") {
-  //       throw new Error("مكتبة MyFatoorah لم تُحمل بعد.");
-  //     }
-
-  //     const amountStr = item.price.toFixed(2);
-
-  //     (window as any).myfatoorah.init({
-  //       sessionId: SessionId,
-  //       countryCode: CountryCode,
-  //       currencyCode: "QAR", // fixed for Qatar
-  //       amount: amountStr,
-
-  //       callback: async function (response: any) {
-  //         console.log("MyFatoorah embedded callback:", response);
-
-  //         const sessionId = response?.sessionId;
-  //         if (!sessionId) {
-  //           setError("لم يتم استلام SessionId من MyFatoorah.");
-  //           return;
-  //         }
-
-  //         try {
-  //           // Step 1: Execute the actual payment
-  //           const execRes = await axios.post(
-  //             backend + "/api/payments/execute",
-  //             {
-  //               sessionId: response?.sessionId,
-  //               invoiceValue: item.price,
-  //               customerReference: user?.email || "",
-  //               userDefinedField: item._id,
-  //             }
-  //           );
-
-  //           if (execRes.data?.Data?.PaymentURL) {
-  //             window.location.href = execRes.data.Data.PaymentURL; // Critical redirect
-  //           } else {
-  //             // If no redirect URL (shouldn't happen)
-  //             throw new Error("Missing 3DS verification URL");
-  //           }
-
-  //           const execData = execRes.data?.Data || execRes.data;
-  //           console.log("Execute payment data:", execData);
-
-  //           const paymentKey =
-  //             execData?.InvoiceId || execData?.Key || execData?.PaymentId;
-
-  //           if (!paymentKey) {
-  //             throw new Error("لم يتم استلام معرف الفاتورة من MyFatoorah.");
-  //           }
-
-  //           console.log("Sending finalize-payment-enroll data:", {
-  //             userId: user?.userId,
-  //             itemId: item._id,
-  //             itemType,
-  //             paymentKey,
-  //             amount: item.price,
-  //             currency: "QAR",
-  //           });
-  //           // Step 2: Verify and enroll
-  //           const finalizeRes = await axios.post(
-  //             backend + "/user/finalize-payment-enroll",
-  //             {
-  //               userId: user?.userId,
-  //               itemId: item._id,
-  //               itemType,
-  //               paymentKey,
-  //               amount: item.price,
-  //               currency: "QAR",
-  //             }
-  //           );
-
-  //           setSuccess(true);
-  //           onSuccess?.(finalizeRes.data);
-  //         } catch (err: any) {
-  //           console.log(err);
-  //           const msg =
-  //             err?.response?.data?.message || err.message || "حدث خطأ";
-  //           setError(`الدفع تم ولكن فشل تفعيل المنتج: ${msg}`);
-  //         } finally {
-  //           setLoading(false);
-  //         }
-  //       },
-  //       containerId: "embedded-payment",
-  //       paymentOptions: ["Card"], // you can add other supported options if enabled
-  //     });
-
-  //     setExecuted(true);
-  //   } catch (err: any) {
-  //     console.error("Payment flow error", err);
-  //     setError(
-  //       err?.response?.data?.message ||
-  //         err?.message ||
-  //         "حدث خطأ أثناء إعداد الدفع."
-  //     );
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!item) {
@@ -357,7 +221,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           }
         },
         containerId: "embedded-payment",
-        paymentOptions: ["Card"],
+        paymentOptions: ["ApplePay", "Card"],
       });
 
       setExecuted(true);
@@ -500,7 +364,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           </div>
         </div>
 
-        <div
+        {/* <div
           className="checkout-payment-method"
           style={{
             marginBottom: 18,
@@ -535,7 +399,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
             <FaCreditCard style={{ color: "#8f438c", fontSize: 22 }} /> بطاقة
             ائتمان
           </label>
-        </div>
+        </div> */}
 
         <form onSubmit={handleSubmit}>
           {/* Embedded payment container */}
