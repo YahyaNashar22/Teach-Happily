@@ -72,6 +72,9 @@ const SignupPage = () => {
       <form className="form-container" onSubmit={handleSubmit}>
         <label className="sign-label">
           الاسم
+          <span className="sign-label-desc">
+            الرجاء إدخال الاسم الكامل كما سيظهر في الشهادة
+          </span>
           <input
             type="text"
             name="fullName"
