@@ -41,7 +41,6 @@ app.use(express.json({ limit: '1gb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1gb' }));
 app.use(cookieParser());
 app.use(express.static("uploads"));
-app.use(express.static(".well-known", { dotfiles: "allow" }));
 
 // Routes / APIs
 app.use('/user', userRouter);
