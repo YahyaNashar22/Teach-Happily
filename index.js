@@ -19,6 +19,7 @@ import digitalProductRouter from './routes/digitalProductRoutes.js';
 import certificationRouter from './routes/certificationRoutes.js';
 import newsLetterRouter from './routes/newsLetterRoutes.js';
 import axios from 'axios';
+import { finalizePaymentAndEnroll } from './controllers/finalizePaymentAndEnroll.js';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -156,7 +157,7 @@ app.post('/api/payments/initiate-session', async (req, res) => {
 // 2. Execute Payment (after frontend gets session and calls callback)
 app.post('/api/payments/execute', async (req, res) => {
     try {
-        const { sessionId, invoiceValue, customerReference, userDefinedField } = req.body;
+        const { sessionId, invoiceValue, customerReference, userDefinedField, invoiceItems } = req.body;
         console.log('req body in execute payment: ', req.body);
         if (!sessionId || !invoiceValue) {
             return res.status(400).json({ error: 'sessionId and invoiceValue required' });
@@ -169,6 +170,7 @@ app.post('/api/payments/execute', async (req, res) => {
             // Optional:
             CustomerReference: customerReference || '',
             UserDefinedField: userDefinedField || '',
+            InvoiceItems: invoiceItems,
             CallBackUrl: `${process.env.FRONTEND_URL}/payment-callback`,
             ErrorUrl: `${process.env.FRONTEND_URL}/payment-error`,
             // CurrencyIso can be provided if needed; otherwise uses defaults from account
@@ -185,6 +187,47 @@ app.post('/api/payments/execute', async (req, res) => {
     } catch (err) {
         console.error('ExecutePayment error', err.response?.data || err.message);
         return res.status(500).json({ error: 'Failed to execute payment' });
+    }
+});
+
+// 3. Verify payment status
+app.post('/api/payments/status', async (req, res) => {
+    try {
+        const { paymentId } = req.body;
+        if (!paymentId) return res.status(400).json({ error: 'paymentId required' });
+
+        const response = await mfClient.post('/v2/GetPaymentStatus', {
+            Key: paymentId,
+            KeyType: 'PaymentId'
+        });
+
+        console.log("PaymentStatus response:", response.data);
+
+
+        const status = response.data?.Data?.InvoiceStatus;
+
+        if (status === 'Paid') {
+            const resData = response.data.Data;
+
+            console.log("res data in payment status", resData);
+
+            // ✅ Save payment record, enroll user, etc.
+            await finalizePaymentAndEnroll(resData.CustomerReference, resData.InvoiceItems[0].ItemName, resData.UserDefinedField);
+            return res.json({
+                success: true,
+                message: "Payment successful",
+                data: response.data.Data,
+            });
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: `Payment status: ${status}`,
+                data: response.data.Data,
+            });
+        }
+    } catch (err) {
+        console.error('GetPaymentStatus error', err.response?.data || err.message);
+        return res.status(500).json({ error: 'Failed to check payment status' });
     }
 });
 

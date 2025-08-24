@@ -9,9 +9,9 @@ const PaymentSchema = new Schema(
         itemType: { type: String, required: true, enum: ['course', 'product'] },
         amount: { type: Number, required: true },
         currency: { type: String, default: 'QAR' },
-        paymentId: { type: String, required: true, unique: true }, // e.g., payment key from MyFatoorah
+        sessionId: { type: String, required: true, unique: true }, // e.g., payment key from MyFatoorah
         status: { type: String, required: true, default: 'Pending' },
-        raw: { type: Schema.Types.Mixed },
+        // raw: { type: Schema.Types.Mixed },
     },
     { timestamps: true }
 );

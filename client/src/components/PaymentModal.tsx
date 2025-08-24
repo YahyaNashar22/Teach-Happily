@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import React, { useEffect, useRef, useState } from "react";
-import { FaCreditCard } from "react-icons/fa";
 import axios from "axios";
 
 interface PaymentItem {
@@ -12,9 +7,7 @@ interface PaymentItem {
   title: string;
   price: number;
   image: string;
-  teacher?: {
-    fullname: string;
-  };
+  teacher?: { fullname: string };
 }
 
 interface User {
@@ -29,30 +22,6 @@ interface PaymentModalProps {
   item: PaymentItem;
   itemType: "course" | "product";
   user: User | null;
-
-  // States (some become vestigial when using embedded)
-  loading: boolean;
-  error: string;
-  success: boolean;
-  agreeTerms: boolean;
-  paymentMethod: string; // expecting "credit" here
-
-  // (Optional) kept so parent can still control if needed
-  cardName: string;
-  cardNumber: string;
-  cardExpiry: string;
-  cardCVV: string;
-
-  // Actions from parent
-  onPaymentSubmit: (e: React.FormEvent) => void; // will be overridden internally
-  setAgreeTerms: (value: boolean) => void;
-  setPaymentMethod: (value: string) => void;
-  setCardName: (value: string) => void;
-  setCardNumber: (value: string) => void;
-  setCardExpiry: (value: string) => void;
-  setCardCVV: (value: string) => void;
-
-  // Optional: callback after payment success to let parent update order
   onSuccess?: (data: any) => void;
 }
 
@@ -62,443 +31,239 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   item,
   itemType,
   user,
-  loading: parentLoading,
-  error: parentError,
-  success: parentSuccess,
-  agreeTerms,
-  paymentMethod,
-  cardName,
-  cardNumber,
-  cardExpiry,
-  cardCVV,
-  onPaymentSubmit, // will not be used directly for embedded flow
-  setAgreeTerms,
-  setPaymentMethod,
-  setCardName,
-  setCardNumber,
-  setCardExpiry,
-  setCardCVV,
   onSuccess,
 }) => {
   const backend = import.meta.env.VITE_BACKEND;
 
-  const [loading, setLoading] = useState<boolean>(parentLoading);
-  const [error, setError] = useState<string>(parentError);
-  const [success, setSuccess] = useState<boolean>(parentSuccess);
-  const [sessionInfo, setSessionInfo] = useState<{
-    SessionId?: string;
-    CountryCode?: string;
-  } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState(false);
+  const [otpIframe, setOtpIframe] = useState("");
   const embeddedContainerRef = useRef<HTMLDivElement | null>(null);
-  const [executed, setExecuted] = useState(false);
 
-  // Sync parent props if they change
+  // HACK: not sure if this is necessary
   useEffect(() => {
-    setLoading(parentLoading);
-  }, [parentLoading]);
-  useEffect(() => {
-    setError(parentError);
-  }, [parentError]);
-  useEffect(() => {
-    setSuccess(parentSuccess);
-  }, [parentSuccess]);
+    const listener = (event: MessageEvent) => {
+      if (event.data.sender !== "MF-3DSecure") return;
+      console.log("event data: ", event.data);
+      try {
+        const message = JSON.parse(event.data);
+        if (message.sender === "MF-3DSecure") {
+          const url = message.url;
+          console.log("3DSecure redirect URL:", url);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!item) {
-      setError("لا يوجد عنصر صالح للدفع.");
-      return;
-    }
-    setError("");
-    setLoading(true);
+          // extract paymentId from redirect URL
+          const params = new URL(url).searchParams;
+          const paymentId = params.get("paymentId");
 
-    try {
-      // 1. Initiate session
-      const sessionRes = await axios.post(
-        `${backend}/api/payments/initiate-session`
-      );
-      const { SessionId, CountryCode } = sessionRes.data.Data;
-
-      if (!SessionId || !CountryCode) {
-        throw new Error("Failed to get SessionId or CountryCode");
-      }
-      // 2. Load MyFatoorah script
-      await loadMyFatoorahScript();
-
-      if (embeddedContainerRef.current) {
-        embeddedContainerRef.current.innerHTML = "";
-      }
-
-      // 3. Initialize embedded payment
-      const amountStr = item.price.toFixed(2);
-
-      (window as any).myfatoorah.init({
-        sessionId: SessionId,
-        countryCode: CountryCode,
-        currencyCode: "QAR",
-        amount: amountStr,
-        containerId: "embedded-payment",
-        paymentOptions: ["ApplePay", "Card"],
-        callback: async (response: any) => {
-          try {
-            // Store payment data in localStorage before redirect
-            localStorage.setItem(
-              "paymentData",
-              JSON.stringify({
-                userId: user?.userId,
-                itemId: item._id,
-                itemType,
-                amount: item.price,
-                email: user?.email,
+          if (paymentId) {
+            // confirm payment with backend
+            axios
+              .post(`${backend}/api/payments/status`, { paymentId })
+              .then((res) => {
+                if (res.data.success) {
+                  setSuccess(true);
+                  if (onSuccess) onSuccess(res.data);
+                } else {
+                  setError(res.data.message || "فشل الدفع");
+                }
+                setOtpIframe("");
               })
-            );
-
-            console.log("here");
-
-            // Execute payment to get PaymentURL
-            const execRes = await axios.post(
-              `${backend}/api/payments/execute`,
-              {
-                sessionId: response?.sessionId,
-                invoiceValue: item.price,
-                customerReference: user?.email || "",
-                userDefinedField: item._id,
-              }
-            );
-
-            console.log("execRes: ", execRes);
-
-            if (execRes.data?.Data?.PaymentURL) {
-              // Redirect in same tab
-              window.location.href = execRes.data.Data.PaymentURL;
-            } else {
-              throw new Error("Missing payment URL");
-            }
-          } catch (err: any) {
-            console.error("Payment error:", err);
-            setError(
-              err.response?.data?.message || err.message || "Payment failed"
-            );
-          } finally {
-            setLoading(false);
+              .catch((err) => {
+                console.error(err);
+                setError("فشل التحقق من الدفع");
+                setOtpIframe("");
+              });
           }
-        },
-      });
+        }
+      } catch (err) {
+        console.error("3DSecure listener error", err);
+      }
+    };
 
-      setExecuted(true);
-    } catch (err: any) {
-      console.error("Payment initiation error:", err);
-      setError(err.response?.data?.message || err.message || "Payment failed");
-      setLoading(false);
-    }
-  };
+    window.addEventListener("message", listener);
+    return () => window.removeEventListener("message", listener);
+  }, [backend, onSuccess]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const startPayment = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        // 1. Initiate session from backend
+        const sessionRes = await axios.post(
+          `${backend}/api/payments/initiate-session`
+        );
+        const { SessionId, CountryCode } = sessionRes.data.Data;
+
+        if (!SessionId || !CountryCode) {
+          throw new Error("فشل في بدء جلسة الدفع");
+        }
+
+        // 2. Load MyFatoorah script
+        await loadMyFatoorahScript();
+
+        // Clear old form if re-opened
+        if (embeddedContainerRef.current) {
+          embeddedContainerRef.current.innerHTML = "";
+        }
+
+        // 3. Init embedded form
+        (window as any).myfatoorah.init({
+          sessionId: SessionId,
+          countryCode: CountryCode,
+          currencyCode: "QAR",
+          amount: item.price.toFixed(2),
+          customerEmail: user?.email,
+          customerMobile: "", // optional
+          customerName: user?.fullName,
+          language: "ar", // or "en"
+          containerId: "embedded-payment",
+          paymentOptions: ["Card", "ApplePay"],
+          callback: async (response: any) => {
+            setLoading(false);
+
+            if (response?.isSuccess) {
+              try {
+                const executePayment = await axios.post(
+                  `${backend}/api/payments/execute`,
+                  {
+                    sessionId: response.sessionId,
+                    invoiceValue: item.price,
+                    userDefinedField: itemType,
+                    customerReference: user?.userId,
+                    invoiceItems: [
+                      {
+                        ItemName: item._id,
+                        Quantity: 1,
+                        UnitPrice: item.price,
+                      },
+                    ],
+                  }
+                );
+                console.log("new exec payment res: ", executePayment);
+                window.location.href = executePayment.data.paymentUrl;
+              } catch (err) {
+                console.error(err);
+                setError(
+                  "تم الدفع ولكن لم يتم تأكيد العملية. يرجى مراجعة الدعم."
+                );
+              }
+            } else {
+              setError(
+                response?.Message || "فشل الدفع. يرجى المحاولة مرة أخرى."
+              );
+            }
+          },
+        });
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message || "حدث خطأ في الدفع");
+        setLoading(false);
+      }
+    };
+
+    startPayment();
+  }, [
+    backend,
+    isOpen,
+    item._id,
+    item.price,
+    itemType,
+    onSuccess,
+    user?.email,
+    user?.fullName,
+    user?.userId,
+  ]);
+
   const loadMyFatoorahScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
-      // avoid double injection
-      if (
-        document.querySelector(
-          'script[src*="qa.myfatoorah.com/payment/v1/session.js"]'
-        )
-      ) {
-        // wait a tick for it to be ready
+      if (document.querySelector('script[src*="session.js"]')) {
         return resolve();
       }
       const script = document.createElement("script");
+      // production
       script.src = "https://qa.myfatoorah.com/payment/v1/session.js";
+      // demo
+      // script.src = "https://demo.myfatoorah.com/payment/v1/session.js";
+
       script.async = true;
-      script.onload = () => {
-        resolve();
-      };
+      script.onload = () => resolve();
       script.onerror = () => reject(new Error("فشل تحميل سكربت MyFatoorah"));
       document.body.appendChild(script);
     });
   };
 
   if (!isOpen) return null;
+
   return (
     <div
       className="modal-overlay"
+      onClick={onClose}
       style={{
-        zIndex: 1001,
         position: "fixed",
         inset: 0,
-        background: "rgba(143,67,140,0.10)",
+        background: "rgba(0,0,0,0.4)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        animation: "fadeInOverlay 0.25s",
+        zIndex: 1001,
       }}
-      onClick={onClose}
     >
-      <div
-        className="modal checkout-modal"
-        style={{
-          background: "linear-gradient(180deg, #fff 0%, #f7eafd 100%)",
-          borderRadius: 24,
-          boxShadow: "0 8px 32px rgba(143,67,140,0.18)",
-          padding: 40,
-          minWidth: 320,
-          maxWidth: 440,
-          width: "95%",
-          color: "#222",
-          fontFamily: "inherit",
-          position: "relative",
-          margin: "auto",
-          animation: "modalFadeIn 0.5s cubic-bezier(.4,1.4,.6,1) both",
-          pointerEvents: "auto",
-          maxHeight: "90vh",
-          overflowY: "auto",
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2
-          className="modal-title"
+      {otpIframe === "" && (
+        <div
+          onClick={(e) => e.stopPropagation()}
           style={{
-            textAlign: "center",
-            marginBottom: 24,
-            fontWeight: 800,
-            fontSize: 24,
-            color: "#8f438c",
-            letterSpacing: 1,
+            background: "#fff",
+            borderRadius: 16,
+            padding: 24,
+            maxWidth: 480,
+            width: "100%",
           }}
         >
-          إتمام الشراء
-        </h2>
+          <h2 style={{ marginBottom: 16, textAlign: "center" }}>
+            إتمام الشراء
+          </h2>
 
-        <div
-          className="checkout-summary"
+          <div style={{ marginBottom: 16 }}>
+            <b>{item?.title}</b>
+            <p>السعر: QR {item?.price.toFixed(2)}</p>
+          </div>
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {success && (
+            <p style={{ color: "green" }}>✅ تمت عملية الدفع بنجاح</p>
+          )}
+          {loading && <p>جاري معالجة الدفع...</p>}
+
+          {/* Embedded form mounts here */}
+          <div id="embedded-payment" ref={embeddedContainerRef} />
+
+          <button onClick={onClose} style={{ marginTop: 16 }}>
+            إلغاء
+          </button>
+        </div>
+      )}
+      {otpIframe !== "" && (
+        <iframe
+          src={otpIframe}
           style={{
+            width: "100%",
+            maxWidth: 480,
+            height: 600,
+            border: "none",
+            borderRadius: 16,
+            boxShadow: "0 2px 16px rgba(143,67,140,0.15)",
+            background: "#fff",
+            marginTop: 24,
             marginBottom: 24,
-            borderBottom: "1.5px solid #f0e6fa",
-            paddingBottom: 18,
+            display: "block",
           }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <img
-              src={`${backend}/${item?.image}`}
-              alt={item?.title}
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 12,
-                objectFit: "cover",
-                border: "1px solid #eee",
-                boxShadow: "0 2px 8px #f7eafd",
-              }}
-            />
-            <div>
-              <div
-                style={{
-                  fontWeight: 700,
-                  fontSize: 19,
-                  color: "#8f438c",
-                }}
-              >
-                {item?.title}
-              </div>
-              <div style={{ fontSize: 15, color: "#888" }}>
-                {itemType === "course"
-                  ? `تقديم ${item?.teacher?.fullname}`
-                  : "منتج رقمي"}
-              </div>
-            </div>
-          </div>
-          <div
-            style={{
-              marginTop: 14,
-              fontSize: 17,
-              fontWeight: 700,
-              color: "#8f438c",
-            }}
-          >
-            السعر:{" "}
-            <span style={{ color: "#222" }}>QR {item?.price.toFixed(2)}</span>
-          </div>
-        </div>
-
-        <div
-          className="checkout-user-info"
-          style={{ marginBottom: 18, fontSize: 15, color: "#555" }}
-        >
-          <div>
-            <b>المستخدم:</b> {user?.fullName || "---"}
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          {/* Embedded payment container */}
-          <div
-            className="embedded-wrapper"
-            style={{ marginBottom: 24, minHeight: 120 }}
-          >
-            {paymentMethod === "credit" ? (
-              <>
-                {!executed && (
-                  <div
-                    style={{
-                      padding: 12,
-                      background: "#f9f4fb",
-                      borderRadius: 12,
-                      fontSize: 14,
-                      color: "#555",
-                    }}
-                  >
-                    بعد الضغط على "ادفع الآن" سيُفتح نموذج الدفع الآمن من
-                    MyFatoorah داخل هذه النافذة.
-                  </div>
-                )}
-                <div
-                  id="embedded-payment"
-                  ref={(el) => (embeddedContainerRef.current = el)}
-                  style={{ marginTop: 12 }}
-                />
-              </>
-            ) : (
-              // If you eventually support other methods, fallback UI
-              <div
-                style={{
-                  padding: 12,
-                  background: "#f9f4fb",
-                  borderRadius: 12,
-                  fontSize: 14,
-                  color: "#555",
-                }}
-              >
-                اختر طريقة دفع صالحة.
-              </div>
-            )}
-          </div>
-          {error && (
-            <div
-              style={{
-                color: "#d32f2f",
-                marginBottom: 14,
-                textAlign: "center",
-                fontWeight: 600,
-              }}
-            >
-              {error}
-            </div>
-          )}
-
-          {loading ? (
-            <div
-              style={{
-                textAlign: "center",
-                margin: "18px 0",
-              }}
-            >
-              <div
-                className="spinner"
-                style={{
-                  width: 36,
-                  height: 36,
-                  border: "4px solid #eee",
-                  borderTop: "4px solid #8f438c",
-                  borderRadius: "50%",
-                  animation: "spin 1s linear infinite",
-                  margin: "0 auto",
-                }}
-              />
-              <div
-                style={{
-                  marginTop: 8,
-                  color: "#8f438c",
-                }}
-              >
-                جاري معالجة الدفع...
-              </div>
-            </div>
-          ) : success ? (
-            <div
-              style={{
-                textAlign: "center",
-                color: "#388e3c",
-                fontWeight: 700,
-                fontSize: 18,
-                margin: "18px 0",
-              }}
-            >
-              تم الشراء بنجاح!
-              <br />
-              سيتم تحويلك الآن...
-            </div>
-          ) : (
-            <div
-              className="modal-actions"
-              style={{
-                display: "flex",
-                gap: 12,
-                marginTop: 12,
-              }}
-            >
-              <button
-                className="btn btn-confirm"
-                disabled={loading}
-                type="submit"
-                style={{
-                  flex: 1,
-                  background:
-                    "linear-gradient(90deg, #8f438c 0%, #e573c7 100%)",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 14,
-                  fontSize: 19,
-                  fontWeight: 700,
-                  padding: "16px 0",
-                  boxShadow: "0 2px 12px rgba(143,67,140,0.10)",
-                  cursor: loading ? "not-allowed" : "pointer",
-                  transition: "transform 0.15s, box-shadow 0.15s",
-                  outline: "none",
-                }}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.03)")
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.transform = "scale(1)")
-                }
-              >
-                ادفع الآن
-              </button>
-              <button
-                className="btn btn-cancel"
-                disabled={loading}
-                type="button"
-                onClick={onClose}
-                style={{
-                  flex: 1,
-                  background: "#eee",
-                  color: "#8f438c",
-                  border: "none",
-                  borderRadius: 14,
-                  fontSize: 16,
-                  fontWeight: 600,
-                  padding: "16px 0",
-                  cursor: loading ? "not-allowed" : "pointer",
-                  transition: "background 0.2s",
-                }}
-              >
-                إلغاء
-              </button>
-            </div>
-          )}
-
-          <style>{`
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-            @keyframes modalFadeIn {
-              0% { opacity: 0; transform: translateY(40px) scale(0.98);}
-              100% { opacity: 1; transform: translateY(0) scale(1);}
-            }
-            @keyframes fadeInOverlay {
-              0% { opacity: 0; }
-              100% { opacity: 1; }
-            }
-          `}</style>
-        </form>
-      </div>
+          allow="payment"
+        />
+      )}
     </div>
   );
 };

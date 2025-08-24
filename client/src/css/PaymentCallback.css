@@ -1,4 +1,4 @@
-.not-found {
+.payment-callback {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,13 +9,13 @@
   height: 100dvh;
 }
 
-.not-found-btn {
+.payment-btn {
   padding: 12px 24px;
   background-color: var(--purple);
   color: var(--white);
 }
 
-.not-found-btn:hover {
+.payment-btn:hover {
   background-color: var(--yellow);
 }
 

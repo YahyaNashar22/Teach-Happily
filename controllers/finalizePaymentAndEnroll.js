@@ -1,46 +1,21 @@
-import { getPaymentStatus } from '../utils/myfatoorah.js';
-import Payment from '../models/Payment.js';
 import { enrollInCourse, enrollInProduct } from '../services/enrollment.js';
+import User from '../models/userModel.js';
 
-export const finalizePaymentAndEnroll = async (req, res) => {
-  const { paymentKey, userId, itemId, itemType, amount } = req.body;
+export const finalizePaymentAndEnroll = async (userId, itemId, itemType) => {
+
+  console.log('required fields for enrollment: ', { userId, itemId, itemType })
 
   try {
-    // 1. Verify payment status
-    let isPaid = false;
-    let paymentData;
-
-    // Check up to 5 times with 2 second delays
-    for (let i = 0; i < 5; i++) {
-      const statusResp = await getPaymentStatus(paymentKey);
-      paymentData = statusResp?.Data || statusResp;
-      isPaid = paymentData?.InvoiceStatus?.toLowerCase() === 'paid';
-
-      if (isPaid) break;
-      await new Promise(resolve => setTimeout(resolve, 2000));
+    if (!userId || !itemId || !itemType) {
+      throw new Error('Missing required fields');
     }
 
-    if (!isPaid) {
-      return res.status(400).json({
-        message: 'Payment not completed yet',
-        paymentStatus: paymentData?.InvoiceStatus || 'Pending'
-      });
+    const customer = await User.findById(userId);
+
+    if (!customer) {
+      throw new Error("Customer not found!")
     }
 
-    // 2. Create/update payment record
-    const paymentRecord = await Payment.findOneAndUpdate(
-      { paymentId: paymentKey },
-      {
-        userId,
-        itemId,
-        itemType,
-        amount,
-        currency: 'QAR',
-        status: 'Paid',
-        raw: paymentData
-      },
-      { upsert: true, new: true }
-    );
 
     // 3. Execute enrollment
     let enrollResult;
@@ -49,19 +24,16 @@ export const finalizePaymentAndEnroll = async (req, res) => {
     } else if (itemType === 'product') {
       enrollResult = await enrollInProduct(userId, itemId);
     } else {
-      return res.status(400).json({ message: 'Invalid itemType' });
+      throw new Error("Invalid Item Type")
     }
 
-    return res.status(200).json({
-      message: 'Payment verified and enrollment processed',
-      payment: paymentRecord,
-      enrollment: enrollResult,
-    });
+    console.log("enrollResult: ", enrollResult);
+
+    // 4. Return success
+    return { success: true, enrollmentResult: enrollResult };
+
   } catch (err) {
-    console.error('finalizePaymentAndEnroll error', err);
-    return res.status(500).json({
-      message: 'Error completing enrollment',
-      error: err.message
-    });
+    console.error('finalizePaymentAndEnroll error', err?.response?.data || err);
+    throw new Error("Error completing enrollment")
   }
 };

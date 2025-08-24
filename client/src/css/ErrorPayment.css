@@ -1,4 +1,4 @@
-.not-found {
+.error-payment {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,16 +9,17 @@
   height: 100dvh;
 }
 
-.not-found-btn {
+.error-payment-btn {
   padding: 12px 24px;
   background-color: var(--purple);
   color: var(--white);
 }
 
-.not-found-btn:hover {
+.error-payment-btn:hover {
   background-color: var(--yellow);
 }
 
+
 .text-grey {
-  margin: 12px auto;
+    margin: 12px auto;
 }
