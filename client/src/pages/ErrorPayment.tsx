@@ -1,8 +1,35 @@
 import "../css/ErrorPayment.css";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const ErrorPayment = () => {
+  const backend = import.meta.env.VITE_BACKEND;
+  const [searchParams] = useSearchParams();
+  const paymentId = searchParams.get("paymentId");
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (paymentId) {
+      axios
+        .post(`${backend}/api/payments/status`, { paymentId })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [backend, paymentId]);
+
+  if (loading) {
+    return (
+      <main className="payment-callback">
+        <img src={logo} width={200} alt="logo" />
+        <p className="text-grey">جاري التحقق من عملية الدفع...</p>
+      </main>
+    );
+  }
+
   return (
     <main className="error-payment">
       <img src={logo} width={300} alt="logo" loading="lazy" />

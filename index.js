@@ -204,8 +204,6 @@ app.post('/api/payments/status', async (req, res) => {
         if (status === 'Paid') {
             const resData = response.data.Data;
 
-            console.log("res data in payment status", resData);
-
             // ✅ Save payment record, enroll user, etc.
             await finalizePaymentAndEnroll(resData.CustomerReference, resData.InvoiceItems[0].ItemName, resData.UserDefinedField);
             return res.json({
