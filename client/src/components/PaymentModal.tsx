@@ -216,34 +216,108 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         <div
           onClick={(e) => e.stopPropagation()}
           style={{
-            background: "#fff",
-            borderRadius: 16,
-            padding: 24,
+            background: "var(--white)",
+            borderRadius: 20,
+            padding: "32px 24px",
             maxWidth: 480,
             width: "100%",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+            fontFamily: "sans-serif",
+            color: "var(--black)",
           }}
         >
-          <h2 style={{ marginBottom: 16, textAlign: "center" }}>
-            إتمام الشراء
+          {/* Title */}
+          <h2
+            style={{
+              marginBottom: 24,
+              textAlign: "center",
+              fontSize: 22,
+              fontWeight: "600",
+              color: "var(--purple)",
+            }}
+          >
+            🛒 إتمام الشراء
           </h2>
 
-          <div style={{ marginBottom: 16 }}>
-            <b>{item?.title}</b>
-            <p>السعر: QR {item?.price.toFixed(2)}</p>
+          {/* Item info */}
+          <div
+            style={{
+              marginBottom: 20,
+              padding: "16px",
+              border: "1px solid #eee",
+              borderRadius: 12,
+              background: "#fafafa",
+            }}
+          >
+            <p style={{ margin: "6px 0", fontSize: 15, color: "#555" }}>
+              🛒 الاسم: <b style={{ color: "var(--purple)" }}>{item?.title}</b>
+            </p>
+            <p style={{ margin: "6px 0", fontSize: 15, color: "#555" }}>
+              💵 السعر:{" "}
+              <b style={{ color: "var(--purple)" }}>
+                QR {item?.price.toFixed(2)}
+              </b>
+            </p>
           </div>
 
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && (
-            <p style={{ color: "green" }}>✅ تمت عملية الدفع بنجاح</p>
+          {/* Messages */}
+          {error && (
+            <p style={{ color: "red", marginBottom: 12, fontSize: 14 }}>
+              ⚠️ {error}
+            </p>
           )}
-          {loading && <p>جاري معالجة الدفع...</p>}
+          {success && (
+            <p style={{ color: "green", marginBottom: 12, fontSize: 14 }}>
+              ✅ تمت عملية الدفع بنجاح
+            </p>
+          )}
+          {loading && (
+            <p
+              style={{ color: "var(--purple)", marginBottom: 12, fontSize: 14 }}
+            >
+              ⏳ جاري معالجة الدفع...
+            </p>
+          )}
 
-          {/* Embedded form mounts here */}
-          <div id="embedded-payment" ref={embeddedContainerRef} />
+          {/* Embedded payment form */}
+          <div
+            id="embedded-payment"
+            ref={embeddedContainerRef}
+            style={{ marginTop: 20 }}
+          />
 
-          <button onClick={onClose} style={{ marginTop: 16 }}>
-            إلغاء
-          </button>
+          {/* Footer actions */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: 24,
+            }}
+          >
+            <button
+              onClick={onClose}
+              style={{
+                background: "transparent",
+                border: "2px solid var(--purple)",
+                color: "var(--purple)",
+                padding: "10px 20px",
+                borderRadius: 10,
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "0.2s ease",
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = "var(--purple)";
+                e.currentTarget.style.color = "var(--white)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "var(--purple)";
+              }}
+            >
+              إلغاء
+            </button>
+          </div>
         </div>
       )}
       {otpIframe !== "" && (
