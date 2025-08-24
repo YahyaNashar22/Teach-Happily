@@ -18,27 +18,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
   const [inWishlist, setInWishlist] = useState<boolean>(false);
 
   // Use the reusable payment hook
-  const {
-    isModalOpen,
-    loading,
-    error,
-    success,
-    agreeTerms,
-    paymentMethod,
-    cardName,
-    cardNumber,
-    cardExpiry,
-    cardCVV,
-    openModal,
-    closeModal,
-    handlePayment,
-    setAgreeTerms,
-    setPaymentMethod,
-    setCardName,
-    setCardNumber,
-    setCardExpiry,
-    setCardCVV,
-  } = usePayment({
+  const { isModalOpen, openModal, closeModal } = usePayment({
     item: {
       _id: product._id,
       title: product.title,
@@ -116,11 +96,6 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       // For paid products, show payment modal
       openModal();
     }
-  };
-
-  const handlePaymentSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    handlePayment();
   };
 
   return (
@@ -201,22 +176,6 @@ const ProductCard = ({ product }: { product: IProduct }) => {
               }
             : null
         }
-        loading={loading}
-        error={error}
-        success={success}
-        agreeTerms={agreeTerms}
-        paymentMethod={paymentMethod}
-        cardName={cardName}
-        cardNumber={cardNumber}
-        cardExpiry={cardExpiry}
-        cardCVV={cardCVV}
-        onPaymentSubmit={handlePaymentSubmit}
-        setAgreeTerms={setAgreeTerms}
-        setPaymentMethod={setPaymentMethod}
-        setCardName={setCardName}
-        setCardNumber={setCardNumber}
-        setCardExpiry={setCardExpiry}
-        setCardCVV={setCardCVV}
       />
     </>
   );

@@ -37,27 +37,7 @@ const CourseShowCase = () => {
   const [inWishlist, setInWishlist] = useState<boolean>(false);
 
   // Use the reusable payment hook
-  const {
-    isModalOpen,
-    loading,
-    error,
-    success,
-    agreeTerms,
-    paymentMethod,
-    cardName,
-    cardNumber,
-    cardExpiry,
-    cardCVV,
-    openModal,
-    closeModal,
-    handlePayment,
-    setAgreeTerms,
-    setPaymentMethod,
-    setCardName,
-    setCardNumber,
-    setCardExpiry,
-    setCardCVV,
-  } = usePayment({
+  const { isModalOpen, openModal, closeModal } = usePayment({
     item: course
       ? {
           _id: course._id,
@@ -169,11 +149,6 @@ const CourseShowCase = () => {
       // For paid courses, show payment modal
       openModal();
     }
-  };
-
-  const handlePaymentSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    handlePayment();
   };
 
   useEffect(() => {
@@ -478,22 +453,6 @@ const CourseShowCase = () => {
                     }
                   : null
               }
-              loading={loading}
-              error={error}
-              success={success}
-              agreeTerms={agreeTerms}
-              paymentMethod={paymentMethod}
-              cardName={cardName}
-              cardNumber={cardNumber}
-              cardExpiry={cardExpiry}
-              cardCVV={cardCVV}
-              onPaymentSubmit={handlePaymentSubmit}
-              setAgreeTerms={setAgreeTerms}
-              setPaymentMethod={setPaymentMethod}
-              setCardName={setCardName}
-              setCardNumber={setCardNumber}
-              setCardExpiry={setCardExpiry}
-              setCardCVV={setCardCVV}
             />
           </section>
         </main>
