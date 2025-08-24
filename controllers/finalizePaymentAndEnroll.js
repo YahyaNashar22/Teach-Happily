@@ -3,8 +3,6 @@ import User from '../models/userModel.js';
 
 export const finalizePaymentAndEnroll = async (userId, itemId, itemType) => {
 
-  console.log('required fields for enrollment: ', { userId, itemId, itemType })
-
   try {
     if (!userId || !itemId || !itemType) {
       throw new Error('Missing required fields');
@@ -26,8 +24,6 @@ export const finalizePaymentAndEnroll = async (userId, itemId, itemType) => {
     } else {
       throw new Error("Invalid Item Type")
     }
-
-    console.log("enrollResult: ", enrollResult);
 
     // 4. Return success
     return { success: true, enrollmentResult: enrollResult };

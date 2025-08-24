@@ -158,7 +158,6 @@ app.post('/api/payments/initiate-session', async (req, res) => {
 app.post('/api/payments/execute', async (req, res) => {
     try {
         const { sessionId, invoiceValue, customerReference, userDefinedField, invoiceItems } = req.body;
-        console.log('req body in execute payment: ', req.body);
         if (!sessionId || !invoiceValue) {
             return res.status(400).json({ error: 'sessionId and invoiceValue required' });
         }
@@ -178,7 +177,6 @@ app.post('/api/payments/execute', async (req, res) => {
 
         const response = await mfClient.post('/v2/ExecutePayment', payload);
 
-        console.log("response after ExecutePayment api: ", response);
         // Return the payment URL for redirection
         return res.json({
             ...response.data,
@@ -200,9 +198,6 @@ app.post('/api/payments/status', async (req, res) => {
             Key: paymentId,
             KeyType: 'PaymentId'
         });
-
-        console.log("PaymentStatus response:", response.data);
-
 
         const status = response.data?.Data?.InvoiceStatus;
 
