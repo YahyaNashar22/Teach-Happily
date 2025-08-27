@@ -448,5 +448,17 @@ export const getAdminStats = async (req, res) => {
     }
 };
 
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find().sort({ createdAt: -1 });
+        return res.status(200).json({
+            payload: users
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
 
 // TODO: ADD CHANGE NAME FOR CERTIFICATE

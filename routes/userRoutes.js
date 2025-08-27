@@ -1,11 +1,13 @@
 import express from "express";
-import { createStudent, enrollCourse,enrollProduct, getAdminStats, getFavoriteCourses, getUnlockedVideos, getUser, login, logout, resetPassword, sendForgotPasswordOTP, toggleWishlist, unlockVideo } from "../controllers/userControllers.js";
+import { createStudent, enrollCourse, enrollProduct, getAdminStats, getAllUsers, getFavoriteCourses, getUnlockedVideos, getUser, login, logout, resetPassword, sendForgotPasswordOTP, toggleWishlist, unlockVideo } from "../controllers/userControllers.js";
 import { finalizePaymentAndEnroll } from "../controllers/finalizePaymentAndEnroll.js";
 
 const userRouter = express.Router();
 
 userRouter.post("/create-student", createStudent);
 userRouter.post("/login", login);
+
+userRouter.get("/", getAllUsers);
 
 userRouter.get("/logout", logout);
 userRouter.get("/get-user", getUser);
