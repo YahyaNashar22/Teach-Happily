@@ -10,22 +10,39 @@ import {
   Typography,
   CircularProgress,
   Button,
+  Dialog,
+  IconButton,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import axios from "axios";
 import IUser from "../interfaces/IUser";
-import { MdAccountCircle } from "react-icons/md";
+import { MdAccountCircle, MdClose } from "react-icons/md";
+import ProfilePageAdminView from "./ProfilePageAdminView";
 
 const UserList = () => {
   const backend = import.meta.env.VITE_BACKEND;
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [open, setOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+
+  const handleOpen = (user: IUser) => {
+    setSelectedUser(user);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedUser(null);
+  };
+
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
       try {
         const res = await axios.get(`${backend}/user/`);
-        console.log(res);
         setUsers(res.data.payload);
       } catch (err) {
         console.error(err);
@@ -116,6 +133,7 @@ const UserList = () => {
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
                     <MdAccountCircle
+                      onClick={() => handleOpen(user)}
                       style={{
                         color: "#8f438c",
                         fontSize: "28px",
@@ -129,6 +147,22 @@ const UserList = () => {
           </Table>
         </TableContainer>
       )}
+      {/* Fullscreen Modal */}
+      <Dialog fullScreen open={open} onClose={handleClose}>
+        <AppBar sx={{ position: "relative", backgroundColor: "#8f438c" }}>
+          <Toolbar>
+            <Typography sx={{ flex: 1 }} variant="h6" component="div">
+              ملف المستخدم
+            </Typography>
+            <IconButton edge="end" color="inherit" onClick={handleClose}>
+              <MdClose />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+
+        {/* Pass user if needed */}
+        <ProfilePageAdminView user={selectedUser!} />
+      </Dialog>
     </div>
   );
 };
