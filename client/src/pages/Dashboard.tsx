@@ -8,6 +8,7 @@ import ListTeachers from "../components/ListTeachers";
 import ListProducts from "../components/ListProducts";
 import ListEmails from "../components/ListEmails";
 import Stats from "../components/Stats";
+import UserList from "../components/UserList";
 
 const Dashboard = () => {
   const { clearUser } = useUserStore();
@@ -80,6 +81,16 @@ const Dashboard = () => {
                 البريد الإلكتروني
               </button>
             </li>
+              <li>
+              <button
+                className={`dashboard-menu-item ${
+                  activeForm === "users" ? "active" : ""
+                }`}
+                onClick={() => setActiveForm("users")}
+              >
+               المستخدمين
+              </button>
+            </li>
           </ul>
         </div>
         <div className="dash-buttons">
@@ -100,6 +111,7 @@ const Dashboard = () => {
         {activeForm === "products" && <ListProducts />}
         {activeForm === "emails" && <ListEmails />}
         {activeForm === "stats" && <Stats />}
+        {activeForm === "users" && <UserList />}
       </main>
     </div>
   );
