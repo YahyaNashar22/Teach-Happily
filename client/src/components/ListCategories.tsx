@@ -120,12 +120,21 @@ const ListCategories = () => {
       {loading ? (
         <CircularProgress />
       ) : (
-        <TableContainer component={Paper} style={{direction: "rtl"}}>
-          {newCategoryFrom && <CategoryForm setNewCategoryForm={setNewCategoryForm} />}
+        <TableContainer component={Paper} style={{ direction: "rtl" }}>
+          {newCategoryFrom && (
+            <CategoryForm setNewCategoryForm={setNewCategoryForm} />
+          )}
 
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#8f438c", color: "white" }}>
+                <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >العدد</TableCell>
                 <TableCell
                   style={{
                     textAlign: "right",
@@ -174,13 +183,16 @@ const ListCategories = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {categories.map((category) => (
+              {categories.map((category, i) => (
                 <TableRow
                   key={category._id}
                   style={{ cursor: "pointer", fontSize: "1.1rem" }}
                   hover
                   onClick={() => handleOpen(category)}
                 >
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {i}
+                  </TableCell>
                   <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
                     {category._id}
                   </TableCell>

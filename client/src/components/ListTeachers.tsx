@@ -119,6 +119,15 @@ const ListTeachers = () => {
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#8f438c", color: "white" }}>
+                        <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                   العدد
+                </TableCell>
                 <TableCell
                   style={{
                     textAlign: "right",
@@ -168,13 +177,16 @@ const ListTeachers = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {teachers.map((teacher) => (
+              {teachers.map((teacher, i) => (
                 <TableRow
                   key={teacher._id}
                   style={{ cursor: "pointer", fontSize: "1.1rem" }}
                   hover
                   onClick={() => handleOpen(teacher)}
                 >
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {i}
+                  </TableCell>
                   <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
                     {teacher._id}
                   </TableCell>

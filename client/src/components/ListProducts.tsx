@@ -129,6 +129,7 @@ const ListProducts = () => {
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#8f438c" }}>
+                <TableCell style={{ color: "white" }}>العدد</TableCell>
                 <TableCell style={{ color: "white" }}>الاسم</TableCell>
                 <TableCell style={{ color: "white" }}>الوصف</TableCell>
                 <TableCell style={{ color: "white" }}>السعر</TableCell>
@@ -137,13 +138,14 @@ const ListProducts = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.map((product) => (
+              {products.map((product, i) => (
                 <TableRow
                   key={product._id}
                   hover
                   onClick={() => handleOpen(product)}
                   style={{ cursor: "pointer" }}
                 >
+                  <TableCell>{i}</TableCell>
                   <TableCell>{product.title}</TableCell>
                   <TableCell>{product.description}</TableCell>
                   <TableCell>{product.price}</TableCell>

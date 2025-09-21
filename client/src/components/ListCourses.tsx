@@ -64,7 +64,7 @@ const ListCourses = () => {
 
   const handleDelete = async () => {
     if (!selectedCourse) return;
-    
+
     if (window.confirm("هل أنت متأكد من حذف هذه الدورة؟")) {
       setLoading(true);
       try {
@@ -122,6 +122,15 @@ const ListCourses = () => {
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#8f438c", color: "white" }}>
+                <TableCell
+                  style={{
+                    textAlign: "right",
+                    color: "white",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  العدد
+                </TableCell>
                 <TableCell
                   style={{
                     textAlign: "right",
@@ -216,13 +225,16 @@ const ListCourses = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {courses.map((course) => (
+              {courses.map((course, i) => (
                 <TableRow
                   key={course._id}
                   style={{ cursor: "pointer", fontSize: "1.1rem" }}
                   hover
                   onClick={() => handleOpen(course)}
                 >
+                  <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
+                    {i}
+                  </TableCell>
                   <TableCell style={{ textAlign: "right", fontSize: "1.1rem" }}>
                     {course._id}
                   </TableCell>
@@ -277,9 +289,9 @@ const ListCourses = () => {
             <CourseForm setNewCourseForm={setOpen} course={selectedCourse} />
           </DialogContent>
           <DialogActions>
-            <Button 
-              onClick={handleDelete} 
-              color="error" 
+            <Button
+              onClick={handleDelete}
+              color="error"
               variant="contained"
               disabled={loading}
             >

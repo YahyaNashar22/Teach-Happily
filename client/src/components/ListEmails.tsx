@@ -116,6 +116,7 @@ const ListEmails = () => {
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#8f438c" }}>
+                <TableCell style={{ color: "white" }}>العدد </TableCell>
                 <TableCell style={{ color: "white" }}>
                   البريد الإلكتروني
                 </TableCell>
@@ -125,8 +126,9 @@ const ListEmails = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {emails?.map((email) => (
+              {emails?.map((email, i) => (
                 <TableRow key={email._id} hover>
+                  <TableCell>{i}</TableCell>
                   <TableCell>{email.email}</TableCell>
                   <TableCell>
                     <IconButton

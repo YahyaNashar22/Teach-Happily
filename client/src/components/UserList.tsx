@@ -119,6 +119,7 @@ const UserList = () => {
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#8f438c" }}>
+                <TableCell style={{ color: "white" }}>العدد</TableCell>
                 <TableCell style={{ color: "white" }}>الاسم</TableCell>
                 <TableCell style={{ color: "white" }}>
                   البريد الإلكتروني
@@ -127,8 +128,9 @@ const UserList = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users?.map((user) => (
+              {users?.map((user, i) => (
                 <TableRow key={user._id} hover>
+                  <TableCell>{i}</TableCell>
                   <TableCell>{user.fullName}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
