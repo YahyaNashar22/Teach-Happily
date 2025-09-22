@@ -101,6 +101,24 @@ export const getAllProducts = async (req, res) => {
     }
 }
 
+export const getProductBySlug = async (req, res) => {
+    try {
+        const { slug } = req.params;
+
+        const product = await DigitalProduct.findOne({ slug })
+            .populate('teacher')
+            .populate('category', 'name');
+
+        res.status(200).json({
+            payload: product,
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+    }
+}
+
 
 export const getAllProductsForUser = async (req, res) => {
     try {

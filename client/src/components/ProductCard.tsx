@@ -5,8 +5,6 @@ import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { usePayment } from "../hooks/usePayment";
-import PaymentModal from "./PaymentModal";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
@@ -16,18 +14,6 @@ const ProductCard = ({ product }: { product: IProduct }) => {
 
   const [isUserEnrolled, setIsUserEnrolled] = useState<boolean>(false);
   const [inWishlist, setInWishlist] = useState<boolean>(false);
-
-  // Use the reusable payment hook
-  const { isModalOpen, openModal, closeModal } = usePayment({
-    item: {
-      _id: product._id,
-      title: product.title,
-      price: product.price,
-      image: typeof product.image === "string" ? product.image : "",
-      teacher: product.teacher,
-    },
-    itemType: "product",
-  });
 
   useEffect(() => {
     const checkUserEnrolled = () => {
@@ -62,63 +48,22 @@ const ProductCard = ({ product }: { product: IProduct }) => {
     }
   };
 
-  const togglePurchaseModal = async () => {
-    if (!user) {
-      // Handle authentication - could redirect to sign in
+  const handleProductNavigation = () => {
+    if (!user?._id) {
+      navigate("/sign-in");
       return;
     }
-
-    // If product is free, enroll directly without payment modal
-    if (product.price === 0) {
-      try {
-        const res = await axios.post(
-          `${backend}/user/enroll-product`,
-          {
-            userId: user._id,
-            productId: product._id,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (res.status === 200) {
-          // Refresh the page or update the UI to show enrolled state
-          window.location.reload();
-        }
-      } catch (error) {
-        console.log(error);
-        // Handle error - could show a toast notification here
-      }
-    } else {
-      // For paid products, show payment modal
-      openModal();
-    }
+    if (isUserEnrolled) {
+      const fileUrl = `${backend}/${product.product}`;
+      window.open(fileUrl, "_blank");
+    } else navigate(`/product-showcase/${product.slug}`);
   };
 
   return (
     <>
       <li
         className="course-card"
-        onClick={() => {
-          if (!user?._id) {
-            navigate("/sign-in");
-            return;
-          }
-
-          if (isUserEnrolled) {
-            const fileUrl = `${backend}/${product.product}`;
-            window.open(fileUrl, "_blank");
-            // const link = document.createElement("a");
-            // link.href = fileUrl;
-            // link.download = product.title; // Optional: specify filename here like "course.pdf"
-            // document.body.appendChild(link);
-            // link.click();
-            // document.body.removeChild(link);
-          } else if (!isModalOpen) togglePurchaseModal();
-        }}
+        onClick={() => handleProductNavigation()}
         style={{
           backgroundImage: `url(${backend}/${product.image})`,
           backgroundSize: "cover",
@@ -154,29 +99,6 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           </div>
         </div>
       </li>
-
-      {/* Reusable Payment Modal */}
-      <PaymentModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        item={{
-          _id: product._id,
-          title: product.title,
-          price: product.price,
-          image: typeof product.image === "string" ? product.image : "",
-          teacher: product.teacher,
-        }}
-        itemType="product"
-        user={
-          user
-            ? {
-                fullName: user.fullName,
-                email: user.email || "",
-                userId: user._id,
-              }
-            : null
-        }
-      />
     </>
   );
 };
